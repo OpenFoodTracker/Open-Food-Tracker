@@ -8,6 +8,8 @@ import MealForm from '../components/MealForm'
 const Home = () => {
     const {meals, dispatch} = useMealsContext()
     const [ isFetching, setIsFetching] = useState(false)
+
+    //ToDO: useEffect hook machen
     useEffect(() => {
         if(!isFetching){
 
