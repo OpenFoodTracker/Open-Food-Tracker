@@ -1,22 +1,17 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const ingredientSchema = require('./path/to/ingredientSchema'); // Pfad zum Ingredient-Schema
 
-const userMealSchema = new Schema({
+const mealSchema = new mongoose.Schema({
   date: { type: Date, required: true },
-  meals: {
-    breakfast: [{
-      mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-    }],
-    lunch: [{
-      mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-    }],
-    dinner: [{
-      mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-    }],
-    snack: [{
-      mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-    }]
-  }
-}, { timestamps: true });
+  breakfast: [ingredientSchema],
+  lunch: [ingredientSchema],
+  dinner: [ingredientSchema],
+  snack: [ingredientSchema]
+});
 
-module.exports = mongoose.model('UserMeals', userMealSchema);
+const userMealsSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
+  meals: [mealSchema]
+});
+
+module.exports = mongoose.model('UserMeals', userMealsSchema);
