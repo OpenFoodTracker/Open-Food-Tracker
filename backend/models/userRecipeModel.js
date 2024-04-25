@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const ingredientSchema = require('./ingredientModel'); // Pfad zum Ingredient-Schema
 
-const recipeSchema = new Schema({
-  mealId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Meal',
-    required: true
-  },
-  name: { type: String, required: true },
-  amount: { type: Number, required: true },
-  kcal: { type: Number, required: true },
-  protein: { type: Number, required: true },
-  fat: { type: Number, required: true },
-  carbs: { type: Number, required: true }
-}, { timestamps: true });
+const mealSchema = new mongoose.Schema({
+  date: { type: Date, required: true },
+  breakfast: [ingredientSchema],
+  lunch: [ingredientSchema],
+  dinner: [ingredientSchema],
+  snack: [ingredientSchema]
+});
 
-module.exports = mongoose.model('Recipe', recipeSchema);
+const userMealsSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
+  meals: [mealSchema]
+});
+
+module.exports = mongoose.model('UserMeals', userMealsSchema);

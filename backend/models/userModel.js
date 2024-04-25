@@ -1,23 +1,19 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const ingredientSchema = require('./ingredientModel'); // Pfad zum Ingredient-Schema
 
-const userSchema = new Schema({
-  settings: {
-    darkMode: { type: Boolean, required: true },
-    notifications: { type: Boolean, required: true },
-    gender: { type: String, required: true },
-    weight: { type: String, required: true },
-    goal: { type: String, required: true }
-  },
-  meals: [{
-    id: { type: Schema.Types.ObjectId, ref: 'Meal' }
-  }],
-  history: [{
-    mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-  }],
-  favorites: [{
-    mealId: { type: Schema.Types.ObjectId, ref: 'Meal' }
-  }]
-}, { timestamps: true });
+const userSettingsSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
+  gender: { type: String, required: true },
+  height: { type: Number, required: true },
+  weight: { type: Number, required: true },
+  birthday: { type: Date, required: true },
+  goal: { type: Number, required: true },
+  darkMode: { type: Boolean, default: false },
+  notifications: { type: Boolean, default: true },
+  recipeFileId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserRecipes' },
+  mealsFileId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserMeals' },
+  history: [ingredientSchema],
+  favorites: [ingredientSchema]
+});
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('UserSettings', userSettingsSchema);
