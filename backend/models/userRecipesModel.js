@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const ingredientSchema = require('./ingredientSchema'); // Pfad zum Ingredient-Schema
+const mealSchema = require('./mealSchema'); // Pfad zum Ingredient-Schema
 
 const recipeSchema = new mongoose.Schema({
   recipeId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
-  ingredients: [ingredientSchema]
+  ingredients: [mealSchema]
 });
 
 const userRecipesSchema = new mongoose.Schema({

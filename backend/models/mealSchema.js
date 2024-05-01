@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
-const ingredientSchema = new mongoose.Schema({
+const soloMealSchema = new mongoose.Schema({
   name: { type: String, required: true },
   amount: { type: Number, required: true },
+  unit: { type: String, required: true },
   kcal: { type: Number, required: true },
   protein: { type: Number, required: true },
   fat: { type: Number, required: true },
   carbs: { type: Number, required: true }
-});
+}, { timestamps: true });
 
-module.exports = ingredientSchema;
+module.exports = soloMealSchema; // Exportiere nur das Schema
+

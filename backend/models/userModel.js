@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ingredientSchema = require('./ingredientModel'); // Pfad zum Ingredient-Schema
+const mealSchema = require('./mealSchema'); // Pfad zum Ingredient-Schema
 
 const userSettingsSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
@@ -12,8 +12,8 @@ const userSettingsSchema = new mongoose.Schema({
   notifications: { type: Boolean, default: true },
   recipeFileId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserRecipes' },
   mealsFileId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserMeals' },
-  history: [ingredientSchema],
-  favorites: [ingredientSchema]
+  history: [mealSchema],
+  favorites: [mealSchema]
 });
 
 module.exports = mongoose.model('UserSettings', userSettingsSchema);
