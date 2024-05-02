@@ -16,6 +16,8 @@ function Scanner() {
 
     function success(result) {
       setScanResult(result);
+      handleScanResult(result);
+      scanner.pause();
     }
 
     function error(error) {
@@ -24,16 +26,28 @@ function Scanner() {
 
     scanner.render(success, error);
 
-    // cleanup function when component will unmount
     return () => {
       scanner.clear().catch((error) => {
         console.error("Failed to clear scanner. ", error);
       });
     };
   }, []);
-
+  //Barcode im fenster clearen
   const scannerStop = () => {
     setScanResult(null);
+  };
+  //Eingescannter Barcode Handeln
+  const handleScanResult = async (barcode) => {
+    const response = await fetch(
+      "https://world.openfoodfacts.org/api/v2/product/" + barcode
+    );
+    const json = await response.json();
+    console.log("Produkt:" + json.product.product_name);
+    console.log("Kcal:" + json.product.nutriments["energy-kcal"]);
+    console.log("Kohlenhydrate:" + json.product.nutriments.carbohydrates);
+    console.log("Fett:" + json.product.nutriments.fat);
+    console.log("Protein:" + json.product.nutriments.proteins);
+    //return json;
   };
 
   return (
