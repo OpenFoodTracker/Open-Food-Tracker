@@ -38,6 +38,7 @@ header a {
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
+
 .meal-details {
   background: #fff;
   border-radius: 4px;
@@ -99,4 +100,15 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+.reader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scannerdiv{
+  margin: auto;
+  max-width: 500px;
+  max-height: 500px;
 }

@@ -1,13 +1,13 @@
 import { useEffect, useState} from 'react'
 import { useMealsContext } from '../hooks/useMealsContext'
-
-// components
 import MealDetails from '../components/MealDetails'
 import MealForm from '../components/MealForm'
+import Scanner from '../components/Scanner/Scanner'
+import CustomModal from '../components/Scanner/CustomModal'
 
 const Home = () => {
     const {meals, dispatch} = useMealsContext()
-    const [ isFetching, setIsFetching] = useState(false)
+    const [ isFetching, setIsFetching] = useState(false)    
 
     //ToDO: useEffect hook machen
     useEffect(() => {
@@ -25,11 +25,12 @@ const Home = () => {
             fetchMeals()
             setIsFetching(true)
         }
+
     }, [isFetching, dispatch])
 
-
     return (
-        <div className="home">
+        <div>
+            <div className="home">
             <div className="meals">
                 {meals && meals.map((meal) => (
                     <MealDetails key={meal._id} meal = {meal} />
@@ -37,6 +38,7 @@ const Home = () => {
                 ))}    
             </div>
             <MealForm/>
+            </div>
         </div>
     )
 }
