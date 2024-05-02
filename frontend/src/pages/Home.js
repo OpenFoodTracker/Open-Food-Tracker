@@ -4,6 +4,7 @@ import { useMealsContext } from '../hooks/useMealsContext'
 // components
 import MealDetails from '../components/MealDetails'
 import MealForm from '../components/MealForm'
+import quantityInput from '../components/quantityInput'
 
 const Home = () => {
     const {meals, dispatch} = useMealsContext()
@@ -25,16 +26,21 @@ const Home = () => {
         }
     }, [isFetching, dispatch])
 
+    
+
 
     return (
         <div className="home">
             <div className="meals">
                 {meals && meals.map((meal) => (
                     <MealDetails key={meal._id} meal = {meal} />
+
+                  
                     
                 ))}    
             </div>
             <MealForm/>
+            <quantityInput />
         </div>
     )
 }
