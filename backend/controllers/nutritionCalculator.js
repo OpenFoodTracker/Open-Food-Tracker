@@ -31,7 +31,7 @@ async function weightFetch(barcode, eatenQuantity) {
 }
 
 
-function nutritionCalculation(nutritionData) {
+function nutritionCalculation(nutritionData, eatenQuantity) {
     const { energy, fat, proteins, quantity } = nutritionData;
 
     // Nutriments pro Gramm

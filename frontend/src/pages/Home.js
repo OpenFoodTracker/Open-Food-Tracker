@@ -3,8 +3,8 @@ import { useMealsContext } from '../hooks/useMealsContext'
 
 // components
 import MealDetails from '../components/MealDetails'
-import MealForm from '../components/MealForm'
-import quantityInput from '../components/quantityInput'
+//import MealForm from '../components/MealForm'
+import AmountForm from '../components/AmountForm'
 
 const Home = () => {
     const {meals, dispatch} = useMealsContext()
@@ -41,8 +41,9 @@ const Home = () => {
                     
                 ))}    
             </div>
-            <MealForm/>
-            <quantityInput />
+            {/*<MealForm/>*/}
+            <AmountForm/>
+
         </div>
     )
 }
