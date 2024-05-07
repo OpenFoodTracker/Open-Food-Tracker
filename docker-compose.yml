@@ -6,11 +6,19 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=${MONGO_URI}
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
     ports:
       - "3001:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   mongo-data:

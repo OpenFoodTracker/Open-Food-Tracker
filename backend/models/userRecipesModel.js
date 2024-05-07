@@ -8,6 +8,7 @@ const recipeSchema = new mongoose.Schema({
 
 const userRecipesSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
+  name: { type: String, required: true },
   recipes: [recipeSchema]
 });
 
