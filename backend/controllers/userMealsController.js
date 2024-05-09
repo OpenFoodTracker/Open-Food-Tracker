@@ -36,24 +36,12 @@ const getMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
-const createMeal = async (req, res) => {
-    const { userId, mealId, occasion, amount} = req.body; // Hier wird das gesamte 'meals' Array genommen
+const getIngredient = async (req, res) => {
+    const { id } = req.params;
 
-    let name;
-    let kcal;
-    let protein;
-    let fat;
-    let carbs;
-    let unit;
-    let date = new Date();
+    let ingredientData = {};
 
-    const day = date.getDate() + 1;
-    const month = date.getMonth(); 
-    const year = date.getFullYear();
-
-    date = new Date(year, month , day);
-
-    await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments`)
+    await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments,product_quantity_unit,quantity`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -63,19 +51,73 @@ const createMeal = async (req, res) => {
         })
         .then(data => {
             const product = data.product;
-            name = product.product_name;
-            kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
-            protein = product.nutriments.proteins_100g * parseInt(amount)/100;
-            fat = product.nutriments.fat_100g * parseInt(amount)/100;
-            carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
-            unit = product.nutriments.proteins_unit;
-            
-            
+            ingredientData.id = id;
+            ingredientData.name = product.product_name;
+            ingredientData.kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
+            ingredientData.protein = product.nutriments.proteins_100g * parseInt(amount)/100;
+            ingredientData.fat = product.nutriments.fat_100g * parseInt(amount)/100;
+            ingredientData.carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
+            ingredientData.unit = product.product_quantity_unit;
+            if(!unit){
+                const tempUnit = product.quantity;
+                ingredientData.unit = tempUnit; 
+            }
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
             return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
     });
+
+
+    try {
+        return res.status(200).json(ingredientData);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
+const createMeal = async (req, res) => {
+    const { userId, mealData, occasion, amount, userDate} = req.body; // Hier wird das gesamte 'meals' Array genommen
+
+    //let name;
+    //let kcal;
+    //let protein;
+    //let fat;
+    //let carbs;
+    //let unit;
+    //let date = new Date();
+
+    const day = userDate.getDate() + 1;
+    const month = userDate.getMonth(); 
+    const year = userDate.getFullYear();
+
+    date = new Date(year, month , day);
+
+    //await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments`)
+    //    .then(response => {
+    //        if (!response.ok) {
+    //            throw new Error('Network response was not ok');
+    //        }
+            
+    //        return response.json(); 
+    //    })
+    //    .then(data => {
+    //        const product = data.product;
+    //        name = product.product_name;
+    //        kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
+    //        protein = product.nutriments.proteins_100g * parseInt(amount)/100;
+    //        fat = product.nutriments.fat_100g * parseInt(amount)/100;
+    //        carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
+    //        unit = product.nutriments.proteins_unit;
+    //        
+    //        
+    //    })
+    //    .catch(error => {
+    //        console.error('There was a problem with the fetch operation:', error);
+    //        return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
+    //});
 
     //return res.status(200).json({ userID, mealID, occasion, amount });
 
@@ -96,13 +138,18 @@ const createMeal = async (req, res) => {
         }
 
         const mealsFileId = user.toJSON().mealsFileId.toString();
-        const mealsFile = await UserMeals.findById('663180d90c34a3b1660af60a');//mealsFileId);
+        //const mealsFile = await UserMeals.findById(mealsFileId);
+        const mealsFile = await UserMeals.findById('663180d90c34a3b1660af60a');
 
         if(!mealsFile){
             mealsFile = await UserMeals.create({ _id: mealsFileId, userId })
         }
 
-        const newMeal = await Meal.create({ name, amount, unit, kcal, protein, fat, carbs });
+        const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
+            kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs });
+
+        //const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
+        //    kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs });
 
         const updatedMealsFile = await UserMeals.findOneAndUpdate(
             { _id: mealsFile._id, "meals.date": date }, 
