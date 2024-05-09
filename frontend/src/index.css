@@ -38,6 +38,7 @@ header a {
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
+
 .meal-details {
   background: #fff;
   border-radius: 4px;
@@ -99,4 +100,51 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+.reader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scannerdiv{
+  margin: auto;
+  max-width: 500px;
+  max-height: 500px;
+}
+.container{
+  height: 110px;
+  flex-direction:row;
+}
+.container > div > button{
+  float: left;
+  margin: 1px;
+  padding: auto;
+  width: calc(33% - 0.1em);
+  height: 100px;
+  border-radius: 10px;
+  background-color: var(--primary);
+}
+.container > div > button:hover{
+  background-color:white;
+}
+.container > div > button > a{
+ font-size: large;
+}
+.create{
+  height: fit-content;
+  width: fit-content;
+}
+header .container{
+  padding: 2.5px;
+}
+/* such button im home menü */
+.home > button{ 
+
+
+}
+/* such button im home menü inner text */
+.home > button > a{ 
+color: black;
+
 }
