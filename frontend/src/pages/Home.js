@@ -1,46 +1,44 @@
-import { useEffect, useState } from 'react';
-
-// components
-import UserForm from '../components/UserForm';  // Nutze UserForm statt MealDetails und MealForm
+import { useEffect, useState } from "react";
+import { useMealsContext } from "../hooks/useMealsContext";
+import MealDetails from "../components/MealDetails";
+import MealForm from "../components/MealForm";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-    const [userId, setUserId] = useState(''); // Zustand für die Benutzer-ID
-    const [userData, setUserData] = useState(null); // Zustand für die Benutzerdaten
-    const [isFetching, setIsFetching] = useState(false);
-    const [error, setError] = useState(null); // Zustand für Fehlermanagement
+  const { meals, dispatch } = useMealsContext();
+  const [isFetching, setIsFetching] = useState(false);
 
-    useEffect(() => {
-        const fetchUserById = async () => {
-            if (userId && !isFetching) {
-                setIsFetching(true);
-                try {
-                    const response = await fetch(`/api/user/${userId}`);
-                    const json = await response.json();
-                    
-                    if (response.ok) {
-                        setUserData(json); // Speichert die Daten direkt im Zustand
-                        setError(null); // Setzt etwaige Fehler zurück
-                    } else {
-                        throw new Error('Fehler beim Abrufen des Benutzers');
-                    }
-                } catch (error) {
-                    setError(error.message); // Speichert Fehlermeldungen im Zustand
-                    setUserData(null); // Setzt die Benutzerdaten zurück
-                } finally {
-                    setIsFetching(false);
-                }
-            }
-        };
-        
-        fetchUserById();
-    }, [userId, isFetching]);
+  //ToDO: useEffect hook machen
+  useEffect(() => {
+    if (!isFetching) {
+      const fetchMeals = async () => {
+        const response = await fetch("/api/meal/");
+        const json = await response.json();
 
-    return (
-        <div className="home">
-            <UserForm />
-            {error && <div className="error">{error}</div>}
+        if (response.ok) {
+          dispatch({ type: "SET_MEALS", payload: json });
+        }
+      };
+
+      fetchMeals();
+      setIsFetching(true);
+    }
+  }, [isFetching, dispatch]);
+
+  return (
+    <div>
+      <div className="home">
+        <button className="button is-primary">
+          <Link to="/Suche">Suche</Link>
+        </button>
+        <div className="meals">
+          {meals &&
+            meals.map((meal) => <MealDetails key={meal._id} meal={meal} />)}
         </div>
-    );
-}
-
+        <MealForm />
+      </div>
+    </div>
+  );
+};
+ 
 export default Home;
