@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMealsContext } from "../hooks/useMealsContext";
 import MealDetails from "../components/MealDetails";
 import MealForm from "../components/MealForm";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { meals, dispatch } = useMealsContext();
@@ -27,6 +28,9 @@ const Home = () => {
   return (
     <div>
       <div className="home">
+        <button className="button is-primary">
+          <Link to="/Suche">Suche</Link>
+        </button>
         <div className="meals">
           {meals &&
             meals.map((meal) => <MealDetails key={meal._id} meal={meal} />)}

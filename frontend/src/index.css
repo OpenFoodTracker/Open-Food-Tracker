@@ -138,3 +138,13 @@ input.error {
 header .container{
   padding: 2.5px;
 }
+/* such button im home menü */
+.home > button{ 
+
+
+}
+/* such button im home menü inner text */
+.home > button > a{ 
+color: black;
+
+}

@@ -8,17 +8,16 @@ const Navbar = () => {
         <div className="container">
           <div className="container notification is-primary">
             <button className="button">
-              <Link to="/" element={<home />}>
-                Home
-              </Link>
+              <Link to="/">Home</Link>
             </button>
             <button className="button">
-              {" "}
               <Link to="/Statistik">Statistik</Link>
             </button>
             <button className="button">
-              {" "}
-              <Link to="/LogIn">Profil/Login</Link>
+              <Link to="/Profil">Profil</Link>
+            </button>
+            <button className="button">
+              <Link to="/LogIn">Login</Link>
             </button>
             <CustomModal />
           </div>
