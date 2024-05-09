@@ -1,11 +1,19 @@
-import { React, useState } from "react";
+import { React, useEffect } from "react";
 import "bulma/css/bulma.css";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const Navigate = useNavigate();
+  const goToLogInPage = () => navigate("/LogIn");
   //  const hideLogin = () => {
   //    //redirecten auf homepage oder login feld verstecken/removen
   //  };
-  function CheckSingIn() {
+  useEffect(() => {
+    const goToHomePage = () => Navigate("/");
+  });
+  function CheckSignIn() {
+    goToHomePage();
     //const email = document.getElementsByName("input email");
     //const password = document.getElementsByName("input password");
     //console.log(email);
@@ -35,7 +43,7 @@ const Login = () => {
         </div>
       </div>
 
-      <button className="button is-primary" onClick={CheckSingIn()}>
+      <button className="button is-primary" onClick={CheckSignIn()}>
         Sign in
       </button>
     </form>
