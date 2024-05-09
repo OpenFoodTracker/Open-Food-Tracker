@@ -7,10 +7,16 @@ on:
     branches: [ main ]
 
 jobs:
+
   build-and-run:
     runs-on: ubuntu-latest
 
     steps:
+    
+    - name: Clear Docker Cache
+      run: docker builder prune -af
+
+      
     - name: Checkout code
       uses: actions/checkout@v2
 
