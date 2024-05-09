@@ -10,6 +10,5 @@ const soloMealSchema = new mongoose.Schema({
   carbs: { type: Number, required: true }
 }, { timestamps: true });
 
-const Meal = mongoose.model('Meal', soloMealSchema);
-module.exports = Meal;
+module.exports = soloMealSchema; // Exportiere nur das Schema
 
