@@ -1,28 +1,14 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import "bulma/css/bulma.css";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
-  const Navigate = useNavigate();
-  const goToLogInPage = () => navigate("/LogIn");
-  //  const hideLogin = () => {
-  //    //redirecten auf homepage oder login feld verstecken/removen
-  //  };
-  useEffect(() => {
-    const goToHomePage = () => Navigate("/");
-  });
-  function CheckSignIn() {
-    goToHomePage();
-    //const email = document.getElementsByName("input email");
-    //const password = document.getElementsByName("input password");
-    //console.log(email);
-    //console.log(password);
-    //if(email == email_datenbank && passwort == passwort_datenbank){
-    //    giveLogInToken/SesionCookie();
-    //    hideLogin();
-    //}
+  const [loggedIn, setLoggedIn] = useState(false);
+  if (loggedIn) {
+    return <Navigate to="/" />;
   }
+
   return (
     <form className="box">
       <div className="field">
@@ -43,7 +29,12 @@ const Login = () => {
         </div>
       </div>
 
-      <button className="button is-primary" onClick={CheckSignIn()}>
+      <button
+        className="button is-primary"
+        onClick={() => {
+          setLoggedIn(true);
+        }}
+      >
         Sign in
       </button>
     </form>

@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import CustomModal from "./Scanner/CustomModal";
 import "bulma/css/bulma.css";
-import Login from "./LogIn";
-import UserLogIn from "../pages/LogIn";
 const Navbar = () => {
   return (
     <header>
@@ -16,7 +14,7 @@ const Navbar = () => {
             </button>
             <button className="button">
               {" "}
-              <Link to="/">Statistik</Link>
+              <Link to="/Statistik">Statistik</Link>
             </button>
             <button className="button">
               {" "}

@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import UserLogIn from "./pages/LogIn";
+import UserEinstellungen from "./pages/Einstellungen";
+import Search from "./pages/Suche";
+import UserProfil from "./pages/Profil";
+import UserStatistik from "./pages/Statistik";
 
 function App() {
   return (
@@ -14,6 +18,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/LogIn" element={<UserLogIn />} />
+            <Route path="/Statistik" element={<UserStatistik />} />
+            <Route path="/Profil" element={<UserProfil />} />
+            <Route path="/Suche" element={<Search />} />
+            <Route
+              path="/Profil/Einstellungen"
+              element={<UserEinstellungen />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
