@@ -1,20 +1,19 @@
 # Basisbild. Verwende die offizielle Node.js-Umgebung als Eltern-Image.
-FROM node:14
+FROM node:latest
 
-# Arbeitsverzeichnis im Container festlegen.
-WORKDIR /app
+# Arbeitsverzeichnis im Container festlegen
+WORKDIR /usr/src/app
 
-# Kopiere die 'package.json' in das Arbeitsverzeichnis.
+# Abhängigkeiten installieren
+# Eine Wildcard wird verwendet, um sowohl package.json als auch package-lock.json zu kopieren
 COPY package*.json ./
-
-# Installiere alle Node-Abhängigkeiten.
 RUN npm install
 
-# Kopiere den restlichen Anwendungscode in das Arbeitsverzeichnis im Container.
+# App-Quellcode in den Container kopieren
 COPY . .
 
-# Dein Port, den Node.js verwendet.
+# Port, auf dem die App laufen soll
 EXPOSE 5000
 
-# Führe die Anwendung aus.
-CMD ["node", "server.js"]
+# App starten
+CMD ["npm", "start"]
