@@ -1,4 +1,6 @@
-const UserMeals = require('../models/userMealsModel');
+const { UserMeals, MealSchema } = require('../models/userMealsModel');
+const Meal = require('../models/mealModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 // get all meals for a user
@@ -35,28 +37,96 @@ const getMeal = async (req, res) => {
 };
 
 const createMeal = async (req, res) => {
-    const { userId, meals } = req.body; // Hier wird das gesamte 'meals' Array genommen
+    const { userId, mealId, occasion, amount} = req.body; // Hier wird das gesamte 'meals' Array genommen
 
-    // Prüfen, ob alle notwendigen Felder vorhanden sind
-    let emptyFields = [];
-    if (!userId) emptyFields.push('userId');
-    if (!meals || meals.length === 0) emptyFields.push('meals');
+    let name;
+    let kcal;
+    let protein;
+    let fat;
+    let carbs;
+    let unit;
+    let date = new Date();
 
-    meals.forEach(meal => {
-        if (!meal.date) emptyFields.push('date');
-        // Weitere Prüfungen für breakfast, lunch, etc. könnten hier hinzugefügt werden
+    const day = date.getDate() + 1;
+    const month = date.getMonth(); 
+    const year = date.getFullYear();
+
+    date = new Date(year, month , day);
+
+    await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            return response.json(); 
+        })
+        .then(data => {
+            const product = data.product;
+            name = product.product_name;
+            kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
+            protein = product.nutriments.proteins_100g * parseInt(amount)/100;
+            fat = product.nutriments.fat_100g * parseInt(amount)/100;
+            carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
+            unit = product.nutriments.proteins_unit;
+            
+            
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
     });
 
-    if (emptyFields.length > 0) {
-        return res.status(400).json({ error: 'Bitte fülle alle erforderlichen Felder aus', emptyFields });
-    }
+    //return res.status(200).json({ userID, mealID, occasion, amount });
+
+    // Prüfen, ob alle notwendigen Felder vorhanden sind
+    //let emptyFields = [];
+    //if (!userId) emptyFields.push('userId');
+    //if (!meals || meals.length === 0) emptyFields.push('meals');
+
+
+    //if (emptyFields.length > 0) {
+    //    return res.status(400).json({ error: 'Bitte fülle alle erforderlichen Felder aus', emptyFields });
+    //}
 
     try {
-        const newMeals = await UserMeals.create({ userId, meals });
-        res.status(200).json(newMeals);
+        const user = await User.findOne({userId: userId});
+        if(!user){
+            return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+        }
+
+        const mealsFileId = user.toJSON().mealsFileId.toString();
+        const mealsFile = await UserMeals.findById('663180d90c34a3b1660af60a');//mealsFileId);
+
+        if(!mealsFile){
+            mealsFile = await UserMeals.create({ _id: mealsFileId, userId })
+        }
+
+        const newMeal = await Meal.create({ name, amount, unit, kcal, protein, fat, carbs });
+
+        const updatedMealsFile = await UserMeals.findOneAndUpdate(
+            { _id: mealsFile._id, "meals.date": date }, 
+            { $push: { [`meals.$.${occasion}`]: newMeal } }, 
+            { new: true }
+        );
+        if(updatedMealsFile){
+            return res.status(200).json(updatedMealsFile);
+        }
+
+        const userMeal = await MealSchema.create({ date, [occasion]: newMeal});
+
+        updatedMealsFile = await UserMeals.findOneAndUpdate(
+            { _id: mealsFile._id }, 
+            { $push: { meals: userMeal } }, 
+            { new: true }, 
+        );
+
+        return res.status(200).json(updatedMealsFile);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.log(error);
+        return res.status(400).json({ error: error.message });
     }
+
 };
 
 // delete a meal
