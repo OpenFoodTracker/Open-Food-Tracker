@@ -42,6 +42,7 @@ function Scanner() {
       "https://world.openfoodfacts.org/api/v2/product/" + barcode
     );
     const json = await response.json();
+    //hier kann man funktion mit portionierung aufrufen und dann eine POST in die Datenbank z.b GetAmount() =>{} dann berechnen und einspeichern
     console.log("Produkt:" + json.product.product_name);
     console.log("Kcal:" + json.product.nutriments["energy-kcal"]);
     console.log("Kohlenhydrate:" + json.product.nutriments.carbohydrates);

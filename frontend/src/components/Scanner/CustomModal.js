@@ -32,7 +32,7 @@ function CustomModal() {
           </footer>
         </div>
       </div>
-      <button onClick={handleClick} className="button is-small is-info">
+      <button onClick={handleClick} className="button is-default is-info">
         Start Scanner
       </button>
     </div>
