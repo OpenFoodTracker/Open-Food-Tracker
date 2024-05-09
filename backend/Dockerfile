@@ -1,5 +1,5 @@
 # Basisbild. Verwende die offizielle Node.js-Umgebung als Eltern-Image.
-FROM node:latest
+FROM node:18
 
 # Arbeitsverzeichnis im Container festlegen
 WORKDIR /usr/src/app
