@@ -1,44 +1,46 @@
-import { useEffect, useState} from 'react'
-import { useMealsContext } from '../hooks/useMealsContext'
+import { useEffect, useState } from 'react';
 
 // components
-import MealDetails from '../components/MealDetails'
-import MealForm from '../components/MealForm'
+import UserForm from '../components/UserForm';  // Nutze UserForm statt MealDetails und MealForm
 
 const Home = () => {
-    const {meals, dispatch} = useMealsContext()
-    const [ isFetching, setIsFetching] = useState(false)
+    const [userId, setUserId] = useState(''); // Zustand für die Benutzer-ID
+    const [userData, setUserData] = useState(null); // Zustand für die Benutzerdaten
+    const [isFetching, setIsFetching] = useState(false);
+    const [error, setError] = useState(null); // Zustand für Fehlermanagement
 
-    //ToDO: useEffect hook machen
     useEffect(() => {
-        if(!isFetching){
-
-            const fetchMeals = async ()=> {
-                const response = await fetch('/api/meal/')
-                const json = await response.json()
-                
-                if (response.ok){
-                    dispatch({type: 'SET_MEALS', payload: json})
+        const fetchUserById = async () => {
+            if (userId && !isFetching) {
+                setIsFetching(true);
+                try {
+                    const response = await fetch(`/api/user/${userId}`);
+                    const json = await response.json();
+                    
+                    if (response.ok) {
+                        setUserData(json); // Speichert die Daten direkt im Zustand
+                        setError(null); // Setzt etwaige Fehler zurück
+                    } else {
+                        throw new Error('Fehler beim Abrufen des Benutzers');
+                    }
+                } catch (error) {
+                    setError(error.message); // Speichert Fehlermeldungen im Zustand
+                    setUserData(null); // Setzt die Benutzerdaten zurück
+                } finally {
+                    setIsFetching(false);
                 }
             }
-            
-            fetchMeals()
-            setIsFetching(true)
-        }
-    }, [isFetching, dispatch])
-
+        };
+        
+        fetchUserById();
+    }, [userId, isFetching]);
 
     return (
         <div className="home">
-            <div className="meals">
-                {meals && meals.map((meal) => (
-                    <MealDetails key={meal._id} meal = {meal} />
-                    
-                ))}    
-            </div>
-            <MealForm/>
+            <UserForm />
+            {error && <div className="error">{error}</div>}
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
