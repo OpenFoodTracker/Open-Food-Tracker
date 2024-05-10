@@ -1,29 +1,44 @@
+import React from 'react';
 import { Link } from "react-router-dom";
-import CustomModal from "./Scanner/CustomModal";
-import "bulma/css/bulma.css";
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Paper from '@mui/material/Paper';
+
 const Navbar = () => {
+  const [value, setValue] = React.useState(0);
+
   return (
-    <header>
-      <nav className="navbar is-fixed-bottom">
-        <div className="container">
-          <div className="container notification is-primary">
-            <button className="button">
-              <Link to="/">Home</Link>
-            </button>
-            <button className="button">
-              <Link to="/Statistik">Statistik</Link>
-            </button>
-            <button className="button">
-              <Link to="/Profil">Profil</Link>
-            </button>
-            <button className="button">
-              <Link to="/LogIn">Login</Link>
-            </button>
-            <CustomModal />
-          </div>
-        </div>
-      </nav>
-    </header>
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction
+          label="Home"
+          icon={<HomeIcon />}
+          component={Link}
+          to="/home"
+        />
+        <BottomNavigationAction
+          label="Statistik"
+          icon={<BarChartIcon />}
+          component={Link}
+          to="/statistics"
+        />
+        <BottomNavigationAction
+          label="Profil"
+          icon={<AccountCircleIcon />}
+          component={Link}
+          to="/profile"
+        />
+      </BottomNavigation>
+    </Paper>
   );
 };
 
