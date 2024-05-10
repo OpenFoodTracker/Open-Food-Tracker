@@ -7,9 +7,6 @@ import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
 
-import ProfilComponent from "../components/ProfileComponent";
-
-
 const Login = () => {
   const [ user, setUser ] = useState({});
 

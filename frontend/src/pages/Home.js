@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import HomeComponent from "../components/HomeComponent";
 import Navbar from "../components/Navbar";
+import Head from "../components/Head";  // Stelle sicher, dass 'Header.js' existiert
 
 const Home = () => {
-    console.log("Home");
-
-
   return (
     <div>
-
-        <HomeComponent />
-        <Navbar />
+      <Head />
+      <HomeComponent />
+      <Navbar />
     </div>
   );
 };
- 
+
 export default Home;

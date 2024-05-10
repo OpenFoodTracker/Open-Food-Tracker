@@ -1,10 +1,12 @@
-import ProfilComponent from "../components/ProfileComponent";
+import ProfileComponent from "../components/ProfileComponent";
 import Navbar from "../components/Navbar";
+import Header from "../components/Head";
 
 const UserProfil = () => {
   return (
     <div>
-      <ProfilComponent />
+      <Header />
+      <ProfileComponent />
       <Navbar />
     </div>
   );
