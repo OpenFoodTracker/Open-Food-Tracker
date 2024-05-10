@@ -1,6 +1,6 @@
 import StatisticComponent from "../components/StatisticComponent";
 import Navbar from "../components/Navbar";
-import Head from "../components/Header";
+import Head from "../components/Head";
 
 const UserStatistic = () => {
   return (
