@@ -1,11 +1,11 @@
 import StatisticComponent from "../components/StatisticComponent";
 import Navbar from "../components/Navbar";
-import Header from "../components/Head";
+import Head from "../components/Header";
 
 const UserStatistic = () => {
   return (
     <div>
-      <Header />
+      <Head />
       <StatisticComponent />
       <Navbar />
     </div>
