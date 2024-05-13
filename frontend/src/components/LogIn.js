@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   if (loggedIn) {
+    localStorage.setItem('userId', document.getElementById('userId').value);
     return <Navigate to="/" />;
   }
 
@@ -15,6 +16,7 @@ const Login = () => {
         <label className="label">Email</label>
         <div className="control">
           <input
+            id="userId"
             className="input"
             type="email"
             placeholder="e.g. alex@example.com"

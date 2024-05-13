@@ -29,7 +29,7 @@ const Home = () => {
     <div>
       <div className="home">
         <button className="button is-primary">
-          <Link to="/Suche">Suche</Link>
+          <Link to="/AddMeal">Suche</Link>
         </button>
         <div className="meals">
           {meals &&

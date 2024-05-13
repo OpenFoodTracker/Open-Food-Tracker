@@ -40,8 +40,9 @@ const getIngredient = async (req, res) => {
     const { id } = req.params;
 
     let ingredientData = {};
+    ingredientData.unitUnknown = false;
 
-    await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments,product_quantity_unit,quantity`)
+    await fetch(`https://world.openfoodfacts.net/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -53,14 +54,16 @@ const getIngredient = async (req, res) => {
             const product = data.product;
             ingredientData.id = id;
             ingredientData.name = product.product_name;
-            ingredientData.kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
-            ingredientData.protein = product.nutriments.proteins_100g * parseInt(amount)/100;
-            ingredientData.fat = product.nutriments.fat_100g * parseInt(amount)/100;
-            ingredientData.carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
+            ingredientData.kcal = product.nutriments['energy-kcal_100g'];
+            ingredientData.protein = product.nutriments.proteins_100g;
+            ingredientData.fat = product.nutriments.fat_100g;
+            ingredientData.carbs = product.nutriments.carbohydrates_100g;
+            ingredientData.imageUrl = product.image_front_url;
             ingredientData.unit = product.product_quantity_unit;
-            if(!unit){
+            if(!ingredientData.unit){
                 const tempUnit = product.quantity;
                 ingredientData.unit = tempUnit; 
+                ingredientData.unitUnknown = true;
             }
         })
         .catch(error => {
@@ -68,8 +71,8 @@ const getIngredient = async (req, res) => {
             return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
     });
 
-
     try {
+        console.log(ingredientData);
         return res.status(200).json(ingredientData);
     } catch (error) {
         console.log(error);
@@ -215,5 +218,6 @@ module.exports = {
     getMeal,
     createMeal,
     deleteMeal,
-    updateMeal
+    updateMeal,
+    getIngredient,
 };
