@@ -82,7 +82,7 @@ const getIngredient = async (req, res) => {
 
 
 const createMeal = async (req, res) => {
-    const { userId, mealData, occasion, amount, userDate} = req.body; // Hier wird das gesamte 'meals' Array genommen
+    const { userEmail, mealData, occasion, userDate} = req.body; // Hier wird das gesamte 'meals' Array genommen
 
     //let name;
     //let kcal;
@@ -97,6 +97,11 @@ const createMeal = async (req, res) => {
     const year = userDate.getFullYear();
 
     date = new Date(year, month , day);
+
+    console.log(userEmail);
+    console.log(mealData);
+    console.log(occasion);
+    console.log(date);
 
     //await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments`)
     //    .then(response => {
@@ -135,7 +140,7 @@ const createMeal = async (req, res) => {
     //}
 
     try {
-        const user = await User.findOne({userId: userId});
+        const user = await User.findOne({email: userEmail});
         if(!user){
             return res.status(404).json({ error: 'Benutzer nicht gefunden' });
         }
@@ -145,11 +150,11 @@ const createMeal = async (req, res) => {
         const mealsFile = await UserMeals.findById('663180d90c34a3b1660af60a');
 
         if(!mealsFile){
-            mealsFile = await UserMeals.create({ _id: mealsFileId, userId })
+            mealsFile = await UserMeals.create({ _id: mealsFileId, userId: user.toJSON().userId })
         }
 
         const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
-            kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs });
+            kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs, id: mealData.id, imageURL: mealData.imageURL });
 
         //const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
         //    kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs });
