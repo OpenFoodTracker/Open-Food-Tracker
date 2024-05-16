@@ -218,7 +218,7 @@ const JourneyComponent = ({ token }) => {
                           valueLabelDisplay="auto"
                           style={{ width: '90%', margin: '0 auto' }}
                         />
-                        <Typography align="center" variant="h6">{formData[questions[step].name]} {questions[step].label.includes('Gewicht') ? 'kg' : 'kg'}</Typography>
+                        <Typography align="center" variant="h6">{formData[questions[step].name]} {questions[step].label.toLowerCase().includes('gewicht') ? 'kg' : 'cm'}</Typography>
                       </Box>
                     ) : (
                       <TextField
