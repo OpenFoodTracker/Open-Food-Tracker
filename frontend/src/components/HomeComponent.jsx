@@ -43,7 +43,7 @@ const HomeComponent = ({ userData, token }) => {
   return (
     <Grid container spacing={2} sx={{ padding: 2 }}>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ position: 'relative', display: 'inline-flex' }}>6
+        <Box sx={{ position: 'relative', display: 'inline-flex' }}>
           <CircularProgress variant="determinate" value={70} size={140} thickness={4} />
           <Box
             sx={{
