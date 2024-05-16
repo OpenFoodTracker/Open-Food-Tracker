@@ -8,6 +8,7 @@ import UserEinstellungen from "./pages/Einstellungen";
 import Search from "./pages/Suche";
 import UserProfil from "./pages/Profil";
 import UserStatistik from "./pages/Statistik";
+import MealSize from "./pages/Meal";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/Statistik" element={<UserStatistik />} />
             <Route path="/Profil" element={<UserProfil />} />
             <Route path="/Suche" element={<Search />} />
+            <Route path="/Meal/:id" element={<MealSize/>}/>
             <Route
               path="/Profil/Einstellungen"
               element={<UserEinstellungen />}

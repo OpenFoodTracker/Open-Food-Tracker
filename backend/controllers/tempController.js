@@ -1,21 +1,24 @@
 
 function nutritionCalculation(nutritionData, eatenQuantity) {
-    const { energy, fat, proteins, quantity } = nutritionData;
+    const { energy, fat, proteins, carbs, quantity } = nutritionData;
 
     // Nutriments pro Gramm
     const energyPerGram = energy / 100;
     const fatPerGram = fat / 100;
     const proteinsPerGram = proteins / 100;
+    const carbsPerGram = proteins / 100;
 
     // Nutriments je gegessene Quantity
     const eatenEnergy = energyPerGram * eatenQuantity;
     const eatenFat = fatPerGram * eatenQuantity;
     const eatenProteins = proteinsPerGram * eatenQuantity;
+    const eatenCarbs = carbsPerGram * eatenQuantity;
 
     return {
         energy: eatenEnergy,
         fat: eatenFat,
-        proteins: eatenProteins
+        proteins: eatenProteins,
+        carbs: eatenCarbs
     };  
   }
   
@@ -30,6 +33,7 @@ async function weightFetch(barcode, eatenQuantity) {
       const energy = data.product.nutriments["energy-kcal_100g"] || 0;
       const fat = data.product.nutriments.fat || 0;
       const proteins = data.product.nutriments.proteins || 0;
+      const carbs = data.product.nutriments.carbs || 0;
   
       const quantity =  data.product.product_quantity;   
   
@@ -65,7 +69,9 @@ const getRouteParameter = async (req, res) => {
             "weight": weight,
             "energy": fetchResult["energy"],
             "protein": fetchResult["proteins"],
-            "fat": fetchResult["fat"]
+            "fat": fetchResult["fat"],
+            "carbs": fetchResult["carbs"]
+            
 
         });
     } catch (error) {

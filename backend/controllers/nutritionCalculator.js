@@ -1,5 +1,7 @@
 //import { getRouteParameter } from './tempController';
 
+//eventuell kann gelöscht werden
+
 const fetch = require('node-fetch');
 
 

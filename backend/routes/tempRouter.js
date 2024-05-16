@@ -4,7 +4,7 @@ const cors = require('cors');
 const express = require('express');
 const {
     getRouteParameter
-} = require('../controllers/tempController'); // Pfad zu deinem tempController
+} = require('../controllers/tempController'); // Pfad zu tempController
 const router = express.Router();
 
 router.use(cors());
