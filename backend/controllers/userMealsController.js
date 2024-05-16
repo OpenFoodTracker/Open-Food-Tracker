@@ -34,30 +34,41 @@ const getMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
-const createMeal = async (req, res) => {
-    const { userId, meals } = req.body; // Hier wird das gesamte 'meals' Array genommen
-
-    // Prüfen, ob alle notwendigen Felder vorhanden sind
-    let emptyFields = [];
-    if (!userId) emptyFields.push('userId');
-    if (!meals || meals.length === 0) emptyFields.push('meals');
-
-    meals.forEach(meal => {
-        if (!meal.date) emptyFields.push('date');
-        // Weitere Prüfungen für breakfast, lunch, etc. könnten hier hinzugefügt werden
-    });
-
-    if (emptyFields.length > 0) {
-        return res.status(400).json({ error: 'Bitte fülle alle erforderlichen Felder aus', emptyFields });
-    }
+const getMealById = async (req, res) => {
+    const { mealsFileId } = req.body;
 
     try {
-        const newMeals = await UserMeals.create({ userId, meals });
-        res.status(200).json(newMeals);
+      const meal = await UserMeals.findOne({ mealsFileId: mealsFileId });
+      if (!meal) {
+        return res.status(404).json({ message: 'Meal File not found' });
+      }
+      res.status(200).json(meal); // Senden Sie die gefundene Mahlzeit zurück
     } catch (error) {
-        res.status(400).json({ error: error.message });
+      res.status(500).json({ message: 'Server error', error });
     }
 };
+
+const createMeal = async (req, res) => {
+
+    const { mealsFileId, userId, meals } = req.body;
+
+    if (!mealsFileId) {
+      return res.status(400).json({ error: 'mealsFileId ist erforderlich' });
+    }
+  
+    if (!userId) {
+      return res.status(400).json({ error: 'userId ist erforderlich' });
+    }
+  
+    try {
+      const newUserMeals = new UserMeals({ mealsFileId, userId, meals });
+      await newUserMeals.save();
+      res.status(201).json(newUserMeals);
+    } catch (error) {
+      console.error('Fehler beim Erstellen von UserMeals:', error);
+      res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+  };
 
 // delete a meal
 const deleteMeal = async (req, res) => {
@@ -96,6 +107,7 @@ const updateMeal = async (req, res) => {
 module.exports = {
     getUserMeals,
     getMeal,
+    getMealById,
     createMeal,
     deleteMeal,
     updateMeal

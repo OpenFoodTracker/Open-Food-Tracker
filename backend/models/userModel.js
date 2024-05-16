@@ -3,7 +3,7 @@ const mealSchema = require('./mealSchema'); // Pfad zum Ingredient-Schema
 
 const userSettingsSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true, auto: true },
-  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true},
   gender: { type: String, required: true },
   height: { type: Number, required: true },
   weight: { type: Number, required: true },

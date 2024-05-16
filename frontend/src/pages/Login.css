@@ -1,0 +1,58 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.signInContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#signInLabel, #signInLabelSub {
+    text-align: center;
+}
+
+#signInLabel {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#signInLabelSub {
+    font-size: 16px;
+    color: #666;
+}
+
+#logo {
+    width: 100px;
+    height: 100px;
+    background: url('../images/logo.jpg') no-repeat center center;
+    background-size: contain;
+    margin-bottom: 20px;
+}
+
+#signInDiv {
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}

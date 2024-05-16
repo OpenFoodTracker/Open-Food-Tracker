@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Head from "../components/Head";
+import StatisticComponent from "../components/StatisticComponent";
 import Navbar from "../components/Navbar";
-import HomeComponent from "../components/HomeComponent";
+import Head from "../components/Head";
 
-const Home = () => {
+const UserStatistic = () => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState(null);
 
@@ -20,20 +20,19 @@ const Home = () => {
         setToken(storedToken);
       }
 
-      console.log("Home - UserData: ", storedUserData);
-      console.log("Home - Token: ", storedToken);
+      console.log("Statistics - UserData: ", storedUserData);
+      console.log("Statistics - Token: ", storedToken);
     };
 
     fetchData();
   }, []);
-
   return (
     <div>
       <Head />
-      <HomeComponent userData={userData} token={token} />
+      <StatisticComponent userData={userData} token={token}/>
       <Navbar />
     </div>
   );
 };
 
-export default Home;
+export default UserStatistic;

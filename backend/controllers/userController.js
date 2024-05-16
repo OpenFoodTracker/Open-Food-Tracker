@@ -28,29 +28,33 @@ const getUser = async (req, res) => {
     res.status(200).json(user);
 };
 
-const createUser = async (req, res) => {
-    // Zerlegen des Request-Bodys, um die einzelnen Felder zu erhalten
-    const { userId, gender, height, weight, birthday, goal, darkMode, notifications, recipeFileId, mealsFileId, history, favorites } = req.body;
+// get a single user with email
+const getUserByEmail = async (req, res) => {
+    const { email } = req.body;
 
-    // Überprüfen, ob alle notwendigen Felder vorhanden sind
-    let missingFields = [];
-    if (!userId) missingFields.push("userId");
-    if (!gender) missingFields.push("gender");
-    if (!height) missingFields.push("height");
-    if (!weight) missingFields.push("weight");
-    if (!birthday) missingFields.push("birthday");
-    if (!goal) missingFields.push("goal");
-    if (darkMode === undefined) missingFields.push("darkMode");
-    if (notifications === undefined) missingFields.push("notifications");
-    
-    if (missingFields.length > 0) {
-        return res.status(400).json({ error: 'Bitte füllen Sie alle erforderlichen Felder aus', missingFields });
-    }
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+      } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+      }
+};
+
+
+
+const createUser = async (req, res) => {
+    const { email, gender, height, weight, birthday, goal, darkMode, notifications, history, favorites } = req.body;
 
     try {
         // Erstellen eines neuen Benutzers mit den spezifizierten Daten
         const user = await User.create({
-            userId, gender, height, weight, birthday, goal, darkMode, notifications, recipeFileId, mealsFileId, history, favorites
+            email, gender, height, weight, birthday, goal, darkMode, notifications,
+            recipeFileId: new mongoose.Types.ObjectId(), // Generiert eine neue ObjectId
+            mealsFileId: new mongoose.Types.ObjectId(), // Generiert eine neue ObjectId
+            history, favorites
         });
         res.status(200).json(user);
     } catch (error) {
@@ -100,6 +104,7 @@ const updateUser = async (req, res) => {
 module.exports = {
     getUsersAll,
     getUser,
+    getUserByEmail,
     createUser,
     deleteUser,
     updateUser

@@ -1,5 +1,4 @@
 import { React, useState } from "react";
-import "bulma/css/bulma.css";
 import Scanner from "./Scanner";
 
 function CustomModal() {
