@@ -34,29 +34,44 @@ const getRecipe = async (req, res) => {
     res.status(200).json(recipe);
 };
 
-const createRecipe = async (req, res) => {
-    const { userId, recipes } = req.body;
+const getRecipeById = async (req, res) => {
+    const { recipeFileId } = req.body; 
 
-    // Überprüfen, ob sowohl userId als auch recipes im Request-Body vorhanden sind
-    if (!userId || !recipes || recipes.length === 0) {
-        return res.status(400).json({ error: 'Bitte füllen Sie alle erforderlichen Felder aus und stellen Sie sicher, dass Rezepte enthalten sind.' });
+    if (!mongoose.Types.ObjectId.isValid(recipeFileId)) {
+      return res.status(400).json({ message: 'Ungültige ID' });
     }
-
-    // Überprüfen, ob jedes Rezept die notwendigen Zutaten hat
-    let missingIngredients = recipes.some(recipe => !recipe.ingredients || recipe.ingredients.length === 0);
-    if (missingIngredients) {
-        return res.status(400).json({ error: 'Jedes Rezept muss Zutaten enthalten.' });
-    }
-
+  
     try {
-        // Erstellen eines neuen Eintrags in der UserRecipes Sammlung
-        const userRecipe = await UserRecipes.create({ userId, recipes });
-        res.status(200).json(userRecipe);
+      const recipe = await UserRecipes.findOne({ recipeFileId: recipeFileId });
+      if (!recipe) {
+        return res.status(404).json({ message: 'Recipe File not found' });
+      }
+      res.status(200).json(recipe);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+      res.status(500).json({ message: 'Server error', error });
     }
 };
 
+const createRecipe = async (req, res) => {
+    const { recipeFileId, userId, recipes } = req.body;
+
+    if (!recipeFileId) {
+        return res.status(400).json({ error: 'recipeFileId ist erforderlich' });
+    }
+
+    if (!userId) {
+        return res.status(400).json({ error: 'userId ist erforderlich' });
+    }
+
+    try {
+        const newUserRecipes = new UserRecipes({ recipeFileId, userId, recipes });
+        await newUserRecipes.save();
+        res.status(201).json(newUserRecipes);
+    } catch (error) {
+        console.error('Fehler beim Erstellen von UserRecipes:', error);
+        res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+};
 
 // delete a recipe
 const deleteRecipe = async (req, res) => {
@@ -95,6 +110,7 @@ const updateRecipe = async (req, res) => {
 module.exports = {
     getUserRecipes,
     getRecipe,
+    getRecipeById,
     createRecipe,
     deleteRecipe,
     updateRecipe

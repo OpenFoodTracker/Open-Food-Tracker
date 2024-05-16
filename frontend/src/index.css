@@ -6,8 +6,9 @@
 }
 
 /* Entfernt Standard-Margins und setzt die Schriftgröße für bessere Kontrolle */
-body {
+html, body {
     margin: 0;
+    height: 100%;
     font-family: 'Arial', sans-serif; /* Verwenden Sie eine Web-sichere Schriftart oder importieren Sie eine benutzerdefinierte Schriftart */
     font-size: 16px; /* Standardgröße für Text */
     line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
@@ -43,7 +44,6 @@ img {
     margin: 0 auto; /* Zentriert den Container horizontal */
 }
 
-
 /* Media Query für Tablets und Desktops */
 @media (min-width: 768px) {
     .container {
@@ -62,5 +62,3 @@ img {
         width: 1170px; /* Feste Breite für größere Desktops */
     }
 }
-
-

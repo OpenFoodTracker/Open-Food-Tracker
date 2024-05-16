@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../images/logo.jpg'; // Stelle sicher, dass dieser Pfad korrekt ist
 
 const Head = () => {

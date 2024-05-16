@@ -5,7 +5,24 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import CookieIcon from '@mui/icons-material/Cookie';
 
-const HomeComponent = () => {
+import { useLocation } from 'react-router-dom';
+
+const HomeComponent = ( { userData, token, mealsData, recipeData } ) => {
+
+  if (!userData) {
+    return <div>User-Daten nicht gefunden</div>;
+  }
+  if (!mealsData) {
+    return <div>Meals-Daten nicht gefunden</div>;
+  }
+  if (!recipeData) {
+    return <div>Recipe-Daten nicht gefunden</div>;
+  }
+  if (!token) {
+    return <div>Token nicht gefunden</div>;
+  }
+
+
   const meals = [
     { name: "Frühstück", calories: 525, icon: <BreakfastDiningIcon fontSize="large" /> },
     { name: "Mittagessen", calories: 602, icon: <LunchDiningIcon fontSize="large" /> },
@@ -14,6 +31,7 @@ const HomeComponent = () => {
   ];
 
   return (
+
     <Grid container spacing={2} sx={{ padding: 2 }}>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ position: 'relative', display: 'inline-flex' }}>

@@ -3,16 +3,16 @@ const soloMealSchema = require('./mealSchema');
 
 const mealSchema = new mongoose.Schema({
   date: { type: Date, required: true },
-  breakfast: [soloMealSchema],
-  lunch: [soloMealSchema],
-  dinner: [soloMealSchema],
-  snack: [soloMealSchema]
+  breakfast: { type: [soloMealSchema], default: [] },
+  lunch: { type: [soloMealSchema], default: [] },
+  dinner: { type: [soloMealSchema], default: [] },
+  snack: { type: [soloMealSchema], default: [] }
 });
 
 const userMealsSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
-  meals: [mealSchema]
+  mealsFileId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  meals: { type: [mealSchema], default: [] }
 });
 
-const UserMeals = mongoose.model('UserMeals', userMealsSchema);
-module.exports = UserMeals;
+module.exports = mongoose.model('UserMeals', userMealsSchema);
