@@ -36,6 +36,21 @@ const getMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
+//all currently valid units
+const recognizedUnits = ["ml", "l", "g", "kg"];
+
+//gets unit from parameter unitString, if the unit is in some form in the string like: "200 kg" or "3 l"
+function getUnit(unitString){
+    for(let i=0; i<recognizedUnits.length; i++){
+        if(unitString.includes(` ${recognizedUnits[i]}`)){
+            return recognizedUnits[i];
+        }
+    }
+    return unitString;
+}
+
+
+//Gets ingredient from OpenFoodFacts specified by id
 const getIngredient = async (req, res) => {
     const { id } = req.params;
 
@@ -52,7 +67,7 @@ const getIngredient = async (req, res) => {
         })
         .then(data => {
             const product = data.product;
-            ingredientData.id = id;
+            ingredientData.id = id;                                                       //gets relevant values from API and adds it to ingredientData
             ingredientData.name = product.product_name;
             ingredientData.kcal = product.nutriments['energy-kcal_100g'];
             ingredientData.protein = product.nutriments.proteins_100g;
@@ -60,11 +75,18 @@ const getIngredient = async (req, res) => {
             ingredientData.carbs = product.nutriments.carbohydrates_100g;
             ingredientData.imageUrl = product.image_front_url;
             ingredientData.unit = product.product_quantity_unit;
-            if(!ingredientData.unit){
-                const tempUnit = product.quantity;
-                ingredientData.unit = tempUnit; 
-                ingredientData.unitUnknown = true;
-            }
+            ingredientData.amount = 100; 
+
+            if(!ingredientData.unit || !recognizedUnits.includes(ingredientData.unit)){ //if there is no given product unit or the givn one is not recognized
+                let tempUnit = product.quantity;                                        //try to recognize it 
+                tempUnit = tempUnit.toLowerCase();
+            
+                ingredientData.unit = getUnit(tempUnit);
+
+                if(!recognizedUnits.includes(ingredientData.unit)){                     //is the unit is still not recognized, set the ingredient unit to unknown
+                    ingredientData.unitUnknown = true;
+                }
+            } 
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -72,114 +94,58 @@ const getIngredient = async (req, res) => {
     });
 
     try {
-        console.log(ingredientData);
         return res.status(200).json(ingredientData);
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });                         
     }
 };
 
 
+//Creates a Meal and sets it into the right Mealschema and UserMeal, 
+//Creates a MealSchema for the current user date, if it does not exist
 const createMeal = async (req, res) => {
-    const { userEmail, mealData, occasion, userDate} = req.body; // Hier wird das gesamte 'meals' Array genommen
+    const { mealsFileId, mealData, mealOccasion, userDate} = req.body; 
 
-    //let name;
-    //let kcal;
-    //let protein;
-    //let fat;
-    //let carbs;
-    //let unit;
-    //let date = new Date();
-
-    const day = userDate.getDate() + 1;
-    const month = userDate.getMonth(); 
-    const year = userDate.getFullYear();
+    const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const day = tempDate.getDate();
+    const month = tempDate.getMonth(); 
+    const year = tempDate.getFullYear();
 
     date = new Date(year, month , day);
 
-    console.log(userEmail);
-    console.log(mealData);
-    console.log(occasion);
-    console.log(date);
-
-    //await fetch(`https://world.openfoodfacts.net/api/v2/product/${mealId}?fields=product_name,nutriments`)
-    //    .then(response => {
-    //        if (!response.ok) {
-    //            throw new Error('Network response was not ok');
-    //        }
-            
-    //        return response.json(); 
-    //    })
-    //    .then(data => {
-    //        const product = data.product;
-    //        name = product.product_name;
-    //        kcal = product.nutriments['energy-kcal_100g'] * parseInt(amount)/100;
-    //        protein = product.nutriments.proteins_100g * parseInt(amount)/100;
-    //        fat = product.nutriments.fat_100g * parseInt(amount)/100;
-    //        carbs = product.nutriments.carbohydrates_100g * parseInt(amount)/100;
-    //        unit = product.nutriments.proteins_unit;
-    //        
-    //        
-    //    })
-    //    .catch(error => {
-    //        console.error('There was a problem with the fetch operation:', error);
-    //        return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
-    //});
-
-    //return res.status(200).json({ userID, mealID, occasion, amount });
-
-    // Prüfen, ob alle notwendigen Felder vorhanden sind
-    //let emptyFields = [];
-    //if (!userId) emptyFields.push('userId');
-    //if (!meals || meals.length === 0) emptyFields.push('meals');
-
-
-    //if (emptyFields.length > 0) {
-    //    return res.status(400).json({ error: 'Bitte fülle alle erforderlichen Felder aus', emptyFields });
-    //}
-
     try {
-        const user = await User.findOne({email: userEmail});
-        if(!user){
-            return res.status(404).json({ error: 'Benutzer nicht gefunden' });
-        }
+        const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
 
-        const mealsFileId = user.toJSON().mealsFileId.toString();
-        //const mealsFile = await UserMeals.findById(mealsFileId);
-        const mealsFile = await UserMeals.findById('663180d90c34a3b1660af60a');
+        //Creates Meal with given data
+        const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,                             
+            kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs, id: mealData.id, imageUrl: mealData.imageUrl });
 
-        if(!mealsFile){
-            mealsFile = await UserMeals.create({ _id: mealsFileId, userId: user.toJSON().userId })
-        }
-
-        const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
-            kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs, id: mealData.id, imageURL: mealData.imageURL });
-
-        //const newMeal = await Meal.create({ name: mealData.name, amount: mealData.amount, unit: mealData.unit,
-        //    kcal: mealData.kcal, protein: mealData.protein, fat: mealData.fat, carbs: mealData.carbs });
-
-        const updatedMealsFile = await UserMeals.findOneAndUpdate(
-            { _id: mealsFile._id, "meals.date": date }, 
-            { $push: { [`meals.$.${occasion}`]: newMeal } }, 
+        const updatedMealsFile = await UserMeals.findOneAndUpdate(                      //if a MealSchema with current date already exists for this UserMeal File, add Meal there
+            { mealsFileId: mealsFileObject, "meals.date": date }, 
+            { $push: { [`meals.$.${mealOccasion}`]: newMeal } }, 
             { new: true }
         );
         if(updatedMealsFile){
-            return res.status(200).json(updatedMealsFile);
+            return res.status(200).json(updatedMealsFile);                              //return updated File
         }
 
-        const userMeal = await MealSchema.create({ date, [occasion]: newMeal});
+        console.log("Bier");
 
-        updatedMealsFile = await UserMeals.findOneAndUpdate(
-            { _id: mealsFile._id }, 
+        const userMeal = await MealSchema.create({ date, [mealOccasion]: newMeal});     //Creates MealSchema, if none for the current date exist for this UserMeal File
+
+        const newMealsFile = await UserMeals.findOneAndUpdate(                          //Add MealSchema and Meal into UserMeals
+            { mealsFileId: mealsFileObject }, 
             { $push: { meals: userMeal } }, 
             { new: true }, 
         );
 
-        return res.status(200).json(updatedMealsFile);
+        if(newMealsFile){
+            return res.status(200).json(newMealsFile);                                 
+        }
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });                          
     }
 
 };

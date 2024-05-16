@@ -9,7 +9,7 @@ const soloMealSchema = new mongoose.Schema({
   fat: { type: Number, required: true },
   carbs: { type: Number, required: true },
   id: { type: Number, required: true },
-  imageUrl: { type: String }
+  imageUrl: { type: String}
 }, { timestamps: true });
 
 const Meal = mongoose.model('Meal', soloMealSchema);

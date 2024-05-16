@@ -8,11 +8,14 @@
   --tertiary: #e8e4e4;
   --error: #e7195a;
 }
+
 body {
   background: #f1f1f1;
   margin: 0;
   font-family: "Poppins";
+  height: 100%;
 }
+
 header {
   background: #fff;
 }
@@ -174,6 +177,7 @@ color: black;
   background-color: var(--tertiary);
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .addMealData {
@@ -247,5 +251,32 @@ color: black;
   font-family: "Poppins";
   border-radius: 4px;
   cursor: pointer;
+}
+
+#dialog {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 80%;
+  font-size: small;
+}
+
+#addMealDialog {
+  margin-top: 5px;
+  color: black;
+}
+
+#dialogUnit {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 5x;
+  min-height: 30px;
 }
 
