@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardContent, Typography, CircularProgress, Box } from '@mui/material';
+import { Grid, Typography, CircularProgress, Box, Button } from '@mui/material';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import CookieIcon from '@mui/icons-material/Cookie';
+import { useNavigate } from 'react-router-dom';
 
 const HomeComponent = ({ userData, token }) => {
   const [meals, setMeals] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const staticMealsData = [
@@ -31,6 +33,11 @@ const HomeComponent = ({ userData, token }) => {
 
     setMeals(mappedMeals);
   }, []);
+
+  const handleMealClick = (occasion) => {
+    localStorage.setItem('occasion', occasion)
+    navigate('/occasionMeals');
+  };
 
   if (!userData || !token) {
     return (
@@ -65,17 +72,21 @@ const HomeComponent = ({ userData, token }) => {
       </Grid>
       {meals.map((meal, index) => (
         <Grid item xs={6} key={index}>
-          <Card sx={{ height: 140, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <CardContent>
-              <Typography variant="h6" component="div">
-                {meal.name}
-              </Typography>
-              <Typography variant="body2">
+          <Button 
+            onClick={() => handleMealClick(meal.name)} 
+            variant="contained" 
+            sx={{ width: '100%', height: '100%', flexDirection: 'column' }} // Set flexDirection to column
+          >
+            <Typography variant="h6" component="div" sx={{ mb: 1 }}>
+              {meal.name}
+            </Typography>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" sx={{ mb: 1, mr: 1 }}>
                 {meal.calories} kcal
               </Typography>
               {meal.icon}
-            </CardContent>
-          </Card>
+            </div>
+          </Button>
         </Grid>
       ))}
     </Grid>

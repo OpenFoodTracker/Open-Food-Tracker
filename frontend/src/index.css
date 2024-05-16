@@ -5,6 +5,45 @@
     box-sizing: border-box;
 }
 
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+/* layout */
+:root {
+  --primary: #1aac83;
+  --secondary: #e8ece4;
+  --tertiary: #e8e4e4;
+  --error: #e7195a;
+}
+
+body {
+  background: #f1f1f1;
+  margin: 0;
+  font-family: "Poppins";
+  height: 100%;
+}
+
+header {
+  background: #fff;
+}
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header a {
+  color: #333;
+  text-decoration: none;
+}
+.pages{
+  max-width: 1400px;
+  padding: 0px;
+  margin: 0 auto;
+}
+
 /* Entfernt Standard-Margins und setzt die Schriftgröße für bessere Kontrolle */
 html, body {
     margin: 0;
@@ -61,4 +100,131 @@ img {
     .container {
         width: 1170px; /* Feste Breite für größere Desktops */
     }
+}
+
+
+
+
+/* AddMeal Page*/
+.addMealHead {
+  background-color: var(--secondary);
+  width: 100%;
+  border-bottom-left-radius: 70px;
+  border-bottom-right-radius: 70px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: xx-large;
+}
+
+#addMealImage {
+  padding-top: 3vh;
+  max-height: 30vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--tertiary);
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.addMealData {
+  display: flex;
+  width: 60%;
+  color: black;
+}
+
+.addMealData>.description{
+  align-items: left;
+  width: 50%;
+}
+
+.addMealData>.description>div, .addMealData>.data>div{
+  width: fit-content;
+}
+
+.addMealData>.data{
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+  width: 50%;
+}
+
+.addMealHead>div {
+  color: black;
+}
+
+.addMealForm {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary);
+  color: black;
+  padding: 2vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.changeForm {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.changeForm>input {
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.changeForm>select {
+  height: 70%;
+}
+
+.changeForm>button {
+  display: flex;
+  height: 80%;
+  align-items: center;
+  margin-left: 1vw;
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#dialog {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 80%;
+  font-size: small;
+}
+
+#addMealDialog {
+  margin-top: 5px;
+  color: black;
+}
+
+#dialogUnit {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 5x;
+  min-height: 30px;
 }
