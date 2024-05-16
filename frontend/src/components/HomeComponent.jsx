@@ -1,37 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, Typography, CircularProgress, Box } from '@mui/material';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import CookieIcon from '@mui/icons-material/Cookie';
 
-import { useLocation } from 'react-router-dom';
+const HomeComponent = ({ userData, token }) => {
+  const [meals, setMeals] = useState([]);
 
-const HomeComponent = ( { userData, token, mealsData, recipeData } ) => {
+  useEffect(() => {
+    const staticMealsData = [
+      { name: "Frühstück", calories: 300 },
+      { name: "Mittagessen", calories: 500 },
+      { name: "Abendessen", calories: 400 },
+      { name: "Sonstiges", calories: 200 }
+    ];
 
-  if (!userData) {
-    return <div>User-Daten nicht gefunden</div>;
-  }
-  if (!mealsData) {
-    return <div>Meals-Daten nicht gefunden</div>;
-  }
-  if (!recipeData) {
-    return <div>Recipe-Daten nicht gefunden</div>;
-  }
-  if (!token) {
-    return <div>Token nicht gefunden</div>;
-  }
+    const mealIcons = {
+      "Frühstück": <BreakfastDiningIcon fontSize="large" />,
+      "Mittagessen": <LunchDiningIcon fontSize="large" />,
+      "Abendessen": <DinnerDiningIcon fontSize="large" />,
+      "Sonstiges": <CookieIcon fontSize="large" />
+    };
 
+    const mappedMeals = staticMealsData.map((meal) => ({
+      name: meal.name,
+      calories: meal.calories,
+      icon: mealIcons[meal.name] || <CookieIcon fontSize="large" />
+    }));
 
-  const meals = [
-    { name: "Frühstück", calories: 525, icon: <BreakfastDiningIcon fontSize="large" /> },
-    { name: "Mittagessen", calories: 602, icon: <LunchDiningIcon fontSize="large" /> },
-    { name: "Abendessen", calories: 0, icon: <DinnerDiningIcon fontSize="large" /> },
-    { name: "Sonstiges", calories: 233, icon: <CookieIcon fontSize="large" /> }
-  ];
+    setMeals(mappedMeals);
+  }, []);
+
+  if (!userData || !token) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-
     <Grid container spacing={2} sx={{ padding: 2 }}>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ position: 'relative', display: 'inline-flex' }}>

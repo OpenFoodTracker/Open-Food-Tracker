@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/:userId', getUserRecipes); // GET all recipes for a user
 router.get('/recipe/:id', getRecipe); // GET a single recipe by id
-router.get('/recipe/getRecipeById', getRecipeById); // GET a single recipe by id
+router.post('/getRecipeById', getRecipeById); // GET a single recipe by id
 router.post('/', createRecipe); // POST a new recipe
 router.delete('/:id', deleteRecipe); // DELETE a recipe by id
 router.patch('/:id', updateRecipe); // UPDATE a recipe by id

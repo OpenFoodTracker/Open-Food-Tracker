@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Avatar, List, ListItem, ListItemText } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const ProfilComponent = () => {
+const ProfilComponent = ({ userData, token }) => {
   const profileData = {
     username: "sophie12m@web.de",
     age: 17,

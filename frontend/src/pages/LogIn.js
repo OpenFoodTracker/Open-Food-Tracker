@@ -6,21 +6,16 @@ import axios from 'axios';
 
 const Login = () => {
   const [user, setUser] = useState({});
-  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [redirectPath, setRedirectPath] = useState(null);
-  const [token, setToken] = useState(null);
-  const [mealsData, setMealsData] = useState(null);
-  const [recipeData, setRecipeData] = useState(null);
 
   function handleCallbackResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwtDecode(response.credential);
     console.log(userObject);
     setUser(userObject);
-    setToken(response.credential); // Roher JWT-Token speichern
-
-    // Fetch user data from the backend
+    localStorage.setItem('token', JSON.stringify(userObject));
+    console.log("Direkt nach speichern:", localStorage.getItem('token'));
     fetchUserData(userObject.email);
   }
 
@@ -28,22 +23,16 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await axios.post('/api/user/getUserByEmail', { email: email });
-      setUserData(response.data);
-      console.log(response.data);
+      const userData = response.data;
+      console.log("User data received:", userData);
 
-      console.log(response.data.mealsFileId);
-      console.log(response.data.recipeFileId);
+      localStorage.setItem('userData', JSON.stringify(userData));
+      console.log("Direkt nach speichern:", localStorage.getItem('userData'));
 
-      // Set mealsFileId and recipeFileId from the response
-      const responseMeals = await axios.post('/api/meals/getMealById', { mealsFileId: response.data.mealsFileId });
-      setMealsData(responseMeals.data);
-      console.log(responseMeals.data);
-      
-      const responseRecipe = await axios.post('/api/recipes/getRecipeById', { recipeFileId: response.data.recipeFileId });
-      setRecipeData(responseRecipe.data);
-      console.log(responseRecipe.data);
-
-      setRedirectPath('/home');
+      // Ensure data is saved before redirecting
+      setTimeout(() => {
+        setRedirectPath('/home');
+      }, 100); // Short delay to ensure data is saved
     } catch (error) {
       if (error.response && error.response.status === 404) {
         console.log("User-Data not found, redirecting to journey");
@@ -57,6 +46,9 @@ const Login = () => {
   };
 
   useEffect(() => {
+    // Clear localStorage once on component mount
+    localStorage.clear();
+    console.log("localStorage zu Begin: ", localStorage);
     /* global google */
     google.accounts.id.initialize({
       client_id: "560988237934-8vl914madk3tpf281m0fklrrc6nof6fu.apps.googleusercontent.com",
@@ -72,17 +64,7 @@ const Login = () => {
   }, []);
 
   if (redirectPath) {
-    return (
-      <Navigate 
-        to={redirectPath} 
-        state={{ 
-          userData: userData, 
-          token: jwtDecode(token), 
-          mealsData: mealsData, // Stellen Sie sicher, dass die Daten korrekt weitergegeben werden
-          recipeData: recipeData  // Stellen Sie sicher, dass die Daten korrekt weitergegeben werden
-        }} 
-      />
-    );
+    return <Navigate to={redirectPath} />;
   }
 
   return (

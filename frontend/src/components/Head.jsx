@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 import logo from '../images/logo.jpg'; // Stelle sicher, dass dieser Pfad korrekt ist
 
 const Head = () => {
@@ -10,6 +11,8 @@ const Head = () => {
           edge="start"
           color="inherit"
           aria-label="menu"
+          component={Link}
+          to="/"
           sx={{ mr: 2 }}
         >
           <img src={logo} alt="Logo" style={{ height: '40px' }} />

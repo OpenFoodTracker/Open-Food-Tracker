@@ -1,11 +1,16 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import JourneyComponent from "../components/JourneyComponent";
 import Head from "../components/Head";
 
 const Journey = () => {
-  const location = useLocation();
-  const token = location.state?.token;
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(JSON.parse(storedToken));
+    }
+  }, []);
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>

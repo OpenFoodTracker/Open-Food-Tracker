@@ -12,7 +12,7 @@ const data = [
   {name: 'S', uv: 3490},
 ];
 
-const StatisticComponent = () => {
+const StatisticComponent = ( { userData, token } ) => {
   const [timeframe, setTimeframe] = useState('week');
   const [tabValue, setTabValue] = useState(0);
 

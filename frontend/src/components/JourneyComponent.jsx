@@ -14,6 +14,7 @@ import {
   Grow,
   FormControl,
   FormLabel,
+  CircularProgress,
 } from '@mui/material';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import axios from 'axios';
@@ -65,12 +66,12 @@ const JourneyComponent = ({ token }) => {
       darkMode: true,
       notifications: true
     };
-  
+
     try {
       console.log(userData);
       const response = await axios.post('/api/user/', userData); // relative URL
       console.log('User data posted successfully:', response.data);
-  
+
       const IdResponse = await axios.post('/api/user/getUserByEmail', { email: token.email });
       const userId = IdResponse.data._id; // Stellen Sie sicher, dass userId hier korrekt abgerufen wird
       const recipeFileId = IdResponse.data.recipeFileId;
@@ -78,45 +79,43 @@ const JourneyComponent = ({ token }) => {
       console.log('User ID fetched successfully:', userId);
       console.log('Recipe File ID fetched successfully:', recipeFileId);
       console.log('Meals File ID fetched successfully:', mealsFileId);
-  
+
       const userRecipesData = {
         recipeFileId: recipeFileId,
         userId: userId, // Stellen Sie sicher, dass userId hier gesetzt wird
         recipes: [] // Stellen Sie sicher, dass recipes kein null recipeId enthält
       };
-  
+
       const userMealsData = {
         mealsFileId: mealsFileId,
         userId: userId, // Stellen Sie sicher, dass userId hier gesetzt wird
         meals: []
       };
-  
+
       try {
         const userRecipesResponse = await axios.post('/api/recipes/', userRecipesData);
         console.log('User recipes created successfully:', userRecipesResponse.data);
       } catch (error) {
         console.error('Error creating user recipes:', error.response ? error.response.data : error.message);
       }
-  
+
       try {
         const userMealsResponse = await axios.post('/api/meals/', userMealsData);
         console.log('User meals created successfully:', userMealsResponse.data);
       } catch (error) {
         console.error('Error creating user meals:', error.response ? error.response.data : error.message);
       }
-  
+
+      // Save userData to localStorage
+      localStorage.setItem('userData', JSON.stringify(userData));
+
       // Navigate to the home page after successful operations
       navigate('/home');
-  
+
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
     }
   };
-  
-  
-  
-  
-  
 
   const questions = [
     {
@@ -161,6 +160,15 @@ const JourneyComponent = ({ token }) => {
     const currentAnswer = formData[currentQuestion.name];
     return currentAnswer === '' || currentAnswer === undefined;
   };
+
+  // Check if token is null or undefined
+  if (!token) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100vh - 64px)' }}>

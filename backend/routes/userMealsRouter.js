@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/:userId', getUserMeals); // GET all meals for a user
 router.get('/meal/:id', getMeal); // GET a single meal by id
-router.get('/getMealById', getMealById);
+router.post('/getMealById', getMealById);
 router.post('/', createMeal); // POST a new meal
 router.delete('/:id', deleteMeal); // DELETE a meal by id
 router.patch('/:id', updateMeal); // UPDATE a meal by id
