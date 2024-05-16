@@ -16,13 +16,6 @@
   --error: #e7195a;
 }
 
-body {
-  background: #f1f1f1;
-  margin: 0;
-  font-family: "Poppins";
-  height: 100%;
-}
-
 header {
   background: #fff;
 }
@@ -52,7 +45,7 @@ html, body {
     font-size: 16px; /* Standardgröße für Text */
     line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
     color: #333; /* Dunkelgrau für Text */
-    background-color: #fff; /* Weißer Hintergrund */
+    background-color: var(--tertiary);
 }
 
 /* Hilft, die Breite des Viewports zu kontrollieren und verhindert unerwünschtes Zoomen */
@@ -102,17 +95,24 @@ img {
     }
 }
 
-
+.body{
+  background-color: var(--tertiary);
+}
 
 
 /* AddMeal Page*/
 .addMealHead {
-  background-color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  background-color: var(--secondary);
   border-bottom-left-radius: 70px;
   border-bottom-right-radius: 70px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   font-size: xx-large;
+  padding-bottom: 2vh;
 }
 
 #addMealImage {
@@ -133,6 +133,8 @@ img {
   display: flex;
   width: 60%;
   color: black;
+  margin-bottom:  5vh;
+  margin-top: 2vh;
 }
 
 .addMealData>.description{
@@ -215,11 +217,15 @@ img {
   z-index: 1000;
   width: 80%;
   font-size: small;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #addMealDialog {
   margin-top: 5px;
   color: black;
+  
 }
 
 #dialogUnit {

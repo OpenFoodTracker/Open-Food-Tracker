@@ -80,27 +80,33 @@ const getIngredient = async (req, res) => {
             return response.json(); 
         })
         .then(data => {
-            const product = data.product;
-            ingredientData.id = id;                                                       //gets relevant values from API and adds it to ingredientData
-            ingredientData.name = product.product_name;
-            ingredientData.kcal = product.nutriments['energy-kcal_100g'];
-            ingredientData.protein = product.nutriments.proteins_100g;
-            ingredientData.fat = product.nutriments.fat_100g;
-            ingredientData.carbs = product.nutriments.carbohydrates_100g;
-            ingredientData.imageUrl = product.image_front_url;
-            ingredientData.unit = product.product_quantity_unit;
-            ingredientData.amount = 100; 
+            try{
+                const product = data.product;
+                ingredientData.id = id;                                                       //gets relevant values from API and adds it to ingredientData
+                ingredientData.name = product.product_name;
+                ingredientData.kcal = product.nutriments['energy-kcal_100g'];
+                ingredientData.protein = product.nutriments.proteins_100g;
+                ingredientData.fat = product.nutriments.fat_100g;
+                ingredientData.carbs = product.nutriments.carbohydrates_100g;
+                ingredientData.imageUrl = product.image_front_url;
+                ingredientData.unit = product.product_quantity_unit;
+                ingredientData.amount = 100; 
+    
+                if(!ingredientData.unit || !recognizedUnits.includes(ingredientData.unit)){ //if there is no given product unit or the givn one is not recognized
+                    let tempUnit = product.quantity;                                        //try to recognize it 
+                    tempUnit = tempUnit.toLowerCase();
+                
+                    ingredientData.unit = getUnit(tempUnit);
+    
+                    if(!recognizedUnits.includes(ingredientData.unit)){                     //is the unit is still not recognized, set the ingredient unit to unknown
+                        ingredientData.unitUnknown = true;
+                    }
+                } 
+            } catch (error){
+                console.error('There was a problem with the fetch operation:', error);
+                return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
+            }
 
-            if(!ingredientData.unit || !recognizedUnits.includes(ingredientData.unit)){ //if there is no given product unit or the givn one is not recognized
-                let tempUnit = product.quantity;                                        //try to recognize it 
-                tempUnit = tempUnit.toLowerCase();
-            
-                ingredientData.unit = getUnit(tempUnit);
-
-                if(!recognizedUnits.includes(ingredientData.unit)){                     //is the unit is still not recognized, set the ingredient unit to unknown
-                    ingredientData.unitUnknown = true;
-                }
-            } 
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -118,7 +124,7 @@ const getIngredient = async (req, res) => {
 
 //Creates a Meal and sets it into the right Mealschema and UserMeal, 
 //Creates a MealSchema for the current user date, if it does not exist
-const createMeal = async (req, res) => {
+const addMeal = async (req, res) => {
     const { mealsFileId, mealData, mealOccasion, userDate} = req.body; 
 
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
@@ -162,6 +168,28 @@ const createMeal = async (req, res) => {
 
 };
 
+const createMeal = async (req, res) => {
+
+    const { mealsFileId, userId, meals } = req.body;
+
+    if (!mealsFileId) {
+      return res.status(400).json({ error: 'mealsFileId ist erforderlich' });
+    }
+  
+    if (!userId) {
+      return res.status(400).json({ error: 'userId ist erforderlich' });
+    }
+  
+    try {
+      const newUserMeals = new UserMeals({ mealsFileId, userId, meals });
+      await newUserMeals.save();
+      res.status(201).json(newUserMeals);
+    } catch (error) {
+      console.error('Fehler beim Erstellen von UserMeals:', error);
+      res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+  };
+
 // delete a meal
 const deleteMeal = async (req, res) => {
     const { id } = req.params;
@@ -204,4 +232,5 @@ module.exports = {
     deleteMeal,
     updateMeal,
     getIngredient,
+    addMeal,
 };
