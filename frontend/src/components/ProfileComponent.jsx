@@ -1,48 +1,88 @@
 import React from 'react';
-import { Card, CardContent, Typography, Avatar, List, ListItem, ListItemText } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { Container, Typography, Avatar, Box, CircularProgress, Grid, Paper } from '@mui/material';
 
-const ProfilComponent = ({ userData, token }) => {
-  const profileData = {
-    username: "sophie12m@web.de",
-    age: 17,
-    gender: "weiblich",
-    birthday: "2.6.2007",
-    height: "1,62m",
-    weight: "53kg"
-  };
+const ProfileComponent = ({ userData, token }) => {
+  if (!userData || !token) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  console.log("Profile Picture URL: ", token.picture);  // Debugging output
 
   return (
-    <Card sx={{ minWidth: 275, maxWidth: 300, margin: 'auto', mt: 4, textAlign: 'center' }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          HALLO SOPHIE
-          <SettingsIcon sx={{ float: 'right' }} />
+    <Container>
+      <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
+        <Typography variant="h4" gutterBottom>
+          Hallo, {token.given_name} {token.family_name}
         </Typography>
-        <Avatar sx={{ bgcolor: 'grey.300', width: 100, height: 100, margin: 'auto', mt: 2, mb: 2 }} />
-        <List>
-          <ListItem>
-            <ListItemText primary="Nutzername" secondary={profileData.username} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Alter" secondary={profileData.age} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Geschlecht" secondary={profileData.gender} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Geburtstag" secondary={profileData.birthday} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Größe" secondary={profileData.height} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Gewicht" secondary={profileData.weight} />
-          </ListItem>
-        </List>
-      </CardContent>
-    </Card>
+        {token.picture && (
+          <Avatar
+            alt="Profile"
+            src={token.picture}
+            sx={{ width: 120, height: 120, mt: 2, mb: 4 }}
+            onError={(e) => e.target.style.display = 'none'}  // Hide Avatar if image fails to load
+          />
+        )}
+        <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 600 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Email:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.email}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Geschlecht:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.gender}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Größe:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.height} cm</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Gewicht:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.weight} kg</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Zielgewicht:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.goal} kg}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Geburtstag:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">
+                {new Date(userData.birthday).toLocaleDateString()}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Dark Mode:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.darkMode ? 'Aktiviert' : 'Deaktiviert'}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1"><strong>Benachrichtigungen:</strong></Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1">{userData.notifications ? 'Aktiviert' : 'Deaktiviert'}</Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 
-export default ProfilComponent;
+export default ProfileComponent;

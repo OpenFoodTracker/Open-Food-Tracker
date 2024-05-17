@@ -17,7 +17,7 @@ const UserProfil = () => {
       }
 
       if (storedToken) {
-        setToken(storedToken);
+        setToken(JSON.parse(storedToken));
       }
 
       console.log("Profile - UserData: ", storedUserData);
