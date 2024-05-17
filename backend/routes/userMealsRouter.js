@@ -6,15 +6,19 @@ const {
     getMealById,
     createMeal,
     deleteMeal,
-    updateMeal
+    updateMeal,
+    getIngredient,
+    addMeal,
 } = require('../controllers/userMealsController'); // Pfad zu deinem UserMealsController
 const router = express.Router();
 
 router.get('/:userId', getUserMeals); // GET all meals for a user
 router.get('/meal/:id', getMeal); // GET a single meal by id
 router.post('/getMealById', getMealById);
+router.get('/ingredient/:id', getIngredient)
 router.post('/', createMeal); // POST a new meal
 router.delete('/:id', deleteMeal); // DELETE a meal by id
+router.patch('/', addMeal); //  add a meal
 router.patch('/:id', updateMeal); // UPDATE a meal by id
 router.patch('/addMealDay/:userId', async (req, res) => {
     const { userId } = req.params;

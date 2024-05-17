@@ -38,16 +38,18 @@ function Scanner() {
   };
   //Eingescannter Barcode Handeln
   const handleScanResult = async (barcode) => {
+    localStorage.setItem('currentIngredientId', barcode)
     const response = await fetch(
-      "https://world.openfoodfacts.org/api/v2/product/" + barcode
+      "https://world.openfoodfacts.org/api/v2/product/" + barcode //+ "?product_name,nutriments"
     );
     const json = await response.json();
     //hier kann man funktion mit portionierung aufrufen und dann eine POST in die Datenbank z.b GetAmount() =>{} dann berechnen und einspeichern
-    console.log("Produkt:" + json.product.product_name);
-    console.log("Kcal:" + json.product.nutriments["energy-kcal"]);
-    console.log("Kohlenhydrate:" + json.product.nutriments.carbohydrates);
-    console.log("Fett:" + json.product.nutriments.fat);
-    console.log("Protein:" + json.product.nutriments.proteins);
+    console.log(json)
+    //console.log("Produkt:" + json.product.product_name);
+    //console.log("Kcal:" + json.product.nutriments["energy-kcal"]);
+    //console.log("Kohlenhydrate:" + json.product.nutriments.carbohydrates);
+    //console.log("Fett:" + json.product.nutriments.fat);
+    //console.log("Protein:" + json.product.nutriments.proteins);
     //return json;
   };
 
