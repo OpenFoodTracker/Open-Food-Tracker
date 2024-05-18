@@ -37,7 +37,7 @@ const MealSize = () => {
                     setOrigProtein(json["protein"]);
                     setFormData((prevData) => ({
                         ...prevData,
-                        Kalorien: json["kcal"],
+                        Kalorien: json["kcal"],     //initialised, don't change later. So it's a problem with showing them in the frontend
                         Kohlenhydrate: json["carbs"],
                         Proteine: json["protein"],
                         Fett: json["fat"],
@@ -61,11 +61,11 @@ const MealSize = () => {
             [name]: value,
         }));
         var faktor = value / origAmount;
-        formData.Kohlenhydrate = origCarbs * faktor; 
-        formData.Kalorien = origCalories * faktor; 
-        formData.Proteine = origProtein * faktor; 
-        formData.Fett = origFat * faktor; 
-        formData.Menge = value;    
+        formData.carbs = origCarbs * faktor; 
+        formData.kcal = origCalories * faktor; 
+        formData.protein = origProtein * faktor; 
+        formData.fat = origFat * faktor; 
+        formData.amount = value;    
         
         
 
@@ -117,7 +117,7 @@ const MealSize = () => {
                     <input
                         type="text"
                         name="Menge"
-                        value={formData.Menge}
+                        value={formData.Menge}  //don't change. But ig you show fromData.amount instead hey start with undefined value until they are actually changed
                         onChange={handleInputChange}
                         autoComplete="new-password"
                     />
