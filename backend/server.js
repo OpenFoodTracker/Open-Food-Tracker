@@ -9,6 +9,9 @@ const userRoutes = require('./routes/userRouter'); // Der Pfad zu deinem User Ro
 const userRecipesRoutes = require('./routes/userRecipesRouter'); // Der Pfad zu deinem User Recipes Router
 const userMealsRoutes = require('./routes/userMealsRouter'); // Der Pfad zu deinem User Meals Router
 
+
+mongoose.set('useFindAndModify', false);        //already in beginning
+
 // express app
 const app = express();
 

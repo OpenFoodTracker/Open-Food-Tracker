@@ -82,24 +82,34 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id } = req.params;
+    console.log("id: " + id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'Ungültige ID' });
     }
 
-    const user = await User.findOneAndUpdate(
-        { _id: id },
-        { $set: {...req.body} },
-        { new: true, runValidators: true }
-    );
+    try {
+        const user = await User.findOneAndUpdate(
 
-    if (!user) {
-        return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+            console.log("findOneAndUpdate"),
+            
+            { _id: id },
+            console.log("findOne id: " + id),
+            { $set: { ...req.body } },
+            { new: true, runValidators: true },
+            { new: true, runValidators: true, useFindAndModify: false } //useFindAndModify set to false
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Fehler beim Aktualisieren des Benutzers', details: error });
     }
-
-    res.status(200).json(user);
 };
-
 
 module.exports = {
     getUsersAll,

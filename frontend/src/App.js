@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Journey from "./pages/Journey";
 import Statistics from "./pages/Statistics";
 import Profile from "./pages/Profile";
+import EditProfile from './pages/EditProfile';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </Router>
   )

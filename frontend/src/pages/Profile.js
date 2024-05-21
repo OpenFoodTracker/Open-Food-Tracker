@@ -14,7 +14,7 @@ const UserProfil = () => {
 
       if (storedUserData) {
         setUserData(JSON.parse(storedUserData));
-      }
+      } 
 
       if (storedToken) {
         setToken(JSON.parse(storedToken));

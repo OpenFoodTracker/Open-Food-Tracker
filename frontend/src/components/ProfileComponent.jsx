@@ -1,7 +1,10 @@
 import React from 'react';
-import { Container, Typography, Avatar, Box, CircularProgress, Grid, Paper } from '@mui/material';
+import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileComponent = ({ userData, token }) => {
+  const navigate = useNavigate();
+
   if (!userData || !token) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -11,6 +14,10 @@ const ProfileComponent = ({ userData, token }) => {
   }
 
   console.log("Profile Picture URL: ", token.picture);  // Debugging output
+
+  const handleEditClick = () => {
+    navigate('/edit-profile');  //go to editing page 
+  };
 
   return (
     <Container>
@@ -56,7 +63,7 @@ const ProfileComponent = ({ userData, token }) => {
               <Typography variant="body1"><strong>Zielgewicht:</strong></Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body1">{userData.goal} kg}</Typography>
+              <Typography variant="body1">{userData.goal} kg</Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="body1"><strong>Geburtstag:</strong></Typography>
@@ -79,9 +86,16 @@ const ProfileComponent = ({ userData, token }) => {
               <Typography variant="body1">{userData.notifications ? 'Aktiviert' : 'Deaktiviert'}</Typography>
             </Grid>
           </Grid>
+          <Box display="flex" justifyContent="center" mt={4}>
+            <Button variant="contained" color="primary" onClick={handleEditClick}>
+              Profil bearbeiten
+            </Button>
+          </Box> 
         </Paper>
       </Box>
+      
     </Container>
+    
   );
 };
 
