@@ -19,6 +19,12 @@ const ProfileComponent = ({ userData, token }) => {
     navigate('/edit-profile');  //go to editing page 
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userData');  //remove user data from local Storage and go to login page
+    navigate('/');
+  };
+
+
   return (
     <Container>
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
@@ -91,7 +97,18 @@ const ProfileComponent = ({ userData, token }) => {
               Profil bearbeiten
             </Button>
           </Box> 
+          
+          
         </Paper>
+      </Box>
+
+      <Box display="flex" justifyContent="center" mt={4}>
+        <Button variant="outlined" color="secondary" onClick={handleLogout}>
+          Logout
+        </Button>
+      </Box>
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>{"\n\n"}</p>
       </Box>
       
     </Container>

@@ -53,11 +53,12 @@ const EditProfile = () => {
 
     try {
       const userId = userData._id;
-      await axios.post(`/api/user/updateUser/${userId}`, userData);
+      await axios.patch(`/api/user/${userId}`, userData);  //!!!! patch instead of post?
+      //await axios.post('/api/user/getUserByEmail', { email: email });
       localStorage.setItem('userData', JSON.stringify(userData));
       navigate('/profile');
     } catch (error) {
-      console.error("Error updating profile", error);
+      console.error("Error updating profile  HERE TEST", error);
     }
   };
 
@@ -160,6 +161,9 @@ const EditProfile = () => {
               Speichern
             </Button>
           </form>
+        </Box>
+        <Box display="flex" justifyContent="center" mt={4}> {/*empty space*/}
+          <p>{"\n\n"}</p>
         </Box>
       </Container>
     </div>

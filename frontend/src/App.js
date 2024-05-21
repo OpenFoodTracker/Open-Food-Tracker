@@ -9,6 +9,9 @@ import Profile from "./pages/Profile";
 import EditProfile from './pages/EditProfile';
 
 const App = () => {
+
+  //const isAuthenticated = localStorage.getItem('userData');
+
   return (
     <Router>
       <Routes>

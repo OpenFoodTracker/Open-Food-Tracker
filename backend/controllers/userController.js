@@ -90,13 +90,8 @@ const updateUser = async (req, res) => {
 
     try {
         const user = await User.findOneAndUpdate(
-
-            console.log("findOneAndUpdate"),
-            
             { _id: id },
-            console.log("findOne id: " + id),
             { $set: { ...req.body } },
-            { new: true, runValidators: true },
             { new: true, runValidators: true, useFindAndModify: false } //useFindAndModify set to false
         );
 
