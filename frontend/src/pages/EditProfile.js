@@ -39,6 +39,7 @@ const EditProfile = () => {
     console.log("handleChange userData.email: " + userData.email);
   };
 
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,21 +57,26 @@ const EditProfile = () => {
       await axios.patch(`/api/user/${userId}`, userData);  //!!!! patch instead of post?
       //await axios.post('/api/user/getUserByEmail', { email: email });
       localStorage.setItem('userData', JSON.stringify(userData));
-      navigate('/profile');
+
+      
+
+
+      navigate('/profile'); //go back to profile after new data is saved
     } catch (error) {
-      console.error("Error updating profile  HERE TEST", error);
+      console.error("Error updating profile", error);
     }
   };
 
   return (
     <div>
       <Navbar />
-      <Container>
+      <Container className="container" sx={{ pb: 10 }}>
         <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
           <Typography variant="h4" gutterBottom>
             Profil bearbeiten
           </Typography>
           <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 600 }}>
+          
             <TextField  //Email
               fullWidth
               label="Email"

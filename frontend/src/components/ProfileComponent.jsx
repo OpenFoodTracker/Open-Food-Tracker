@@ -24,11 +24,10 @@ const ProfileComponent = ({ userData, token }) => {
     navigate('/');
   };
 
-
   return (
-    <Container>
+    <Container className="profile-container">
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom className="profile-title">
           Hallo, {token.given_name} {token.family_name}
         </Typography>
         {token.picture && (
@@ -96,9 +95,7 @@ const ProfileComponent = ({ userData, token }) => {
             <Button variant="contained" color="primary" onClick={handleEditClick}>
               Profil bearbeiten
             </Button>
-          </Box> 
-          
-          
+          </Box>
         </Paper>
       </Box>
 
@@ -110,9 +107,7 @@ const ProfileComponent = ({ userData, token }) => {
       <Box display="flex" justifyContent="center" mt={4}>
         <p>{"\n\n"}</p>
       </Box>
-      
     </Container>
-    
   );
 };
 

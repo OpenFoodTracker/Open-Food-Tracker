@@ -9,26 +9,26 @@ import Paper from '@mui/material/Paper';
 
 const Navbar = () => {
   const location = useLocation();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(location.pathname);
 
   useEffect(() => {
     switch (location.pathname) {
       case '/home':
-        setValue(0);
+        setValue('/home');
         break;
       case '/statistics':
-        setValue(1);
+        setValue('/statistics');
         break;
       case '/profile':
-        setValue(2);
+        setValue('/profile');
         break;
       default:
-        setValue(0);
+        setValue('/home');
     }
   }, [location.pathname]);
 
   return (
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
       <BottomNavigation
         showLabels
         value={value}
@@ -38,18 +38,21 @@ const Navbar = () => {
       >
         <BottomNavigationAction
           label="Home"
+          value="/home"
           icon={<HomeIcon />}
           component={Link}
           to="/home"
         />
         <BottomNavigationAction
           label="Statistik"
+          value="/statistics"
           icon={<BarChartIcon />}
           component={Link}
           to="/statistics"
         />
         <BottomNavigationAction
           label="Profil"
+          value="/profile"
           icon={<AccountCircleIcon />}
           component={Link}
           to="/profile"

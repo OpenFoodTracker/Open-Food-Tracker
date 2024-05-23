@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProfileComponent from "../components/ProfileComponent";
 import Navbar from "../components/Navbar";
 import Head from "../components/Head";
+import './Profile.css';
 
 const UserProfil = () => {
   const [userData, setUserData] = useState(null);
@@ -9,19 +10,29 @@ const UserProfil = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      const storedUserData = localStorage.getItem('userData');
-      const storedToken = localStorage.getItem('token');
 
-      if (storedUserData) {
-        setUserData(JSON.parse(storedUserData));
-      } 
+      try {
+        if (!localStorage) {
+          throw new Error('Local Storage ist nicht verfügbar');
+        }
+        const storedUserData = localStorage.getItem('userData');
+        const storedToken = localStorage.getItem('token');
 
-      if (storedToken) {
-        setToken(JSON.parse(storedToken));
-      }
+        if (storedUserData) {
+          setUserData(JSON.parse(storedUserData));
+        } 
 
-      console.log("Profile - UserData: ", storedUserData);
-      console.log("Profile - Token: ", storedToken);
+        if (storedToken) {
+          setToken(JSON.parse(storedToken));
+        }
+
+        console.log("Profile - UserData: ", storedUserData);
+        console.log("Profile - Token: ", storedToken);
+    } catch (error) {
+        console.error('Fehler beim Laden der Benutzerdaten:', error.message);
+    }
+
+
     };
 
     fetchData();

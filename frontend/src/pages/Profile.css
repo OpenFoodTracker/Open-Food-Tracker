@@ -1,0 +1,24 @@
+
+@media only screen and (max-width: 400px) {
+  * {
+    font-size: 14px; 
+    color:red;
+  }
+
+
+  .MuiTypography-root, .MuiButton-root {
+    font-size: 14px; 
+    color:blue;
+  }
+
+}
+
+.profile-container {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: 60px;
+  background-color: aliceblue;
+}
+
+
