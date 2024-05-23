@@ -36,6 +36,69 @@ const getMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
+//Gets all Meals from the given UserMeals File, with the given occasion and userDate
+const getOccasionMeals = async (req, res) => {
+    const { mealsFileId, occasion, userDate } = req.body;
+
+    const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const date = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
+
+    try {
+        const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
+
+        const meals = await UserMeals.findOne(                      //finds all meals in the UserMeals with the given date
+            { mealsFileId: mealsFileObject, "meals.date": date}, 
+            { "meals.$": 1 }
+        );
+
+        if(meals){
+            return res.status(200).json(meals.meals[0][occasion]);                              //returns the meals filtered by occasion
+        } else {
+            return res.status(200).json({empty: true});
+        }
+
+    } catch (error) {
+      console.error('Fehler beim Holen von Mahlzeiten zu einer Gelegenheit:', error);
+      res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+};
+
+//Deletes Meal from UserMeals and as Object, specified by the id, the UserMeals File id, occasion and date
+const deleteOccasionMeal = async (req, res) => {
+    const { id } = req.params;
+    const { mealsFileId, occasion, userDate } = req.body;
+
+    const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const date = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
+
+    try {
+        const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);       
+
+        const updatedMeals = await UserMeals.findOneAndUpdate(                      //deletes meal from the UserMeals File
+            { mealsFileId: mealsFileObject, "meals.date": date }, 
+            { $pull: { [`meals.$.${occasion}`]: {_id: id}} }, 
+
+        );
+
+        let meal;
+        if(updatedMeals){
+            meal = await Meal.findOneAndDelete({ _id: id });                        //if successfull, delete the meal object
+        } else {
+            res.status(400).json({error: "No UserMeal Object with given ID"});
+        }
+        
+        if(meal){
+            res.status(200).json(meal);
+        } else {
+            res.status(400).json({error: "No Meal Object with given ID"});
+        }
+        
+    } catch (error) {
+      console.error('Fehler beim löschen einer Mahlzeit einer Gelegenheit:', error);
+      res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+};
+
 const getMealById = async (req, res) => {
     const { mealsFileId } = req.body;
 
@@ -63,7 +126,6 @@ function getUnit(unitString){
     return unitString;
 }
 
-
 //Gets ingredient from OpenFoodFacts specified by id
 const getIngredient = async (req, res) => {
     const { id } = req.params;
@@ -71,10 +133,10 @@ const getIngredient = async (req, res) => {
     let ingredientData = {};
     ingredientData.unitUnknown = false;
 
-    await fetch(`https://world.openfoodfacts.net/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
+    const error = await fetch(`https://world.openfoodfacts.net/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                return null;
             }
             
             return response.json(); 
@@ -104,16 +166,20 @@ const getIngredient = async (req, res) => {
                 } 
             } catch (error){
                 console.error('There was a problem with the fetch operation:', error);
-                return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
+                return error;
             }
 
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
-            return res.status(400).json({ error: 'Ein Fehler ist beim Zugriff auf OpenFoodFacts aufgetreten'});
+            return error;
     });
 
+
     try {
+        if(error){
+            throw error;
+        }
         return res.status(200).json(ingredientData);
     } catch (error) {
         console.log(error);
@@ -233,4 +299,6 @@ module.exports = {
     updateMeal,
     getIngredient,
     addMeal,
+    getOccasionMeals,
+    deleteOccasionMeal,
 };

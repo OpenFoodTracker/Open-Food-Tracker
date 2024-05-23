@@ -14,9 +14,10 @@ const SearchBar = () => {
   };
 
   return (
-    <TextField
-      label="Search"
-      variant="outlined"
+    <TextField className="searchbar"
+      label="Suche"
+      variant="standard"
+      size="small"
       value={searchTerm}
       onChange={(event) => setSearchTerm(event.target.value)}
       onKeyPress={handleKeyPress}
