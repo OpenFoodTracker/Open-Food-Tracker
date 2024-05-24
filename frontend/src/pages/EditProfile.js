@@ -35,13 +35,13 @@ const EditProfile = () => {
       [name]: type === 'checkbox' ? checked : value,
     });
     console.log("handleChange userData: " + userData);
-    console.log("handleChange userData.id: " + userData._id);
-    console.log("handleChange userData.email: " + userData.email);
+ 
   };
 
  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(userData);
 
     const currentDate = new Date();   //birthday should be valid date
         const enteredDate = new Date(userData.birthday);
@@ -79,9 +79,9 @@ const EditProfile = () => {
           
             <TextField  //Email
               fullWidth
-              label="Email"
-              name="email"
-              value={userData.email}
+              label="Name"
+              name="name"
+              value={userData.name}
               onChange={handleChange}
               margin="normal"
               variant="outlined"
@@ -168,9 +168,7 @@ const EditProfile = () => {
             </Button>
           </form>
         </Box>
-        <Box display="flex" justifyContent="center" mt={4}> {/*empty space*/}
-          <p>{"\n\n"}</p>
-        </Box>
+        
       </Container>
     </div>
   );

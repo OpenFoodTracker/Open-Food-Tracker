@@ -28,7 +28,8 @@ const ProfileComponent = ({ userData, token }) => {
     <Container className="profile-container">
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
         <Typography variant="h4" gutterBottom className="profile-title">
-          Hallo, {token.given_name} {token.family_name}
+          {/* Hallo, {token.given_name} {token.family_name} */}
+          Hallo, {userData.name}
         </Typography>
         {token.picture && (
           <Avatar
@@ -78,7 +79,9 @@ const ProfileComponent = ({ userData, token }) => {
                 {new Date(userData.birthday).toLocaleDateString()}
               </Typography>
             </Grid>
+             {/*
             <Grid item xs={6}>
+           
               <Typography variant="body1"><strong>Dark Mode:</strong></Typography>
             </Grid>
             <Grid item xs={6}>
@@ -89,7 +92,7 @@ const ProfileComponent = ({ userData, token }) => {
             </Grid>
             <Grid item xs={6}>
               <Typography variant="body1">{userData.notifications ? 'Aktiviert' : 'Deaktiviert'}</Typography>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box display="flex" justifyContent="center" mt={4}>
             <Button variant="contained" color="primary" onClick={handleEditClick}>
