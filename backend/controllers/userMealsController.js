@@ -224,6 +224,44 @@ const updateMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
+const getMealsByDate = async (req, res) => {
+    const { userId, date } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(404).send('Ungültige Benutzer-ID');
+    }
+
+    try {
+        const userMeals = await UserMeals.findOne({ userId });
+
+        if (!userMeals) {
+            return res.status(404).send('Benutzer nicht gefunden');
+        }
+
+        // Konvertiere das übergebene Datum in das ISO-Format
+        const requestedDate = new Date(date).toISOString().split('T')[0];
+
+        // Finde die Mahlzeiten für das angegebene Datum
+        const mealsForDate = userMeals.meals.find(meal => {
+            const mealDate = new Date(meal.date).toISOString().split('T')[0];
+            return mealDate === requestedDate;
+        });
+
+        if (!mealsForDate) {
+            return res.status(404).send('Keine Mahlzeiten für dieses Datum gefunden');
+        }
+
+        res.status(200).json({
+            breakfast: mealsForDate.breakfast,
+            lunch: mealsForDate.lunch,
+            dinner: mealsForDate.dinner,
+            snack: mealsForDate.snack
+        });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
 module.exports = {
     getUserMeals,
     getMeal,
@@ -233,4 +271,5 @@ module.exports = {
     updateMeal,
     getIngredient,
     addMeal,
+    getMealsByDate, 
 };
