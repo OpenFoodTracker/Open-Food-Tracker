@@ -21,16 +21,15 @@ jobs:
       run: docker network create app-network
 
     - name: Build Backend
-      run: docker build ./backend -t backend:latest
+      run: docker build -t backend:latest ./backend
 
     - name: Build Frontend
-      run: docker build ./frontend -t frontend:latest
+      run: docker build -t frontend:latest ./frontend
 
     - name: Run Backend Tests
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
-      run: |
-        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
+      run: docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
 
     - name: Run Frontend Tests
       run: docker run --rm --network app-network frontend:latest sh -c "npm test"
