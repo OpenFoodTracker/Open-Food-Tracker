@@ -34,6 +34,7 @@ jobs:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
         echo "Running Backend Tests"
+        docker images # Additional logging to ensure the image is listed
         docker run --name backend-test --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
       continue-on-error: true
 
