@@ -4,5 +4,8 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/x-date-pickers": "^7.4.0",
     "date-fns": "^2.22.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
