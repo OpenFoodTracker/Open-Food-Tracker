@@ -10,6 +10,9 @@ const userRecipesRoutes = require('./routes/userRecipesRouter'); // Der Pfad zu 
 const userMealsRoutes = require('./routes/userMealsRouter'); // Der Pfad zu deinem User Meals Router
 const tempRouter = require('./routes/tempRouter');
 
+
+mongoose.set('useFindAndModify', false);        //already in beginning
+
 // express app
 const app = express();
 
