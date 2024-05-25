@@ -237,15 +237,6 @@ img {
 
 
 /* CSS for OcassionMeals */
-/*.occasionContent {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}*/
-
 .occasionHead{
   display: flex;
   flex-direction: column;

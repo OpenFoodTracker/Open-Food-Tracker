@@ -4,12 +4,27 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MealsContextProvider } from './context/MealContext'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1aac83',
+    },
+    secondary: {
+      main: '#e8ece4',
+    }
+  }
+});
+
 root.render(
   // <React.StrictMode>
     <MealsContextProvider>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </MealsContextProvider>
   //</React.StrictMode>
 );

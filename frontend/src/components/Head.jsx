@@ -9,7 +9,7 @@ const Head = () => {
       <Toolbar>
         <IconButton
           edge="start"
-          color="inherit"
+          color="primary"
           aria-label="menu"
           component={Link}
           to="/"
