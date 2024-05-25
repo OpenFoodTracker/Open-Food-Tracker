@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import StatisticComponent from "../components/StatisticComponent";
-import Navbar from "../components/Navbar";
-import Head from "../components/Head";
+import StatisticComponent from "../components/Statistic/StatisticComponent";
+import Navbar from "../components/Navbar/Navbar";
+import Head from "../components/Head/Head";
 
 const UserStatistic = () => {
   const [userData, setUserData] = useState(null);

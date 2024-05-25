@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import logo from '../images/logo.jpg'; // Stelle sicher, dass dieser Pfad korrekt ist
+import logo from '../../images/logo.jpg'; // Stelle sicher, dass dieser Pfad korrekt ist
 
 const Head = () => {
   return (

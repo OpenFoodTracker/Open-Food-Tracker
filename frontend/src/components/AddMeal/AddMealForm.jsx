@@ -29,7 +29,7 @@ const AddMealForm = () => {
         const ingredientId = localStorage.getItem('currentIngredientId');
         const fetchData = async () => {
             console.log(ingredientId)
-            const response = await fetch(`/api/meals/ingredient/${ingredientId}`);  //gets value of meal from backend
+            const response = await fetch(`/api/offApi/ingredient/${ingredientId}`);  //gets value of meal from backend
             const json = await response.json()
             if(!response.ok) {
                 setError(json.error)

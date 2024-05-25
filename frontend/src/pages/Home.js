@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Head from "../components/Head";
-import Navbar from "../components/Navbar";
-import HomeComponent from "../components/HomeComponent";
+import Head from "../components/Head/Head";
+import Navbar from "../components/Navbar/Navbar";
+import HomeComponent from "../components/Home/HomeComponent";
 
 const Home = () => {
   const [userData, setUserData] = useState(null);

@@ -1,33 +1,6 @@
 const User  = require('../models/userModel'); // Import des UserModel
 const mongoose = require('mongoose');
 
-// get all users
-const getUsersAll = async (req, res) => {
-    try {
-        const users = await User.find().sort({ createdAt: -1 });
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-// get a single user with id
-const getUser = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'Ungültige ID'})
-    }
-
-    const user = await User.findById(id);
-
-    if(!user){
-        return res.status(404).json({error: 'Benutzer nicht gefunden'})
-    }
-
-    res.status(200).json(user);
-};
-
 // get a single user with email
 const getUserByEmail = async (req, res) => {
     const { email } = req.body;
@@ -107,8 +80,6 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = {
-    getUsersAll,
-    getUser,
     getUserByEmail,
     createUser,
     deleteUser,

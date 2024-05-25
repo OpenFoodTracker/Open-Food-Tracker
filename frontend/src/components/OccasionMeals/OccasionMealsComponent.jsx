@@ -2,9 +2,9 @@ import {useState, useEffect} from "react"
 import { Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../Searchbar/SearchBar';
 import { useNavigate } from 'react-router-dom';
-import CustomModal from "./Scanner/CustomModal";
+import CustomModal from "../Scanner/CustomModal";
 
 
 const OccasionMealsComponent = () => {

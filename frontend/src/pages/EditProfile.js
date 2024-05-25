@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Box, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 
 const EditProfile = () => {
   const navigate = useNavigate();

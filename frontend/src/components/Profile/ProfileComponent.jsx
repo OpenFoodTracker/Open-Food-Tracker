@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Paper, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
-import '../pages/Profile.css';
 
 //Jetzt versuche ich es
 

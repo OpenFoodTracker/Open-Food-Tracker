@@ -1,16 +1,6 @@
 const Meal = require('../models/mealModel'); // Import des MealModel
 const mongoose = require('mongoose');
 
-// Alle Mahlzeiten abrufen
-const getAllMeals = async (req, res) => {
-    try {
-        const meals = await Meal.find().sort({ createdAt: -1 });
-        res.status(200).json(meals);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
 // Eine einzelne Mahlzeit abrufen
 const getMeal = async (req, res) => {
     const { id } = req.params;
@@ -79,7 +69,6 @@ const updateMeal = async (req, res) => {
 };
 
 module.exports = {
-    getAllMeals,
     getMeal,
     createMeal,
     deleteMeal,

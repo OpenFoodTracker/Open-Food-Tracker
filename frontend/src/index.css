@@ -16,6 +16,14 @@
   --error: #e7195a;
 }
 
+#root {
+  height: 100% !important;
+}
+
+#root>.App {
+  height: 100% !important;
+}
+
 header {
   background: #fff;
 }
@@ -318,7 +326,101 @@ img {
   margin: auto; 
 }
 
+
+/* QR Code Modal*/
 .modal {
   color: grey !important;
+}
+
+/* Login */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.signInContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#signInLabel, #signInLabelSub {
+  text-align: center;
+}
+
+#signInLabel {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#signInLabelSub {
+  font-size: 16px;
+  color: #666;
+}
+
+#logo {
+  width: 100px;
+  height: 100px;
+  background: url('./images/logo.jpg') no-repeat center center;
+  background-size: contain;
+  margin-bottom: 20px;
+}
+
+#signInDiv {
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+
+/* Profile */
+@media only screen and (max-width: 400px) {
+  * {
+    font-size: 14px; 
+  }
+
+
+  .MuiTypography-root, .MuiButton-root {
+    font-size: 14px; 
+  }
+
+}
+
+.profileContainer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: 60px;
+  
+}
+
+.profilePaper  {
+  background-color: aliceblue;
+}
+
+.settingsContainer {
+  position:relative;
+
+}
+
+
+.settingsButton {
+  position: absolute;
+  top: -505x;
+  right: -150px;
 }
 

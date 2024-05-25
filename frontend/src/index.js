@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { MealsContextProvider } from './context/MealContext'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,13 +19,9 @@ const theme = createTheme({
 });
 
 root.render(
-  // <React.StrictMode>
-    <MealsContextProvider>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </MealsContextProvider>
-  //</React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

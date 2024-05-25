@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ProfileComponent from "../components/ProfileComponent";
-import Navbar from "../components/Navbar";
-import Head from "../components/Head";
-import './Profile.css';
+import ProfileComponent from "../components/Profile/ProfileComponent";
+import Navbar from "../components/Navbar/Navbar";
+import Head from "../components/Head/Head";
 
 const UserProfil = () => {
   const [userData, setUserData] = useState(null);
