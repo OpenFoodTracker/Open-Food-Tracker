@@ -23,8 +23,10 @@ jobs:
     - name: Build Backend
       run: |
         docker build -t backend:latest ./backend
+
+    - name: Build Frontend
+      run: |
         docker build -t frontend:latest ./frontend
-        docker images
 
     - name: List Docker Images
       run: docker images
@@ -33,13 +35,11 @@ jobs:
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
-        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
-        docker ps -a
+        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test" || docker logs $(docker ps -alq) && exit 1
 
     - name: Run Frontend Tests
       run: |
-        docker run --rm --network app-network frontend:latest sh -c "npm test"
-        docker ps -a
+        docker run --rm --network app-network frontend:latest sh -c "npm test" || docker logs $(docker ps -alq) && exit 1
 
     - name: Cleanup
       if: always()
