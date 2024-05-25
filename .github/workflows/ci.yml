@@ -17,46 +17,39 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Docker Network
-      run: docker network create app-network
+    - name: Set up Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
 
-    - name: Build Backend
-      run: docker build -t backend:latest ./backend
-
-    - name: Build Frontend
-      run: docker build -t frontend:latest ./frontend
-
-    - name: List Docker Images
-      run: docker images
+    - name: Build and run services with Docker Compose
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+      run: |
+        docker-compose up -d --build
 
     - name: Run Backend Tests
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
         echo "Running Backend Tests"
-        docker images # Additional logging to ensure the image is listed
-        docker run --name backend-test --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
+        docker-compose exec backend sh -c "npm test"
       continue-on-error: true
 
     - name: Run Frontend Tests
       run: |
         echo "Running Frontend Tests"
-        docker run --name frontend-test --network app-network frontend:latest sh -c "npm test"
+        docker-compose exec frontend sh -c "npm test"
       continue-on-error: true
 
     - name: Show Docker Logs for Backend Test
       if: failure()
-      run: docker logs backend-test
+      run: docker-compose logs backend
 
     - name: Show Docker Logs for Frontend Test
       if: failure()
-      run: docker logs frontend-test
+      run: docker-compose logs frontend
 
     - name: Cleanup
       if: always()
-      run: |
-        docker stop backend-test || true
-        docker rm backend-test || true
-        docker stop frontend-test || true
-        docker rm frontend-test || true
-        docker network rm app-network
+      run: docker-compose down
