@@ -19,6 +19,23 @@
   
 }
 
+.profile-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.settingsContainer {
+  position:relative;
+}
+
+
+.settingsButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+
 
 
 

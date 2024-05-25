@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Box, FormControlLabel, Switch, Typography } from '@mui/material';
+import { Container, TextField, Button, Box, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
@@ -29,6 +29,7 @@ const EditProfile = () => {
   }, []);
 
   const handleChange = (e) => {
+
     const { name, value, type, checked } = e.target;
     setUserData({ //called with savedUserDate from useEffect
       ...userData,
@@ -77,24 +78,26 @@ const EditProfile = () => {
           </Typography>
           <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 600 }}>
           
-            <TextField  //Email
+            {/* <TextField  
               fullWidth
               label="Name"
               name="name"
               value={userData.name}
               onChange={handleChange}
               margin="normal"
-              variant="outlined"
-            />
-            <TextField    //Geschlecht
-              fullWidth
-              label="Geschlecht"
-              name="gender"
-              value={userData.gender}
-              onChange={handleChange}
-              margin="normal"
-              variant="outlined"
-            />
+              variant="outlined" 
+            />*/}
+            <FormControl fullWidth margin="normal">
+          <InputLabel>Geschlecht</InputLabel>
+          <Select
+            name="gender"
+            value={userData.gender}
+            onChange={handleChange}
+          >
+            <MenuItem value="weiblich">Weiblich</MenuItem>
+            <MenuItem value="männlich">Männlich</MenuItem>
+          </Select>
+        </FormControl>
             <TextField    //Größe
               fullWidth
               label="Größe (cm)"
@@ -137,7 +140,7 @@ const EditProfile = () => {
                shrink: true,
              }}
             />
-            <FormControlLabel   //Dark Mode
+            {/* <FormControlLabel   //Dark Mode
               control={
                 <Switch
                   checked={userData.darkMode}
@@ -156,7 +159,7 @@ const EditProfile = () => {
                 />
               }
               label="Benachrichtigungen"
-            />
+            /> */}
             <Button   
               type="submit"
               variant="contained"

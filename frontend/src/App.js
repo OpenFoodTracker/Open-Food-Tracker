@@ -7,6 +7,7 @@ import Journey from "./pages/Journey";
 import Statistics from "./pages/Statistics";
 import Profile from "./pages/Profile";
 import EditProfile from './pages/EditProfile';
+import SettingsComponent from './components/SettingsComponent';
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/settings" element={<SettingsComponent />} />
       </Routes>
     </Router>
   )

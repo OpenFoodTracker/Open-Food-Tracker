@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Paper } from '@mui/material';
+import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Paper, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const ProfileComponent = ({ userData, token }) => {
   const navigate = useNavigate();
@@ -24,13 +25,23 @@ const ProfileComponent = ({ userData, token }) => {
     navigate('/');
   };
 
+  const handleSettingsClick = () => {
+    navigate('/settings'); 
+  };
+
   return (
     <Container className="profile-container">
+    <div className="settingsContainer">
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
         <Typography variant="h4" gutterBottom className="profile-title">
-          {/* Hallo, {token.given_name} {token.family_name} */}
-          Hallo, {userData.name}
+          Hallo, {token.given_name} {token.family_name} 
+          {/* Hallo, {userData.name} */}
         </Typography>
+        
+        <IconButton className="settingsButton" onClick={handleSettingsClick}>
+          <SettingsIcon />
+        </IconButton>
+       
         {token.picture && (
           <Avatar
             alt="Profile"
@@ -99,6 +110,7 @@ const ProfileComponent = ({ userData, token }) => {
               Profil bearbeiten
             </Button>
           </Box>
+          
         </Paper>
       </Box>
 
@@ -110,6 +122,7 @@ const ProfileComponent = ({ userData, token }) => {
       <Box display="flex" justifyContent="center" mt={4}>
         <p>{"\n\n"}</p>
       </Box>
+      </div>
     </Container>
   );
 };
