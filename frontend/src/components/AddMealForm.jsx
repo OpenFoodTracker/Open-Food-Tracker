@@ -54,7 +54,6 @@ const AddMealForm = () => {
     function setValues(isSetup){                                                     
         if(isSetup){
             document.getElementById('occasionTitle').textContent = occasion;         //sets values
-            document.getElementById('amountInput').value = ingredientJson.amount;
             document.getElementsByClassName('ingredientName')[0].textContent = ingredientJson.name;
             try{
                 document.getElementById('addMealImage').src = ingredientJson.imageUrl;
@@ -74,6 +73,7 @@ const AddMealForm = () => {
         }
 
         //sets correct nutriment values in the fields
+        document.getElementById('amountInput').value = ingredientJson.amount;
         document.getElementsByClassName('kcalData')[0].textContent = parseFloat(ingredientJson.kcal).toFixed(0) + " kcal";
         document.getElementsByClassName('fatData')[0].textContent = parseFloat(ingredientJson.fat).toFixed(1) + " g";
         document.getElementsByClassName('proteinData')[0].textContent = parseFloat(ingredientJson.protein).toFixed(1) + " g";
@@ -82,8 +82,18 @@ const AddMealForm = () => {
 
     //recalculates all values, depending on input amount and unit from user
     function updateValues(){
-        const currentAmount = document.getElementById('amountInput').value;         //gets input values
+        let currentAmount = document.getElementById('amountInput').value;         //gets input values
         const currentUnit = document.getElementById('dropdown').value;
+
+        if(currentAmount == ingredientJson.amount){
+            if(currentUnit == "ml" && ingredientJson.unit == "l" || currentUnit == "ml" && ingredientJson.unit == "kg" ||
+                currentUnit == "g" && ingredientJson.unit == "kg" || currentUnit == "g" && ingredientJson.unit == "l"){
+                currentAmount = parseFloat(currentAmount) * 1000;
+            } else if(currentUnit == "kg" && ingredientJson.unit == "g" || currentUnit == "kg" && ingredientJson.unit == "ml" ||
+                currentUnit == "l" && ingredientJson.unit == "g" || currentUnit == "l" && ingredientJson.unit == "ml"){
+                currentAmount = parseFloat(currentAmount) / 1000;
+            }
+        }
 
         //calculates the scale
         let scale;
@@ -98,7 +108,8 @@ const AddMealForm = () => {
             scale = currentAmount/ingredientJsonCopy.amount * 1000;
         }
 
-        ingredientJson.amount = parseInt(currentAmount);                            //puts calculated values into ingredientJson
+
+        ingredientJson.amount = parseFloat(currentAmount);                            //puts calculated values into ingredientJson
         ingredientJson.kcal = (ingredientJsonCopy.kcal*scale);
         ingredientJson.fat = (ingredientJsonCopy.fat*scale);
         ingredientJson.protein = (ingredientJsonCopy.protein*scale);
@@ -113,7 +124,7 @@ const AddMealForm = () => {
         e.preventDefault()
 
         const mealData = ingredientJson;
-        const userDate = new Date();                                                
+        const userDate = new Date();//localStorage.getItem('inputDate');                                              
         const mealsFileId = user.mealsFileId;
 
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api

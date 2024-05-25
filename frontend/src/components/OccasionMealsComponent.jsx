@@ -17,6 +17,7 @@ const OccasionMealsComponent = () => {
     useEffect(() => {
         user = JSON.parse(localStorage.getItem('userData'));
         const occasionFromLocalStorage = localStorage.getItem('occasion');
+        const inputDate = localStorage.getItem('inputDate');
         setOccasion(occasionFromLocalStorage);
 
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
@@ -30,7 +31,8 @@ const OccasionMealsComponent = () => {
             mealOccasion = "snack";
         }
         
-        const date = new Date();            
+        const date = new Date();//inputDate;           
+        date.setDate(date.getDate()) ;
         
         const fetchData = async () => {                                             //gets all meals from current user, occasion and date
             const response = await fetch(`/api/meals/occasion`, { 
@@ -39,13 +41,17 @@ const OccasionMealsComponent = () => {
                 headers: {
                     'Content-Type': 'application/json'
             }});  
-
-            const json = await response.json()
+   
             if(!response.ok) {
                 console.log(json.error);
             }
             if(response.ok){
-                return json;
+                if(response.status == 204){
+                    return {};
+                } else {
+                    const json = await response.json()
+                    return json;
+                }
             }
         };
 
@@ -57,7 +63,9 @@ const OccasionMealsComponent = () => {
 
         fetchData().then(data => {
             meals = data;
-            setIngredients(meals);                                                  //sets all meals to list
+            if(Object.keys(meals).length !== 0){
+                setIngredients(meals); 
+            }                                         //sets all meals to list
         });
     }, []);
 

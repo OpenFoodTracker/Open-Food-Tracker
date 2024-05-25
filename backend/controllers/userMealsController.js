@@ -54,7 +54,7 @@ const getOccasionMeals = async (req, res) => {
         if(meals){
             return res.status(200).json(meals.meals[0][occasion]);                              //returns the meals filtered by occasion
         } else {
-            return res.status(200).json({empty: true});
+            return res.status(204).json({});
         }
 
     } catch (error) {
@@ -199,6 +199,7 @@ const addMeal = async (req, res) => {
     const year = tempDate.getFullYear();
 
     date = new Date(year, month , day);
+    console.log(mealData);
 
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
