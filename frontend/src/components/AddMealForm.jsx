@@ -124,7 +124,7 @@ const AddMealForm = () => {
         e.preventDefault()
 
         const mealData = ingredientJson;
-        const userDate = new Date();//localStorage.getItem('inputDate');                                              
+        const userDate = localStorage.getItem('inputDate');                                              
         const mealsFileId = user.mealsFileId;
 
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api

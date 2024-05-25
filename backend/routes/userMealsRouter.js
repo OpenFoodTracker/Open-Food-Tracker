@@ -3,6 +3,7 @@ const express = require('express');
 const {
     getUserMeals,
     getMeal,
+    getMealsByDate,
     getMealById,
     createMeal,
     deleteMeal,
@@ -18,6 +19,7 @@ router.get('/:userId', getUserMeals); // GET all meals for a user
 router.get('/meal/:id', getMeal); // GET a single meal by id
 router.post('/occasion', getOccasionMeals); // GET a single meal by id
 router.delete('/occasion/:id', deleteOccasionMeal);
+router.get('/day/:userId/:date', getMealsByDate); // GET meals from a day for a user
 router.post('/getMealById', getMealById);
 router.get('/ingredient/:id', getIngredient)
 router.post('/', createMeal); // POST a new meal

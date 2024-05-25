@@ -31,8 +31,7 @@ const OccasionMealsComponent = () => {
             mealOccasion = "snack";
         }
         
-        const date = new Date();//inputDate;           
-        date.setDate(date.getDate()) ;
+        const date = inputDate;           
         
         const fetchData = async () => {                                             //gets all meals from current user, occasion and date
             const response = await fetch(`/api/meals/occasion`, { 
@@ -43,7 +42,7 @@ const OccasionMealsComponent = () => {
             }});  
    
             if(!response.ok) {
-                console.log(json.error);
+                console.log(response);
             }
             if(response.ok){
                 if(response.status == 204){
