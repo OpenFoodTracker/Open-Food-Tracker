@@ -21,7 +21,6 @@ const MealDetails = ({ meal}) => {
         <div className="meal-details">
             <h4>{meal.title}</h4>
             <p><strong>Kalorien (kcal): </strong>{meal.kcal}</p>
-            
             <p><strong>Gelegenheit: </strong>{meal.occasion}</p>
             <p>{formatDistanceToNow(new Date(meal.createdAt), { addSuffix: true })}</p>
         <span className='material-symbols-outlined' onClick={handleClick}>delete</span>

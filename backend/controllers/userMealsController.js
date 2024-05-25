@@ -280,14 +280,21 @@ const deleteMeal = async (req, res) => {
 const updateMeal = async (req, res) => {
     const { id } = req.params;
 
+    const amount = 200;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'Ungültige ID'});
     }
 
     const meal = await UserMeals.findOneAndUpdate({ _id: id }, {...req.body}, { new: true });
 
+
     if (!meal) {
         return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
+    }
+
+    if(req.body.amount) {
+        
     }
 
     res.status(200).json(meal);

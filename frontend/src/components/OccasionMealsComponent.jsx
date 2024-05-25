@@ -100,26 +100,14 @@ const OccasionMealsComponent = () => {
     const handleItemClick = (index) => {
         localStorage.setItem('idToChange', ingredients[index]._id);                 //sets id of clicked object to local storage
         console.log(ingredients[index]._id)     
-        //navigate("/seitenname");                                                  //TODO Hier auf die andere Seite verweisen und die Werte anpassen
+        navigate(`/meal/${ingredients[index]._id}`);                                                  //TODO Hier auf die andere Seite verweisen und die Werte anpassen
     };                                                                              //Am besten danach auf diese Seite hier wieder zurück verweisen
-
-    //triggered by clicking the scan button
-    const scanQRCode = () => {
-        console.log("Hier Scannen dann");                                           //TODO die Scan Logik hier implementieren 
-    }
 
     return (
         <div className="content">
             <Box className="occasionHead">
                 <Typography className="text">{occasion}</Typography>
                 <QrCodeScannerIcon className="qrIcon" />
-                {/*<Button
-                    className="scanButton"
-                    variant="contained"
-                    onClick={() => scanQRCode()}
-                >
-                    Scannen
-                </Button>*/}
                 <CustomModal />
             </Box>
             <div className="occasionSearchDiv">

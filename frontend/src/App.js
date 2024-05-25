@@ -2,15 +2,19 @@ import "./App.css";
 // pages & components
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+
 import Login from "./pages/Login";
 import Journey from "./pages/Journey";
 import Statistics from "./pages/Statistics";
 import Profile from "./pages/Profile";
 import OccasionMeals from "./pages/OccasionMeals";
 import AddMeal from "./pages/AddMeal";
+import MealSize from "./pages/Meal";
+
 
 const App = () => {
   return (
+
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -20,9 +24,11 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/occasionMeals" element={<OccasionMeals />} />
         <Route path="/addMeal" element={<AddMeal />} />
+        <Route path="/meal/:id" element={<MealSize/>}/>
       </Routes>
     </Router>
   )
 };
+
 
 export default App;
