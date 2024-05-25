@@ -1,9 +1,8 @@
-// __mocks__/google.js
-global.google = {
+// src/google.js
+export const google = {
     accounts: {
       id: {
         initialize: jest.fn(),
-        renderButton: jest.fn(),
         prompt: jest.fn(),
       },
     },
