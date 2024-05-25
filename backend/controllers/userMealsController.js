@@ -133,6 +133,8 @@ const getIngredient = async (req, res) => {
     let ingredientData = {};
     ingredientData.unitUnknown = false;
 
+    console.log(id);
+
     const error = await fetch(`https://world.openfoodfacts.org/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
         .then(response => {
             if (!response.ok) {
@@ -143,6 +145,7 @@ const getIngredient = async (req, res) => {
         })
         .then(data => {
             try{
+                console.log(data);
                 const product = data.product;
                 ingredientData.id = id;                                                       //gets relevant values from API and adds it to ingredientData
                 ingredientData.name = product.product_name;

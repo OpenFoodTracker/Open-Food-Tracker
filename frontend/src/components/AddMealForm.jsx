@@ -28,6 +28,7 @@ const AddMealForm = () => {
         occasion = localStorage.getItem('occasion');
         const ingredientId = localStorage.getItem('currentIngredientId');
         const fetchData = async () => {
+            console.log(ingredientId)
             const response = await fetch(`/api/meals/ingredient/${ingredientId}`);  //gets value of meal from backend
             const json = await response.json()
             if(!response.ok) {
@@ -39,14 +40,19 @@ const AddMealForm = () => {
         };
         fetchData().then(data => {
             ingredientJson = data;
-            if(!ingredientJson.unitUnknown){                                         //if the unit is recognized, set all values
-                setValues(true);                        
+            if(ingredientJson){
+                if(!ingredientJson.unitUnknown){                                         //if the unit is recognized, set all values
+                    setValues(true);                        
+                } else {
+                    document.getElementById('dialogUnit').value = 'g';                   //ask the user for the prefered unit
+                    document.getElementById('addMealDialog').textContent = ingredientJson.unit;  
+                    document.getElementById('dialog').style.display = 'flex';
+                    setValues(true);
+                }
             } else {
-                document.getElementById('dialogUnit').value = 'g';                   //ask the user for the prefered unit
-                document.getElementById('addMealDialog').textContent = ingredientJson.unit;  
-                document.getElementById('dialog').style.display = 'flex';
-                setValues(true);
+                console.log("There was an error fetching the ingredient data.")
             }
+
         });       
     }, []);
 

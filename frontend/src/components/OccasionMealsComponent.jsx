@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import SearchBar from '../components/SearchBar';
 import { useNavigate } from 'react-router-dom';
+import CustomModal from "./Scanner/CustomModal";
 
 
 const OccasionMealsComponent = () => {
@@ -112,13 +113,14 @@ const OccasionMealsComponent = () => {
             <Box className="occasionHead">
                 <Typography className="text">{occasion}</Typography>
                 <QrCodeScannerIcon className="qrIcon" />
-                <Button
+                {/*<Button
                     className="scanButton"
                     variant="contained"
                     onClick={() => scanQRCode()}
                 >
                     Scannen
-                </Button>
+                </Button>*/}
+                <CustomModal />
             </Box>
             <div className="occasionSearchDiv">
                 <SearchBar />

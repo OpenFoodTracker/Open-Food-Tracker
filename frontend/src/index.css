@@ -46,6 +46,7 @@ html, body {
     line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
     color: #333; /* Dunkelgrau für Text */
     background-color: var(--tertiary);
+    color: black !important;
 }
 
 /* Hilft, die Breite des Viewports zu kontrollieren und verhindert unerwünschtes Zoomen */
@@ -292,6 +293,7 @@ img {
 .occasionList>li {
   height: 15vh;
   border-bottom: 1px solid lightgray;
+  list-style: none;
 }
 
 .occasionList>li:last-child {
@@ -314,5 +316,9 @@ img {
   right: 0; 
   bottom: 0; 
   margin: auto; 
+}
+
+.modal {
+  color: grey !important;
 }
 
