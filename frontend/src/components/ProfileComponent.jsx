@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Paper, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
+import '../pages/Profile.css';
+
+//Jetzt versuche ich es
 
 const ProfileComponent = ({ userData, token }) => {
   const navigate = useNavigate();
@@ -30,10 +33,10 @@ const ProfileComponent = ({ userData, token }) => {
   };
 
   return (
-    <Container className="profile-container">
+    <Container className="profileContainer">
     <div className="settingsContainer">
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
-        <Typography variant="h4" gutterBottom className="profile-title">
+        <Typography variant="h4" gutterBottom className="profileTitle">
           Hallo, {token.given_name} {token.family_name} 
           {/* Hallo, {userData.name} */}
         </Typography>
@@ -50,7 +53,8 @@ const ProfileComponent = ({ userData, token }) => {
             onError={(e) => e.target.style.display = 'none'}  // Hide Avatar if image fails to load
           />
         )}
-        <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 600 }}>
+        <Paper className="profilePaper" elevation={3} sx={{ p: 3, width: '100%', maxWidth: 600 }}>
+        
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Typography variant="body1"><strong>Email:</strong></Typography>
@@ -58,6 +62,7 @@ const ProfileComponent = ({ userData, token }) => {
             <Grid item xs={6}>
               <Typography variant="body1">{userData.email}</Typography>
             </Grid>
+            
             <Grid item xs={6}>
               <Typography variant="body1"><strong>Geschlecht:</strong></Typography>
             </Grid>

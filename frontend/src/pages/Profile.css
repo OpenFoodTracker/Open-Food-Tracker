@@ -11,7 +11,7 @@
 
 }
 
-.profile-container {
+.profileContainer {
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
@@ -19,23 +19,19 @@
   
 }
 
-.profile-title {
-  font-size: 24px;
-  font-weight: bold;
+.profilePaper  {
+  background-color: aliceblue;
 }
 
 .settingsContainer {
   position:relative;
+
 }
 
 
 .settingsButton {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: -505x;
+  right: -150px;
 }
-
-
-
-
 

@@ -77,28 +77,14 @@ const EditProfile = () => {
             Profil bearbeiten
           </Typography>
           <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 600 }}>
-          
-            {/* <TextField  
-              fullWidth
-              label="Name"
-              name="name"
-              value={userData.name}
-              onChange={handleChange}
-              margin="normal"
-              variant="outlined" 
-            />*/}
-            <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal">
           <InputLabel>Geschlecht</InputLabel>
-          <Select
-            name="gender"
-            value={userData.gender}
-            onChange={handleChange}
-          >
+          <Select name="gender" value={userData.gender} onChange={handleChange}>
             <MenuItem value="weiblich">Weiblich</MenuItem>
             <MenuItem value="männlich">Männlich</MenuItem>
           </Select>
         </FormControl>
-            <TextField    //Größe
+            <TextField    
               fullWidth
               label="Größe (cm)"
               name="height"
@@ -108,7 +94,7 @@ const EditProfile = () => {
               variant="outlined"
               type="number"
             />
-            <TextField    //Gewicht
+            <TextField  
               fullWidth
               label="Gewicht (kg)"
               name="weight"
@@ -118,7 +104,7 @@ const EditProfile = () => {
               variant="outlined"
               type="number"
             />
-            <TextField    //Zielgewicht
+            <TextField  
               fullWidth
               label="Zielgewicht (kg)"
               name="goal"
@@ -128,7 +114,7 @@ const EditProfile = () => {
               variant="outlined"
               type="number"
             />
-            <TextField    //Geburtstag
+            <TextField  
               label="Geburtstag"
               name="birthday"
               value={userData.birthday}

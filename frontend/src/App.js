@@ -1,4 +1,5 @@
 import "./App.css";
+import './pages/Profile.css';
 // pages & components
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -8,6 +9,7 @@ import Statistics from "./pages/Statistics";
 import Profile from "./pages/Profile";
 import EditProfile from './pages/EditProfile';
 import SettingsComponent from './components/SettingsComponent';
+
 
 const App = () => {
 
