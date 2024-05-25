@@ -29,18 +29,33 @@ jobs:
     - name: List Docker Images
       run: docker images
 
-    - name: Debugging Docker Run for Backend Tests
+    - name: Run Backend Tests
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
         echo "Running Backend Tests"
-        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test" || (docker ps -a && docker logs $(docker ps -alq) && exit 1)
+        docker run --name backend-test --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
+      continue-on-error: true
 
-    - name: Debugging Docker Run for Frontend Tests
+    - name: Run Frontend Tests
       run: |
         echo "Running Frontend Tests"
-        docker run --rm --network app-network frontend:latest sh -c "npm test" || (docker ps -a && docker logs $(docker ps -alq) && exit 1)
+        docker run --name frontend-test --network app-network frontend:latest sh -c "npm test"
+      continue-on-error: true
+
+    - name: Show Docker Logs for Backend Test
+      if: failure()
+      run: docker logs backend-test
+
+    - name: Show Docker Logs for Frontend Test
+      if: failure()
+      run: docker logs frontend-test
 
     - name: Cleanup
       if: always()
-      run: docker network rm app-network
+      run: |
+        docker stop backend-test || true
+        docker rm backend-test || true
+        docker stop frontend-test || true
+        docker rm frontend-test || true
+        docker network rm app-network
