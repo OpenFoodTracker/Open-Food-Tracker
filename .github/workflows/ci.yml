@@ -31,11 +31,11 @@ jobs:
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
-        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest npm test
+        docker run --rm --network app-network -e MONGO_URI=${{ secrets.MONGO_URI }} backend:latest sh -c "npm test"
 
     - name: Run Frontend Tests
       run: |
-        docker run --rm --network app-network frontend:latest npm test
+        docker run --rm --network app-network frontend:latest sh -c "npm test"
 
     - name: Cleanup
       if: always()
