@@ -33,13 +33,13 @@ jobs:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
         echo "Running Backend Tests"
-        docker-compose exec backend sh -c "npm test"
+        docker-compose exec -T backend sh -c "npm test"
       continue-on-error: true
 
     - name: Run Frontend Tests
       run: |
         echo "Running Frontend Tests"
-        docker-compose exec frontend sh -c "npm test"
+        docker-compose exec -T frontend sh -c "npm test"
       continue-on-error: true
 
     - name: Show Docker Logs for Backend Test
