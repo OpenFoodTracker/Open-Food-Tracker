@@ -78,27 +78,49 @@ const deleteMeal = async (req, res) => {
 
 // update a meal
 const updateMeal = async (req, res) => {
-    const { id } = req.params;
 
-    const amount = 200;
+    const { id } = req.params;
+    const {mealData, user, occasion, date} = req.body;
+    console.log(mealData);
+    console.log(user);
+    console.log(date);
+    console.log(occasion);
+
+    //const tempDate = new Date(date);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const cleanedDate = new Date(date.getFullYear(), date.getMonth() , date.getDate());
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'Ungültige ID'});
+    }
+    const meal = await Meal.findOneAndUpdate({ _id: id }, {...mealData}, { new: true });
+
+    if (!meal) {
+        return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
+    }
+
+    console.log("Update Meal Test");
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'Ungültige ID'});
     }
 
-    const meal = await UserMeals.findOneAndUpdate({ _id: id }, {...req.body}, { new: true });
-
+   meal = await UserMeals.findOneAndUpdate(
+        { mealsFileId: user.mealsFileId, "meals.date": cleanedDate,  [meals.$.${occasion}._id]:id}, 
+        { $set: {[meals.$.${occasion}]: mealData}},    //push
+        { new: true }
+    );
 
     if (!meal) {
         return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
     }
 
     if(req.body.amount) {
-        
+
     }
 
     res.status(200).json(meal);
 };
+
 
 module.exports = {
     getUserMeals,
