@@ -1,37 +1,41 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 // pages & components
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-import UserLogIn from "./pages/LogIn";
-import UserEinstellungen from "./pages/Einstellungen";
-import Search from "./pages/Suche";
-import UserProfil from "./pages/Profil";
-import UserStatistik from "./pages/Statistik";
-import MealSize from "./pages/Meal";
 
-function App() {
+import Login from "./pages/Login";
+import Journey from "./pages/Journey";
+import Statistics from "./pages/Statistics";
+import Profile from "./pages/Profile";
+import OccasionMeals from "./pages/OccasionMeals";
+import AddMeal from "./pages/AddMeal";
+import MealSize from "./pages/MealSize";
+import EditProfile from './pages/EditProfile';
+import SettingsComponent from './components/Settings/SettingsComponent';
+
+
+const App = () => {
+
+  //const isAuthenticated = localStorage.getItem('userData');
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <div className="pages">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/LogIn" element={<UserLogIn />} />
-            <Route path="/Statistik" element={<UserStatistik />} />
-            <Route path="/Profil" element={<UserProfil />} />
-            <Route path="/Suche" element={<Search />} />
-            <Route path="/Meal/:id" element={<MealSize/>}/>
-            <Route
-              path="/Profil/Einstellungen"
-              element={<UserEinstellungen />}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </div>
-  );
-}
+
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/journey" element={<Journey />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/statistics" element={<Statistics />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/occasionMeals" element={<OccasionMeals />} />
+        <Route path="/addMeal" element={<AddMeal />} />
+        <Route path="/meal/:id" element={<MealSize />}/>
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/settings" element={<SettingsComponent />} />
+      </Routes>
+    </Router>
+  )
+};
+
 
 export default App;

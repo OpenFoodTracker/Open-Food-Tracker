@@ -1,16 +1,29 @@
+/* Setzt den Box-Sizing-Stil für das gesamte Dokument */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 /* google font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 /* layout */
 :root {
   --primary: #1aac83;
+  --secondary: #e8ece4;
+  --tertiary: #e8e4e4;
   --error: #e7195a;
 }
-body {
-  background: #f1f1f1;
-  margin: 0;
-  font-family: "Poppins";
+
+#root {
+  height: 100% !important;
 }
+
+#root>.App {
+  height: 100% !important;
+}
+
 header {
   background: #fff;
 }
@@ -28,60 +41,197 @@ header a {
 }
 .pages{
   max-width: 1400px;
-  padding: 20px;
+  padding: 0px;
   margin: 0 auto;
 }
 
-/* homepage */
-.home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+/* Entfernt Standard-Margins und setzt die Schriftgröße für bessere Kontrolle */
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif; /* Verwenden Sie eine Web-sichere Schriftart oder importieren Sie eine benutzerdefinierte Schriftart */
+    font-size: 16px; /* Standardgröße für Text */
+    line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
+    color: #333; /* Dunkelgrau für Text */
+    background-color: var(--tertiary);
+    color: black !important;
 }
 
-.meal-details {
-  background: #fff;
-  border-radius: 4px;
-  margin: 20px auto;
-  padding: 20px;
-  position: relative;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-}
-.meal-details h4 {
-  margin: 0 0 10px 0;
-  font-size: 1.2em;
-  color: var(--primary);
-}
-.meal-details p {
-  margin: 0;
-  font-size: 0.9em;
-  color: #555;
-}
-.meal-details span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
-  border-radius: 50%;
-  color: #333;
+/* Hilft, die Breite des Viewports zu kontrollieren und verhindert unerwünschtes Zoomen */
+meta[name="viewport"] {
+    content: "width=device-width, initial-scale=1";
 }
 
-/* new meal form */
-label, input {
-  display: block;
+/* Setzt grundlegende interaktive Elemente auf eine leicht zugängliche Weise */
+a {
+    color: #0066cc; /* Blau für Links */
+    text-decoration: none; /* Keine Unterstreichung */
 }
-input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+
+a:hover,
+a:focus {
+    text-decoration: underline; /* Unterstreicht Links beim Überfahren/Hover */
+}
+
+/* Stil für alle Bilder, um sie responsive zu machen */
+img {
+    max-width: 100%; /* Verhindert, dass Bilder ihre Container überschreiten */
+    height: auto; /* Behält das ursprüngliche Seitenverhältnis bei */
+}
+
+/* Responsive Container, die den Inhalt zentrieren */
+.container {
+    width: 90%; /* Nutzt 90% der Breite des Viewports */
+    margin: 0 auto; /* Zentriert den Container horizontal */
+}
+
+/* Media Query für Tablets und Desktops */
+@media (min-width: 768px) {
+    .container {
+        width: 750px; /* Feste Breite für Tablets */
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px; /* Feste Breite für Desktops */
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px; /* Feste Breite für größere Desktops */
+    }
+}
+
+.body{
+  background-color: var(--tertiary);
+}
+
+
+/*MealSize page*/
+.mealSizeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
   width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+  justify-content: center;
 }
-form button {
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px; 
+  overflow: hidden;  /*keeps image in rounded container*/
+  max-width: 20vh;       
+  max-height: 30vh;  
+  margin-top:4vh;    
+}
+
+#addMealImageMealSize {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /*covers whole container */
+}
+
+
+
+/* AddMeal Page (and MealSize)*/
+.addMealHead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: var(--secondary);
+  border-bottom-left-radius: 70px;
+  border-bottom-right-radius: 70px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: xx-large;
+  padding-bottom: 2vh;
+}
+
+#addMealImage {
+  padding-top: 3vh;
+  max-height: 30vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--tertiary);
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.addMealData {
+  display: flex;
+  width: 60%;
+  color: black;
+  margin-bottom:  5vh;
+  margin-top: 2vh;
+}
+
+.addMealData>.description{
+  align-items: left;
+  width: 50%;
+}
+
+.addMealData>.description>div, .addMealData>.data>div{
+  width: fit-content;
+}
+
+.addMealData>.data{
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+  width: 50%;
+}
+
+.addMealHead>div {
+  color: black;
+}
+
+.addMealForm {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary);
+  color: black;
+  padding: 2vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.changeForm {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.changeForm>input {
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.changeForm>select {
+  height: 70%;
+}
+
+.changeForm>button {
+  display: flex;
+  height: 80%;
+  align-items: center;
+  margin-left: 1vw;
   background: var(--primary);
   border: 0;
   color: #fff;
@@ -90,61 +240,215 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
-div.error {
-  padding: 10px;
-  background: #ffefef;
-  border: 1px solid var(--error);
-  color: var(--error);
-  border-radius: 4px;
-  margin: 20px 0;
-}
-input.error {
-  border: 1px solid var(--error);
-}
-.reader{
-  display: flex;
+
+#dialog {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 80%;
+  font-size: small;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.scannerdiv{
-  margin: auto;
-  max-width: 500px;
-  max-height: 500px;
+#addMealDialog {
+  margin-top: 5px;
+  color: black;
+  
 }
-.container{
-  height: 110px;
-  flex-direction:row;
+
+#dialogUnit {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 5x;
+  min-height: 30px;
 }
-.container > div > button{
-  float: left;
-  margin: 1px;
-  padding: auto;
-  width: calc(33% - 0.1em);
-  height: 100px;
-  border-radius: 10px;
+
+
+/* CSS for OcassionMeals */
+.occasionHead{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  background-color: var(--secondary);
+  border-bottom-left-radius: 70px;
+  border-bottom-right-radius: 70px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: xx-large;
+  padding-bottom: 5vh;
+  margin-left: 0px !important;
+}
+
+.occasionHead>.text {
+  margin-top: 2vh;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.occasionHead>.scanButton {
   background-color: var(--primary);
 }
-.container > div > button:hover{
-  background-color:white;
+
+.qrIcon {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-size: 200% !important;
+  font-weight: bold;
 }
-.container > div > button > a{
- font-size: large;
+
+.occasionSearchDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -20px;
 }
-.create{
-  height: fit-content;
-  width: fit-content;
+
+.occasionSearchDiv>.searchbar {
+  background-color: white;
 }
-header .container{
-  padding: 2.5px;
+
+.occasionMealList {
+  margin-top: 3vh;
+  width: 90%;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10vh;
 }
-/* such button im home menü */
-.home > button{ 
+
+.occasionList>li {
+  height: 15vh;
+  border-bottom: 1px solid lightgray;
+  list-style: none;
+}
+
+.occasionList>li:last-child {
+  border-bottom: none;
+}
+
+.occasionMealListItem>.imageDiv {
+  width: 20%;
+  height: 12.5vh;
+  margin-right: 5px;
+  position: relative;
+}
+
+.occasionMealListItem>div>img {
+  max-width: 100%; 
+  max-height: 100%; 
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+}
 
 
+/* QR Code Modal*/
+.modal {
+  color: grey !important;
 }
-/* such button im home menü inner text */
-.home > button > a{ 
-color: black;
+
+/* Login */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.signInContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#signInLabel, #signInLabelSub {
+  text-align: center;
+}
+
+#signInLabel {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#signInLabelSub {
+  font-size: 16px;
+  color: #666;
+}
+
+#logo {
+  width: 100px;
+  height: 100px;
+  background: url('./images/logo.jpg') no-repeat center center;
+  background-size: contain;
+  margin-bottom: 20px;
+}
+
+#signInDiv {
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+
+/* Profile */
+@media only screen and (max-width: 400px) {
+  * {
+    font-size: 14px; 
+  }
+
+
+  .MuiTypography-root, .MuiButton-root {
+    font-size: 14px; 
+  }
 
 }
+
+.profileContainer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: 60px;
+  
+}
+
+.profilePaper  {
+  background-color: aliceblue;
+}
+
+.settingsContainer {
+  position:relative;
+
+}
+
+
+.settingsButton {
+  position: absolute;
+  top: -505x;
+  right: -150px;
+}
+

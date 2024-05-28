@@ -1,56 +1,33 @@
 const User  = require('../models/userModel'); // Import des UserModel
 const mongoose = require('mongoose');
 
-// get all users
-const getUsersAll = async (req, res) => {
+// get a single user with email
+const getUserByEmail = async (req, res) => {
+    const { email } = req.body;
+
     try {
-        const users = await User.find().sort({ createdAt: -1 });
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+        const user = await User.findOne({ email: email });
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+      } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+      }
 };
 
-// get a single user with id
-const getUser = async (req, res) => {
-    const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'Ungültige ID'})
-    }
-
-    const user = await User.findById(id);
-
-    if(!user){
-        return res.status(404).json({error: 'Benutzer nicht gefunden'})
-    }
-
-    res.status(200).json(user);
-};
 
 const createUser = async (req, res) => {
-    // Zerlegen des Request-Bodys, um die einzelnen Felder zu erhalten
-    const { userId, gender, height, weight, birthday, goal, darkMode, notifications, recipeFileId, mealsFileId, history, favorites } = req.body;
-
-    // Überprüfen, ob alle notwendigen Felder vorhanden sind
-    let missingFields = [];
-    if (!userId) missingFields.push("userId");
-    if (!gender) missingFields.push("gender");
-    if (!height) missingFields.push("height");
-    if (!weight) missingFields.push("weight");
-    if (!birthday) missingFields.push("birthday");
-    if (!goal) missingFields.push("goal");
-    if (darkMode === undefined) missingFields.push("darkMode");
-    if (notifications === undefined) missingFields.push("notifications");
-    
-    if (missingFields.length > 0) {
-        return res.status(400).json({ error: 'Bitte füllen Sie alle erforderlichen Felder aus', missingFields });
-    }
+    const { email, gender, height, weight, birthday, goal, darkMode, notifications, history, favorites } = req.body;
 
     try {
         // Erstellen eines neuen Benutzers mit den spezifizierten Daten
         const user = await User.create({
-            userId, gender, height, weight, birthday, goal, darkMode, notifications, recipeFileId, mealsFileId, history, favorites
+            email, gender, height, weight, birthday, goal, darkMode, notifications,
+            recipeFileId: new mongoose.Types.ObjectId(), // Generiert eine neue ObjectId
+            mealsFileId: new mongoose.Types.ObjectId(), // Generiert eine neue ObjectId
+            history, favorites
         });
         res.status(200).json(user);
     } catch (error) {
@@ -78,28 +55,32 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id } = req.params;
+    console.log("id: " + id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'Ungültige ID' });
     }
 
-    const user = await User.findOneAndUpdate(
-        { _id: id },
-        { $set: {...req.body} },
-        { new: true, runValidators: true }
-    );
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id: id },
+            { $set: { ...req.body } },
+            { new: true, runValidators: true, useFindAndModify: false } //useFindAndModify set to false
+        );
 
-    if (!user) {
-        return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+        if (!user) {
+            return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Fehler beim Aktualisieren des Benutzers', details: error });
     }
-
-    res.status(200).json(user);
 };
 
-
 module.exports = {
-    getUsersAll,
-    getUser,
+    getUserByEmail,
     createUser,
     deleteUser,
     updateUser
