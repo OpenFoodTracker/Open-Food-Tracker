@@ -2,7 +2,7 @@ import {useState, useEffect} from "react"
 import { Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import SearchBar from '../Searchbar/SearchBar';
+import SearchComponent from "../Searchbar/SearchComponent";
 import { useNavigate } from 'react-router-dom';
 import CustomModal from "../Scanner/CustomModal";
 
@@ -111,7 +111,7 @@ const OccasionMealsComponent = () => {
                 <CustomModal />
             </Box>
             <div className="occasionSearchDiv">
-                <SearchBar />
+                <SearchComponent />
             </div>     
             <Box className="occasionMealList">
                 <List className="occasionList">

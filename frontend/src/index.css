@@ -73,11 +73,6 @@ a:focus {
     text-decoration: underline; /* Unterstreicht Links beim Überfahren/Hover */
 }
 
-/* Stil für alle Bilder, um sie responsive zu machen */
-img {
-    max-width: 100%; /* Verhindert, dass Bilder ihre Container überschreiten */
-    height: auto; /* Behält das ursprüngliche Seitenverhältnis bei */
-}
 
 /* Responsive Container, die den Inhalt zentrieren */
 .container {
