@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/user', userRoutes); // Route für User
 app.use('/api/recipe', userRecipeRoutes); // Route für User Recipes
-app.use('/api/meal', userMealRoutes); // Route für User Meals
+app.use('/api/meal/user', userMealRoutes); // Route für User Meals
 app.use('/api/offApi', offApiRouter);
 
 // connect to db
