@@ -1,40 +1,7 @@
-const { UserMeals, MealSchema } = require('../models/userMealsModel');
+const { UserMeals, MealSchema } = require('../models/userMealModel');
 const Meal = require('../models/mealModel');
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
-
-// get all meals for a user
-const getUserMeals = async (req, res) => {
-    const { userId } = req.params; // Angenommen, wir filtern Mahlzeiten basierend auf der userId
-
-    if (!mongoose.Types.ObjectId.isValid(userId)){
-        return res.status(404).json({ error: 'Ungültige ID' });
-    }
-
-    try {
-        const meals = await UserMeals.find({ userID: userId }).sort({ date: -1 });
-        res.status(200).json(meals);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-// get a single meal
-const getMeal = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'Ungültige ID'});
-    }
-
-    const meal = await UserMeals.findById(id);
-
-    if (!meal) {
-        return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
-    }
-
-    res.status(200).json(meal);
-};
 
 //Gets all Meals from the given UserMeals File, with the given occasion and userDate
 const getOccasionMeals = async (req, res) => {
@@ -139,7 +106,7 @@ const getMealById = async (req, res) => {
 //Creates a Meal and sets it into the right Mealschema and UserMeal, 
 //Creates a MealSchema for the current user date, if it does not exist
 const addMeal = async (req, res) => {
-    const { mealsFileId, mealData, mealOccasion, userDate} = req.body; 
+    const { mealsFileId, mealData, occasion, userDate} = req.body; 
 
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
     const day = tempDate.getDate();
@@ -157,7 +124,7 @@ const addMeal = async (req, res) => {
 
         const updatedMealsFile = await UserMeals.findOneAndUpdate(                      //if a MealSchema with current date already exists for this UserMeal File, add Meal there
             { mealsFileId: mealsFileObject, "meals.date": date }, 
-            { $push: { [`meals.$.${mealOccasion}`]: newMeal } }, 
+            { $push: { [`meals.$.${occasion}`]: newMeal } }, 
             { new: true }
         );
         if(updatedMealsFile){
@@ -204,25 +171,7 @@ const createMeal = async (req, res) => {
     }
   };
 
-// delete a meal
-const deleteMeal = async (req, res) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'Ungültige ID'});
-    }
-
-    const meal = await UserMeals.findOneAndDelete({ _id: id });
-
-    if (!meal) {
-        return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
-    }
-
-    res.status(200).json(meal);
-};
-
-
-
+  
 // update a meal
 const updateMeal = async (req, res) => {
     const { id } = req.params;
@@ -316,14 +265,11 @@ const getMealsByDate = async (req, res) => {
 
 
 module.exports = {
-    getUserMeals,
-    getMeal,
+    getMealsByDate,
     getMealById,
     createMeal,
-    deleteMeal,
     updateMeal,
     addMeal,
-    getMealsByDate, 
     getOccasionMeals,
     deleteOccasionMeal,
 };

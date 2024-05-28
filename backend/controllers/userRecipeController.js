@@ -1,4 +1,4 @@
-const UserRecipes = require('../models/userRecipesModel'); // Import des UserRecipesModel
+const UserRecipes = require('../models/userRecipeModel'); // Import des UserRecipesModel
 const mongoose = require('mongoose');
 
 // get all recipes for a user

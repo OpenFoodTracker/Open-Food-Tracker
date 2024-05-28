@@ -48,7 +48,7 @@ const HomeComponent = ({ userData, token }) => {
     console.log('Fetching meals for user:', userId, 'on date:', formattedDate);
 
     try {
-      const response = await axios.get(`/api/meals/day/${userId}/${formattedDate}`, {
+      const response = await axios.get(`/api/meal/user/day/${userId}/${formattedDate}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

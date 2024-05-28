@@ -7,7 +7,7 @@ const {
     createRecipe,
     deleteRecipe,
     updateRecipe
-} = require('../controllers/userRecipesController'); // Pfad zu deinem UserRecipesController
+} = require('../controllers/userRecipeController'); // Pfad zu deinem UserRecipesController
 const router = express.Router();
 
 router.get('/:userId', getUserRecipes); // GET all recipes for a user
