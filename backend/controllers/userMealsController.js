@@ -100,14 +100,36 @@ const deleteOccasionMeal = async (req, res) => {
 };
 
 const getMealById = async (req, res) => {
-    const { mealsFileId } = req.body;
+    const { id } = req.params;
+    const {user, occasion, date} = req.body;
+
+    const tempDate = new Date(date);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const cleanedDate = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
 
     try {
-      const meal = await UserMeals.findOne({ mealsFileId: mealsFileId });
-      if (!meal) {
+        const result = await UserMeals.findOne(
+            {
+              mealsFileId: mongoose.Types.ObjectId(user.mealsFileId),
+              'meals.date': cleanedDate
+            },
+            {
+              'meals.$': 1 // Only return the matched meal
+            }
+          );
+      
+          if (!result || !result.meals || result.meals.length === 0) {
+            return null;
+          }
+      
+          const meal = result.meals[0];
+          const snack = meal[occasion].id(id);
+
+
+      if (!snack) {
         return res.status(404).json({ message: 'Meal File not found' });
       }
-      res.status(200).json(meal); // Senden Sie die gefundene Mahlzeit zurück
+
+      res.status(200).json(snack); 
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });
     }
@@ -199,29 +221,60 @@ const deleteMeal = async (req, res) => {
     res.status(200).json(meal);
 };
 
+
+
 // update a meal
 const updateMeal = async (req, res) => {
     const { id } = req.params;
+    const {mealData, user, occasion, date} = req.body;
 
-    const amount = 200;
+    const tempDate = new Date(date);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const cleanedDate = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'Ungültige ID'});
+    try{
+        let meal = await Meal.findOneAndUpdate({ _id: id }, {...mealData}, { new: true });
+
+        if (!meal) {
+            return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
+        }
+
+
+        meal = await UserMeals.findOneAndUpdate(
+            {
+                mealsFileId: user.mealsFileId,
+                "meals.date": cleanedDate,
+                [`meals.${occasion}._id`]: id
+            },
+            {
+                $set: {
+                    [`meals.$[mealElement].${occasion}.$[snackElement].kcal`]: mealData.Kalorien,
+                    [`meals.$[mealElement].${occasion}.$[snackElement].amount`]: mealData.Menge,
+                    [`meals.$[mealElement].${occasion}.$[snackElement].fat`]: mealData.Fett,
+                    [`meals.$[mealElement].${occasion}.$[snackElement].carbs`]: mealData.Kohlenhydrate,
+                    [`meals.$[mealElement].${occasion}.$[snackElement].protein`]: mealData.Proteine
+                }
+            },
+            {
+                arrayFilters: [
+                    { "mealElement.date": cleanedDate },
+                    { "snackElement._id": id }
+                ],
+                new: true
+            }
+        );
+
+        if (!meal) {
+            return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
+        }
+
+        res.status(200).json(meal);
+
+    } catch(error) {
+        res.status(500).send(error.message);
     }
-
-    const meal = await UserMeals.findOneAndUpdate({ _id: id }, {...req.body}, { new: true });
-
-
-    if (!meal) {
-        return res.status(404).json({error: 'Mahlzeit nicht gefunden'});
-    }
-
-    if(req.body.amount) {
-        
-    }
-
-    res.status(200).json(meal);
 };
+
+
 
 const getMealsByDate = async (req, res) => {
     const { userId, date } = req.params;
@@ -262,10 +315,6 @@ const getMealsByDate = async (req, res) => {
 };
 
 
-const changeMealAmount = async (req, res) => {
-    //TODO
-};
-
 module.exports = {
     getUserMeals,
     getMeal,
@@ -277,5 +326,4 @@ module.exports = {
     getMealsByDate, 
     getOccasionMeals,
     deleteOccasionMeal,
-    changeMealAmount,
 };

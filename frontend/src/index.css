@@ -109,7 +109,35 @@ img {
 }
 
 
-/* AddMeal Page*/
+/*MealSize page*/
+.mealSizeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  justify-content: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px; 
+  overflow: hidden;  /*keeps image in rounded container*/
+  max-width: 20vh;       
+  max-height: 30vh;  
+  margin-top:4vh;    
+}
+
+#addMealImageMealSize {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /*covers whole container */
+}
+
+
+
+/* AddMeal Page (and MealSize)*/
 .addMealHead {
   display: flex;
   flex-direction: column;

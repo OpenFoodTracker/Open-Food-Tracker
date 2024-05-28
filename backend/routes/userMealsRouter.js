@@ -11,7 +11,6 @@ const {
     addMeal,
     getOccasionMeals,
     deleteOccasionMeal,
-    changeMealAmount,
 } = require('../controllers/userMealsController'); // Pfad zu deinem UserMealsController
 const router = express.Router();
 
@@ -20,12 +19,11 @@ router.get('/meal/:id', getMeal); // GET a single meal by id
 router.post('/occasion', getOccasionMeals); // GET a single meal by id
 router.delete('/occasion/:id', deleteOccasionMeal);
 router.get('/day/:userId/:date', getMealsByDate); // GET meals from a day for a user
-router.post('/getMealById', getMealById);
+router.post('/getMeal/:id', getMealById);
 router.post('/', createMeal); // POST a new meal
 router.delete('/:id', deleteMeal); // DELETE a meal by id
 router.patch('/', addMeal); //  add a meal
 router.patch('/:id', updateMeal); // UPDATE a meal by id
-router.patch('/mealAmount/:id', changeMealAmount); // GET a single user by id
 
 
 module.exports = router;

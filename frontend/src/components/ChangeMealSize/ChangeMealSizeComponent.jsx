@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const ChangeMealSizeComponent = () => {
     const navigate = useNavigate();
@@ -8,6 +9,11 @@ const ChangeMealSizeComponent = () => {
 
     const [unit, setUnit] = useState(0);
     const [name, setName] = useState(0);
+    const [imageUrl, setImageUrl] = useState('');
+
+    const [user] = useState(JSON.parse(localStorage.getItem('userData')));
+    const [occasion] = useState((localStorage.getItem('occasion')));
+    const [tempDate] = useState((localStorage.getItem('inputDate')));
 
     const [origAmount, setOrigAmount] = useState(0);
     const [origCarbs, setOrigCarbs] = useState(0);
@@ -23,15 +29,33 @@ const ChangeMealSizeComponent = () => {
         Menge: '',
     });
    
-
     useEffect(() => {
         const fetchMeals = async () => {
+
+            let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
+            if(occasion == "Frühstück"){
+                mealOccasion = "breakfast";
+            } else if(occasion == "Mittagessen"){
+                mealOccasion = "lunch";
+            } else if(occasion == "Abendessen"){
+                mealOccasion = "dinner";
+            } else if(occasion == "Sonstiges"){
+                mealOccasion = "snack";
+            }
+
             try {
-                const response = await fetch("/api/meal/single/" + id);
+                const response = await fetch("/api/meals/getMeal/" + id, { 
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 //question: why not updatedFormData?
+                });
                 if (response.ok) {
                     const json = await response.json();
                     setUnit(json["unit"]);
                     setName(json["name"]);
+                    setImageUrl(json["imageUrl"]);
                     setOrigAmount(json["amount"]);
                     setOrigCalories(json["kcal"]);
                     setOrigCarbs(json["carbs"]);
@@ -39,7 +63,8 @@ const ChangeMealSizeComponent = () => {
                     setOrigProtein(json["protein"]);
                     setFormData((prevData) => ({
                         ...prevData,
-                        Kalorien: json["kcal"],     //initialised, don't change later. So it's a problem with showing them in the frontend
+
+                        Kalorien: json["kcal"],     
                         Kohlenhydrate: json["carbs"],
                         Proteine: json["protein"],
                         Fett: json["fat"],
@@ -58,22 +83,20 @@ const ChangeMealSizeComponent = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const faktor = value / origAmount;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-        var faktor = value / origAmount;
-        formData.carbs = origCarbs * faktor; 
-        formData.kcal = origCalories * faktor; 
-        formData.protein = origProtein * faktor; 
-        formData.fat = origFat * faktor; 
-        formData.amount = value;    
-        
-        
 
-        console.log(value);
-        console.log(name);
-        console.log("called");
+        setFormData((prevData) => ({
+            ...prevData,
+            Kalorien: (origCalories * faktor),   
+            Kohlenhydrate: (origCarbs * faktor), 
+            Proteine: (origProtein * faktor), 
+            Fett: (origFat * faktor),
+            Menge: value,   
+        }));
     };
 
     const handleSubmit = (e) => {
@@ -85,14 +108,28 @@ const ChangeMealSizeComponent = () => {
         };
 
         const updateData = async () => {
+            
+          let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
+          if(occasion == "Frühstück"){
+              mealOccasion = "breakfast";
+          } else if(occasion == "Mittagessen"){
+              mealOccasion = "lunch";
+          } else if(occasion == "Abendessen"){
+              mealOccasion = "dinner";
+          } else if(occasion == "Sonstiges"){
+              mealOccasion = "snack";
+          }
+            console.log("frontend Date " + tempDate);
+            console.log("frontend User: " + user);
             try {
-              const response = await fetch('/api/meal/' + id, {
+              const response = await fetch('/api/meals/' + id, { 
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({mealData: formData, user: user, occasion: mealOccasion, date: tempDate}),                
               });
+
           
               if (!response.ok) {
                 throw new Error('HTTP status ' + response.status);
@@ -100,82 +137,81 @@ const ChangeMealSizeComponent = () => {
           
               const data = await response.json();
               console.log(data);
+              navigate('/occasionMeals');
             } catch (error) {
               console.error('Error:', error);
             }
           };
-          
+
         updateData();
-        navigate('/occasionMeals');
         console.log('Formular abgeschickt:', updatedFormData);
     };
 
+  
+
+    
+
     return (
-        <div>
-            <h1>{name}</h1>
-            <p>{formData.kcal}</p>
-            <form onSubmit={handleSubmit}>
-            <label>
-                    Menge
-                    <input
-                        type="text"
+        <div className="content">
+            <div className="addMealHead">
+                <div className="title" id="occasionTitle">{occasion}</div>
+                <div className="ingredientName">{name}</div>
+            </div>
+
+            
+            
+            <div className="image-container">
+                <img id="addMealImageMealSize" src={imageUrl} alt="Ingredient" />
+            </div>
+
+            
+
+
+
+            
+            <form onSubmit={handleSubmit} className="mealSizeForm">
+
+            <div className="addMealForm">
+                <div className="changeForm">
+                    <label>Menge:</label>
+                    <input id="amountInput"
+                        type="number"
                         name="Menge"
-                        value={formData.Menge}  //don't change. But ig you show fromData.amount instead hey start with undefined value until they are actually changed
+                        value={formData.Menge} 
                         onChange={handleInputChange}
                         autoComplete="new-password"
                     />
-                </label>
-                <p>{unit}</p>
-                <br />
-                <label>
-                    Kalorien
-                    <input
-                        type="text"
-                        name="Kalorien"
-                        value={formData.Kalorien}
-                        onChange={handleInputChange}
-                        disabled
-                    />
-                </label>
-                <br />
-                <label>
-                    Kohlenhydrate
-                    <input
-                        type="text"
-                        name="Kohlenhydrate"
-                        value={formData.Kohlenhydrate}
-                        onChange={handleInputChange}
-                        disabled
-                    />
-                </label>
-                <br />
-                <label>
-                    Proteine
-                    <input
-                        type="text"
-                        name="proteins"
-                        value={formData.Proteine}
-                        onChange={handleInputChange}
-                        disabled
-                    />
-                </label>
-                <br />
-                <label>
-                    Fett
-                    <input
-                        type="text"
-                        name="fat"
-                        value={formData.Fett}
-                        onChange={handleInputChange}
-                        disabled
-                    />
-                </label>
-                <br />
+                    <p>{unit}</p> 
+                </div>
+            </div>
+
+
+
+            <div className="addMealData">
+                <div className="description">
+                    <div className="kcal">Kalorien:</div> 
+                    <div className="fat">Fett:</div>
+                    <div className="protein">Protein:</div>
+                    <div className="carbs">Kohlenhydrate:</div>
+                </div>
+
+                <div className="data">
+                    <div className="kcalData">{parseInt(formData.Kalorien).toFixed(2)} kcal</div> 
+                    <div className="fatData">{parseInt(formData.Fett).toFixed(2)} g</div>
+                    <div className="proteinData">{parseInt(formData.Proteine).toFixed(2)} g</div>
+                    <div className="carbsData">{parseInt(formData.Kohlenhydrate).toFixed(2)} g</div>
+                </div>
                 
-                <button type="submit">Abschicken</button>
-            </form>
-        </div>
-    );
+            </div>
+           
+            
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+                Speichern
+            </Button>
+        </form>
+    </div>
+    )
 };
+
 
 export default ChangeMealSizeComponent;
