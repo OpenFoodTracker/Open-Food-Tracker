@@ -26,21 +26,27 @@ jobs:
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
-        docker-compose up -d --build
+        timeout 600 docker-compose up -d --build
         docker-compose ps # Debugging: Check if services are running
+
+    - name: Show Docker Logs during Build
+      run: docker-compose logs
 
     - name: Run Backend Tests
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
+        CI: true
       run: |
         echo "Running Backend Tests"
         docker-compose exec -T backend sh -c "npm test"
       continue-on-error: true
 
     - name: Run Frontend Tests
+      env:
+        CI: true
       run: |
         echo "Running Frontend Tests"
-        docker-compose exec -T frontend sh -c "npm test"
+        docker-compose exec -T frontend sh -c "npm test -- --watchAll=false"
       continue-on-error: true
 
     - name: Show Docker Logs for Backend Test
@@ -53,4 +59,4 @@ jobs:
 
     - name: Cleanup
       if: always()
-      run: docker-compose down
+      run: docker-compose down --volumes --remove-orphans
