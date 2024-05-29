@@ -3,11 +3,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 
-// Stellen Sie sicher, dass der Google Mock geladen wird
-jest.mock('../google');
-
-test('renders learn react link', () => {
+test('renders welcome message', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const welcomeMessage = screen.getByText(/Willkommen zu OFT/i);
+  expect(welcomeMessage).toBeInTheDocument();
+});
+
+test('renders Open-Food-Tracker text', () => {
+  render(<App />);
+  const oftText = screen.getByText(/Open-Food-Tracker/i);
+  expect(oftText).toBeInTheDocument();
 });

@@ -3,3 +3,14 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+// Mocking google object
+global.google = {
+    accounts: {
+      id: {
+        initialize: jest.fn(),
+        renderButton: jest.fn(),
+        prompt: jest.fn()
+      }
+    }
+  };
