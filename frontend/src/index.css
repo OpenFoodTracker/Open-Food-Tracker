@@ -11,9 +11,12 @@
 /* layout */
 :root {
   --primary: #1aac83;
-  --secondary: #e8ece4;
-  --tertiary: #e8e4e4;
+  --primaryLight: #e8ece4;
+  --tertiary: #ff0101;
+  --backgroundColour: #e8e4e4;
   --error: #e7195a;
+  --primaryFont: black;
+  --secondaryFont: gray;
 }
 
 #root {
@@ -53,8 +56,8 @@ html, body {
     font-size: 16px; /* Standardgröße für Text */
     line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
     color: #333; /* Dunkelgrau für Text */
-    background-color: var(--tertiary);
-    color: black !important;
+    background-color: var(--backgroundColour);
+    color: var(--primaryFont) !important;
 }
 
 /* Hilft, die Breite des Viewports zu kontrollieren und verhindert unerwünschtes Zoomen */
@@ -105,7 +108,7 @@ img {
 }
 
 .body{
-  background-color: var(--tertiary);
+  background-color: var(--backgroundColour);
 }
 
 
@@ -144,7 +147,7 @@ img {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(--secondary);
+  background-color: var(--primaryLight);
   border-bottom-left-radius: 70px;
   border-bottom-right-radius: 70px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -160,7 +163,7 @@ img {
 .content {
   display: flex;
   flex-direction: column;
-  background-color: var(--tertiary);
+  background-color: var(--backgroundColour);
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -201,7 +204,7 @@ img {
   width: 80%;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  background-color: var(--secondary);
+  background-color: var(--primaryLight);
   color: black;
   padding: 2vh;
   margin-top: 2vh;
@@ -280,7 +283,7 @@ img {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  background-color: var(--secondary);
+  background-color: var(--primaryLight);
   border-bottom-left-radius: 70px;
   border-bottom-right-radius: 70px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -421,11 +424,9 @@ img {
     font-size: 14px; 
   }
 
-
   .MuiTypography-root, .MuiButton-root {
     font-size: 14px; 
   }
-
 }
 
 .profileContainer {
@@ -433,22 +434,60 @@ img {
   overflow: hidden;
   box-sizing: border-box;
   padding-bottom: 60px;
-  
+  position: relative;  
 }
 
-.profilePaper  {
-  background-color: aliceblue;
-}
-
-.settingsContainer {
+.settingsButtonContainer {
+  width: 100%;
+  background-color: #0066cc;
   position:relative;
-
 }
 
-
-.settingsButton {
+.trying {
+  height:10px;
+  width: 10px;
   position: absolute;
-  top: -505x;
-  right: -150px;
+  top: 10px;
+  right: 10px; 
 }
 
+
+
+.profileDataContainer{
+  margin-top: 3vh;
+  width: 90%;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profileHeader {
+  width: 100%;
+  text-align: center; 
+}
+
+.profileGridItem {
+  border-bottom: 1px solid lightgray;
+  height: 7vh;
+}
+
+.profileForm {
+  color: var(--primaryFont) !important;
+  font-weight: bold;
+}
+
+.profileData{
+  color: var(--secondaryFont);
+  text-align: right;
+}
+
+.editButton .MuiButton-contained {
+  /* background-color: var(--secondary) !important;
+  color: white; */
+}
+
+.logOutButton .MuiButton-outlined {
+  /* color: var(--secondary) !important;
+  border-color: var(--secondary); */
+  margin-bottom: 40px;
+}
