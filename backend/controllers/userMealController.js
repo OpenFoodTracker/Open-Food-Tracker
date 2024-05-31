@@ -131,7 +131,7 @@ const addMeal = async (req, res) => {
             return res.status(200).json(updatedMealsFile);                              //return updated File
         }
 
-        const userMeal = await MealSchema.create({ date, [mealOccasion]: newMeal});     //Creates MealSchema, if none for the current date exist for this UserMeal File
+        const userMeal = await MealSchema.create({ date, [occasion]: newMeal});     //Creates MealSchema, if none for the current date exist for this UserMeal File
 
         const newMealsFile = await UserMeals.findOneAndUpdate(                          //Add MealSchema and Meal into UserMeals
             { mealsFileId: mealsFileObject }, 
