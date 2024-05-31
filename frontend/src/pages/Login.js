@@ -9,20 +9,20 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [redirectPath, setRedirectPath] = useState(null);
 
-  function handleCallbackResponse(response) {
+  const handleCallbackResponse = (response) => {
     console.log("Encoded JWT ID token: " + response.credential);
-    var userObject = jwtDecode(response.credential);
+    const userObject = jwtDecode(response.credential);
     console.log(userObject);
     setUser(userObject);
     localStorage.setItem('token', JSON.stringify(userObject));
     console.log("Direkt nach speichern:", localStorage.getItem('token'));
     fetchUserData(userObject.email);
-  }
+  };
 
   const fetchUserData = async (email) => {
     setLoading(true);
     try {
-      const response = await axios.post('/api/user/getUserByEmail', { email: email });
+      const response = await axios.post('/api/user/getUserByEmail', { email });
       const userData = response.data;
       console.log("User data received:", userData);
 
@@ -48,7 +48,7 @@ const Login = () => {
   useEffect(() => {
     // Clear localStorage once on component mount
     localStorage.clear();
-    console.log("localStorage zu Begin: ", localStorage);
+    console.log("localStorage zu Beginn: ", localStorage);
     /* global google */
     google.accounts.id.initialize({
       client_id: "560988237934-8vl914madk3tpf281m0fklrrc6nof6fu.apps.googleusercontent.com",
@@ -84,6 +84,6 @@ const Login = () => {
       }
     </div>
   );
-}
+};
 
 export default Login;
