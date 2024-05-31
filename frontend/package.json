@@ -50,6 +50,7 @@
       "last 1 safari version"
     ]
   },
+
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"

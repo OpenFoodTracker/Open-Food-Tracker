@@ -1,16 +1,16 @@
-import AddMealForm from '../components/AddMeal/AddMealForm'
+import ChangeMealSizeComponent from '../components/ChangeMealSize/ChangeMealSizeComponent';
 import Navbar from '../components/Navbar/Navbar'
 import Head from "../components/Head/Head";
 
-const AddMeal = () => {
 
+const MealSize = () => {
     return (
         <div>
             <Head />
-            <AddMealForm />
+            <ChangeMealSizeComponent />
             <Navbar />
         </div>
     )
-}
+};
 
-export default AddMeal
+export default MealSize;
