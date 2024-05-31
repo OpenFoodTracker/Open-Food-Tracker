@@ -7,6 +7,7 @@ backend/node_modules
 /node_modules
 
 # Ignoriere alle .env-Dateien und ihre Variationen
+.env
 *.env
 *.env.local
 *.env.development.local
