@@ -44,7 +44,7 @@ const ChangeMealSizeComponent = () => {
             }
 
             try {
-                const response = await fetch("/api/meals/getMeal/" + id, { 
+                const response = await fetch("/api/meal/user/getMeal/" + id, { 
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const ChangeMealSizeComponent = () => {
             console.log("frontend Date " + tempDate);
             console.log("frontend User: " + user);
             try {
-              const response = await fetch('/api/meals/' + id, { 
+              const response = await fetch('/api/meal/user/' + id, { 
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',

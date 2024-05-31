@@ -76,7 +76,21 @@ const getIngredient = async (req, res) => {
 
 
 const searchIngredients = async (req, res) => {
-    //TODO
+    const { name } = req.params;
+
+    try {
+      const response = await fetch(
+        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${name}&fields=code,product_name,product_quantity,product_quantity_unit,selected_images&json=1`
+      );
+      const json = await response.json();
+      if(!response.ok){
+        return res.status(400).json({ error: "Zugriff auf Open Food Facts fehlgeschlagen" }); 
+      }
+      res.status(200).json(json);
+    } catch (error) {
+      console.error("Error fetching data:", error); // Handle any errors that occur during the fetch
+      return res.status(400).json({ error: "Zugriff auf Open Food Facts fehlgeschlagen" }); 
+    }
 };
 
 

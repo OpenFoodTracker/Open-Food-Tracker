@@ -93,14 +93,14 @@ const JourneyComponent = ({ token }) => {
       };
 
       try {
-        const userRecipesResponse = await axios.post('/api/recipes/', userRecipesData);
+        const userRecipesResponse = await axios.post('/api/recipe/', userRecipesData);
         console.log('User recipes created successfully:', userRecipesResponse.data);
       } catch (error) {
         console.error('Error creating user recipes:', error.response ? error.response.data : error.message);
       }
 
       try {
-        const userMealsResponse = await axios.post('/api/meals/', userMealsData);
+        const userMealsResponse = await axios.post('/api/meal/user/', userMealsData);
         console.log('User meals created successfully:', userMealsResponse.data);
       } catch (error) {
         console.error('Error creating user meals:', error.response ? error.response.data : error.message);

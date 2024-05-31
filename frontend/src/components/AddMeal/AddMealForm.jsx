@@ -144,9 +144,9 @@ const AddMealForm = () => {
             mealOccasion = "snack";
         }
 
-        const meal = { mealsFileId, mealData, mealOccasion, userDate};              //puts all data into one json
+        const meal = { mealsFileId, mealData, occasion: mealOccasion, userDate};              //puts all data into one json
 
-        const response = await fetch('/api/meals', {                                //sends the data to the backend
+        const response = await fetch('/api/meal/user', {                                //sends the data to the backend
             method: 'PATCH',
             body: JSON.stringify(meal),
             headers: {

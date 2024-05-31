@@ -7,45 +7,56 @@ on:
     branches: [ main ]
 
 jobs:
-
-  build-and-run:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    
     - name: Clear Docker Cache
       run: docker builder prune -af
 
-      
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Docker Network
-      run: docker network create app-network
+    - name: Set up Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
 
-    - name: Build and Run Backend
+    - name: Build and run services with Docker Compose
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
-        docker build ./backend -t backend:latest
-        docker run -d --name backend --network app-network -e MONGO_URI=${MONGO_URI} -p 5000:5000 backend:latest
-        docker ps
+        timeout 600 docker-compose up -d --build
+        docker-compose ps # Debugging: Check if services are running
 
-    - name: Build and Run Frontend
+    - name: Show Docker Logs during Build
+      run: docker-compose logs
+
+    - name: Run Backend Tests
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        CI: true
       run: |
-        docker build ./frontend -t frontend:latest
-        docker run -d --name frontend --network app-network -p 3001:3000 frontend:latest
-        docker ps
+        echo "Running Backend Tests"
+        docker-compose exec -T backend sh -c "npm test"
+      continue-on-error: true
 
-
-    - name: Additional commands
+    - name: Run Frontend Tests
+      env:
+        CI: true
       run: |
-        echo "Run tests or other commands here"
-        # Example: curl -f http://localhost:3001
+        echo "Running Frontend Tests"
+        docker-compose exec -T frontend sh -c "npm test -- --watchAll=false"
+      continue-on-error: true
+
+    - name: Show Docker Logs for Backend Test
+      if: failure()
+      run: docker-compose logs backend
+
+    - name: Show Docker Logs for Frontend Test
+      if: failure()
+      run: docker-compose logs frontend
 
     - name: Cleanup
       if: always()
-      run: |
-        docker stop backend frontend
-        docker rm backend frontend
-        docker network rm app-network
+      run: docker-compose down --volumes --remove-orphans
