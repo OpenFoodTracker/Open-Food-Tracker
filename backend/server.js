@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // Router imports
 const userRoutes = require('./routes/userRouter'); // Der Pfad zu deinem User Router
@@ -15,7 +16,14 @@ mongoose.set('useFindAndModify', false);        //already in beginning
 // express app
 const app = express();
 
+// CORS-Optionen konfigurieren
+const corsOptions = {
+    origin: ['http://openfoodtracker.com', 'http://www.openfoodtracker.com'],
+    optionsSuccessStatus: 200
+  };
+
 // middleware
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use((req, res, next) => {
