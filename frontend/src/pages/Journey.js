@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import JourneyComponent from "../components/JourneyComponent";
-import Head from "../components/Head";
+import JourneyComponent from "../components/Journey/JourneyComponent";
+import Head from "../components/Head/Head";
 
 const Journey = () => {
   const [token, setToken] = useState(null);
