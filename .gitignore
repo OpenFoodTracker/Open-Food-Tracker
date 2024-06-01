@@ -1,13 +1,19 @@
+# Ignoriere .env-Dateien in bestimmten Verzeichnissen
 backend/.env
 
+# Ignoriere node_modules in verschiedenen Verzeichnissen
 frontend/node_modules
 backend/node_modules
+/node_modules
 
+# Ignoriere alle .env-Dateien und ihre Variationen
+.env
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
 
-*/.env
-*/.env.local
-*/.env.development.local
-*/.env.test.local
-*/.env.production.local
-*/.idea
-*/.expo
+# Ignoriere spezifische IDE- und Projektverzeichnisse
+*.idea
+*.expo
