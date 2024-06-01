@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState, useCallback } from "react";
+import { jwtDecode } from 'jwt-decode'; // Import korrigiert
 import axios from 'axios';
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [redirectPath, setRedirectPath] = useState(null);
 
-  function handleCallbackResponse(response) {
+  const handleCallbackResponse = useCallback((response) => {
     console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwtDecode(response.credential);
     console.log(userObject);
@@ -16,7 +16,7 @@ const Login = () => {
     localStorage.setItem('token', JSON.stringify(userObject));
     console.log("Direkt nach speichern:", localStorage.getItem('token'));
     fetchUserData(userObject.email);
-  }
+  }, []);
 
   const fetchUserData = async (email) => {
     setLoading(true);
@@ -60,7 +60,7 @@ const Login = () => {
     );
 
     google.accounts.id.prompt();
-  }, []);
+  }, [handleCallbackResponse]);
 
   if (redirectPath) {
     return <Navigate to={redirectPath} />;

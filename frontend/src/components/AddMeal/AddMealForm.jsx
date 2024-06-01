@@ -14,7 +14,7 @@ const AddMealForm = () => {
     const handleClose = () => {
         document.getElementById('dialog').style.display = 'none';
         ingredientJson.unit = document.getElementById('dialogUnit').value;
-        if(ingredientJson.unit == "l" || ingredientJson.unit == "kg"){
+        if(ingredientJson.unit === "l" || ingredientJson.unit === "kg"){
             ingredientJson.amount = 1;
         }
         setValues(true);
@@ -68,7 +68,7 @@ const AddMealForm = () => {
 
             }
             
-            if(ingredientJson.unit == "l" || ingredientJson.unit == "kg"){          //sets correct values, if the unit is kg or l
+            if(ingredientJson.unit === "l" || ingredientJson.unit === "kg"){          //sets correct values, if the unit is kg or l
                 ingredientJson.amount = 1;
                 ingredientJson.kcal = ingredientJson.kcal*10;
                 ingredientJson.protein = ingredientJson.protein*10;
@@ -91,26 +91,26 @@ const AddMealForm = () => {
         let currentAmount = document.getElementById('amountInput').value;         //gets input values
         const currentUnit = document.getElementById('dropdown').value;
 
-        if(currentAmount == ingredientJson.amount){
-            if(currentUnit == "ml" && ingredientJson.unit == "l" || currentUnit == "ml" && ingredientJson.unit == "kg" ||
-                currentUnit == "g" && ingredientJson.unit == "kg" || currentUnit == "g" && ingredientJson.unit == "l"){
+        if(currentAmount === ingredientJson.amount){
+            if(currentUnit === "ml" && ingredientJson.unit === "l" || currentUnit === "ml" && ingredientJson.unit === "kg" ||
+                currentUnit === "g" && ingredientJson.unit === "kg" || currentUnit === "g" && ingredientJson.unit === "l"){
                 currentAmount = parseFloat(currentAmount) * 1000;
-            } else if(currentUnit == "kg" && ingredientJson.unit == "g" || currentUnit == "kg" && ingredientJson.unit == "ml" ||
-                currentUnit == "l" && ingredientJson.unit == "g" || currentUnit == "l" && ingredientJson.unit == "ml"){
+            } else if(currentUnit === "kg" && ingredientJson.unit === "g" || currentUnit === "kg" && ingredientJson.unit === "ml" ||
+                currentUnit === "l" && ingredientJson.unit === "g" || currentUnit === "l" && ingredientJson.unit === "ml"){
                 currentAmount = parseFloat(currentAmount) / 1000;
             }
         }
 
         //calculates the scale
         let scale;
-        if(currentUnit == ingredientJsonCopy.unit || currentUnit == "ml" && ingredientJsonCopy.unit == "g" || currentUnit == "g" && ingredientJsonCopy.unit == "ml" ||
-            currentUnit == "l" && ingredientJsonCopy.unit == "kg" || currentUnit == "kg" && ingredientJsonCopy.unit == "l"){
+        if(currentUnit === ingredientJsonCopy.unit || currentUnit === "ml" && ingredientJsonCopy.unit === "g" || currentUnit === "g" && ingredientJsonCopy.unit === "ml" ||
+            currentUnit === "l" && ingredientJsonCopy.unit === "kg" || currentUnit === "kg" && ingredientJsonCopy.unit === "l"){
             scale = currentAmount/ingredientJsonCopy.amount;
-        } else if(currentUnit == "ml" && ingredientJsonCopy.unit == "l" || currentUnit == "ml" && ingredientJsonCopy.unit == "kg" ||
-                    currentUnit == "g" && ingredientJsonCopy.unit == "kg" || currentUnit == "g" && ingredientJsonCopy.unit == "l"){
+        } else if(currentUnit === "ml" && ingredientJsonCopy.unit === "l" || currentUnit === "ml" && ingredientJsonCopy.unit === "kg" ||
+                    currentUnit === "g" && ingredientJsonCopy.unit === "kg" || currentUnit === "g" && ingredientJsonCopy.unit === "l"){
             scale = currentAmount/ingredientJsonCopy.amount / 1000;
-        } else if(currentUnit == "kg" && ingredientJsonCopy.unit == "g" || currentUnit == "kg" && ingredientJsonCopy.unit == "ml" ||
-        currentUnit == "l" && ingredientJsonCopy.unit == "g" || currentUnit == "l" && ingredientJsonCopy.unit == "ml"){
+        } else if(currentUnit === "kg" && ingredientJsonCopy.unit === "g" || currentUnit === "kg" && ingredientJsonCopy.unit === "ml" ||
+        currentUnit === "l" && ingredientJsonCopy.unit === "g" || currentUnit === "l" && ingredientJsonCopy.unit === "ml"){
             scale = currentAmount/ingredientJsonCopy.amount * 1000;
         }
 
@@ -134,13 +134,13 @@ const AddMealForm = () => {
         const mealsFileId = user.mealsFileId;
 
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-        if(occasion == "Frühstück"){
+        if(occasion === "Frühstück"){
             mealOccasion = "breakfast";
-        } else if(occasion == "Mittagessen"){
+        } else if(occasion === "Mittagessen"){
             mealOccasion = "lunch";
-        } else if(occasion == "Abendessen"){
+        } else if(occasion === "Abendessen"){
             mealOccasion = "dinner";
-        } else if(occasion == "Sonstiges"){
+        } else if(occasion === "Sonstiges"){
             mealOccasion = "snack";
         }
 
