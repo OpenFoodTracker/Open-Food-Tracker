@@ -3,8 +3,6 @@ import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Pap
 import { useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-//Jetzt versuche ich es
-
 const ProfileComponent = ({ userData, token }) => {
   const navigate = useNavigate();
 
@@ -102,20 +100,6 @@ const ProfileComponent = ({ userData, token }) => {
                     {new Date(userData.birthday).toLocaleDateString()}
                   </Typography>
                 </Grid>
-                {/*
-                <Grid item xs={6}>
-              
-                  <Typography variant="body1"><strong>Dark Mode:</strong></Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body1">{userData.darkMode ? 'Aktiviert' : 'Deaktiviert'}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body1"><strong>Benachrichtigungen:</strong></Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body1">{userData.notifications ? 'Aktiviert' : 'Deaktiviert'}</Typography>
-                </Grid> */}
               </Grid>
               <Box className="editButton" display="flex" justifyContent="center" mt={4}>
                 <Button variant="contained" className="editButton" color="primary" onClick={handleEditClick}>
