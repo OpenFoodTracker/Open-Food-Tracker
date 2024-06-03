@@ -174,6 +174,7 @@ const createMeal = async (req, res) => {
   
 // update a meal
 const updateMeal = async (req, res) => {
+
     const { id } = req.params;
     const {mealData, user, occasion, date} = req.body;
 
