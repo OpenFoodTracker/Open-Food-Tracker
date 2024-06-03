@@ -55,7 +55,7 @@ const EditProfile = () => {
 
     try {
       const userId = userData._id;
-      await axios.patch(`/api/user/${userId}`, userData);  //!!!! patch instead of post?
+      await axios.patch(`/api/user/${userId}`, userData);  
       //await axios.post('/api/user/getUserByEmail', { email: email });
       localStorage.setItem('userData', JSON.stringify(userData));
 
@@ -82,6 +82,7 @@ const EditProfile = () => {
           <Select name="gender" value={userData.gender} onChange={handleChange}>
             <MenuItem value="weiblich">Weiblich</MenuItem>
             <MenuItem value="männlich">Männlich</MenuItem>
+            <MenuItem value="divers">Divers</MenuItem>
           </Select>
         </FormControl>
             <TextField    
@@ -126,26 +127,6 @@ const EditProfile = () => {
                shrink: true,
              }}
             />
-            {/* <FormControlLabel   //Dark Mode
-              control={
-                <Switch
-                  checked={userData.darkMode}
-                  onChange={(e) => setUserData({ ...userData, darkMode: e.target.checked })}
-                  color="primary"
-                />
-              }
-              label="Dark Mode"
-            />
-            <FormControlLabel   //Benachrichtigungen
-              control={
-                <Switch
-                  checked={userData.notifications}
-                    onChange={(e) => setUserData({ ...userData, notifications: e.target.checked })}
-                    color="primary"
-                />
-              }
-              label="Benachrichtigungen"
-            /> */}
             <Button   
               type="submit"
               variant="contained"

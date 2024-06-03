@@ -122,7 +122,7 @@ const JourneyComponent = ({ token }) => {
       label: 'Geschlecht',
       name: 'gender',
       type: 'radio',
-      options: ['Male', 'Female', 'Other'],
+      options: ['Männlich', 'Weiblich', 'Divers'],
     },
     {
       label: 'Größe (cm)',
