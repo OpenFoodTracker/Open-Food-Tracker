@@ -1,40 +1,22 @@
-import React, { useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Paper from '@mui/material/Paper';
+import { useNavbar } from './NavbarService'; // Importiere den Hook von der Service-Datei
 
 const Navbar = () => {
-  const location = useLocation();
-  const [value, setValue] = React.useState(location.pathname);
-
-  useEffect(() => {
-    switch (location.pathname) {
-      case '/home':
-        setValue('/home');
-        break;
-      case '/statistics':
-        setValue('/statistics');
-        break;
-      case '/profile':
-        setValue('/profile');
-        break;
-      default:
-        setValue('/home');
-    }
-  }, [location.pathname]);
+  const { value, handleChange } = useNavbar(); // Verwende den Hook für Zustand und Handler
 
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
       <BottomNavigation
         showLabels
         value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+        onChange={handleChange}
       >
         <BottomNavigationAction
           label="Home"
