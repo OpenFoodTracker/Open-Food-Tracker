@@ -33,13 +33,13 @@ const ChangeMealSizeComponent = () => {
         const fetchMeals = async () => {
 
             let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-            if(occasion == "Frühstück"){
+            if(occasion === "Frühstück"){
                 mealOccasion = "breakfast";
-            } else if(occasion == "Mittagessen"){
+            } else if(occasion === "Mittagessen"){
                 mealOccasion = "lunch";
-            } else if(occasion == "Abendessen"){
+            } else if(occasion === "Abendessen"){
                 mealOccasion = "dinner";
-            } else if(occasion == "Sonstiges"){
+            } else if(occasion === "Sonstiges"){
                 mealOccasion = "snack";
             }
 
@@ -110,13 +110,13 @@ const ChangeMealSizeComponent = () => {
         const updateData = async () => {
             
           let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-          if(occasion == "Frühstück"){
+          if(occasion === "Frühstück"){
               mealOccasion = "breakfast";
-          } else if(occasion == "Mittagessen"){
+          } else if(occasion === "Mittagessen"){
               mealOccasion = "lunch";
-          } else if(occasion == "Abendessen"){
+          } else if(occasion === "Abendessen"){
               mealOccasion = "dinner";
-          } else if(occasion == "Sonstiges"){
+          } else if(occasion === "Sonstiges"){
               mealOccasion = "snack";
           }
             console.log("frontend Date " + tempDate);

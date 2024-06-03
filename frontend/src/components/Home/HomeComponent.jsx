@@ -109,13 +109,13 @@ const HomeComponent = ({ userData, token }) => {
 
   const handleCardClick = (occasion) => {
     let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-    if(occasion == "breakfast"){
+    if(occasion === "breakfast"){
         mealOccasion = "Frühstück";
-    } else if(occasion == "lunch"){
+    } else if(occasion === "lunch"){
         mealOccasion = "Mittagessen";
-    } else if(occasion == "dinner"){
+    } else if(occasion === "dinner"){
         mealOccasion = "Abendessen";
-    } else if(occasion == "snack"){
+    } else if(occasion === "snack"){
         mealOccasion = "Sonstiges";
     }
     localStorage.setItem('occasion', mealOccasion);

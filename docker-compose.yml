@@ -12,7 +12,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
       - DANGEROUSLY_DISABLE_HOST_CHECK=true
     networks:

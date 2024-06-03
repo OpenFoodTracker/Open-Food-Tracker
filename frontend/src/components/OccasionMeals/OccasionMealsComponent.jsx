@@ -22,13 +22,13 @@ const OccasionMealsComponent = () => {
         setOccasion(occasionFromLocalStorage);
 
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-        if(occasionFromLocalStorage == "Frühstück"){
+        if(occasionFromLocalStorage === "Frühstück"){
             mealOccasion = "breakfast";
-        } else if(occasionFromLocalStorage == "Mittagessen"){
+        } else if(occasionFromLocalStorage === "Mittagessen"){
             mealOccasion = "lunch";
-        } else if(occasionFromLocalStorage == "Abendessen"){
+        } else if(occasionFromLocalStorage === "Abendessen"){
             mealOccasion = "dinner";
-        } else if(occasionFromLocalStorage == "Sonstiges"){
+        } else if(occasionFromLocalStorage === "Sonstiges"){
             mealOccasion = "snack";
         }
         
@@ -46,7 +46,7 @@ const OccasionMealsComponent = () => {
                 console.log(response);
             }
             if(response.ok){
-                if(response.status == 204){
+                if(response.status === 204){
                     return {};
                 } else {
                     const json = await response.json()
