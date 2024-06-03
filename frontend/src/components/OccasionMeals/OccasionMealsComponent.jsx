@@ -2,7 +2,7 @@ import {useState, useEffect} from "react"
 import { Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import SearchBar from '../Searchbar/SearchBar';
+import SearchComponent from "../Searchbar/SearchComponent";
 import { useNavigate } from 'react-router-dom';
 import CustomModal from "../Scanner/CustomModal";
 
@@ -35,7 +35,7 @@ const OccasionMealsComponent = () => {
         const date = inputDate;           
         
         const fetchData = async () => {                                             //gets all meals from current user, occasion and date
-            const response = await fetch(`/api/meals/occasion`, { 
+            const response = await fetch(`/api/meal/user/getOccasion`, { 
                 method: 'POST',
                 body: JSON.stringify({mealsFileId: user.mealsFileId, occasion : mealOccasion, userDate: date}),
                 headers: {
@@ -71,7 +71,7 @@ const OccasionMealsComponent = () => {
 
     //deletes meal from database 
     const deleteMeal = async (id) => {
-        const response = await fetch(`/api/meals/occasion/${id}`, {                 //sends delete request of clicked item
+        const response = await fetch(`/api/meal/user/occasion/${id}`, {                 //sends delete request of clicked item
             method: 'DELETE',
             body: JSON.stringify(occasionData),
             headers: {
@@ -111,7 +111,7 @@ const OccasionMealsComponent = () => {
                 <CustomModal />
             </Box>
             <div className="occasionSearchDiv">
-                <SearchBar />
+                <SearchComponent />
             </div>     
             <Box className="occasionMealList">
                 <List className="occasionList">
