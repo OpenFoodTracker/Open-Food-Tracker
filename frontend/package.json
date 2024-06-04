@@ -50,21 +50,24 @@
       "last 1 safari version"
     ]
   },
-
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!axios)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "jest-transform-stub"
+    }
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
-    "jest": "^27.5.1",
     "@babel/core": "^7.14.5",
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
-    "babel-jest": "^27.5.1"
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "jest-transform-stub": "^2.0.0"
   }
 }
