@@ -1,16 +1,17 @@
-import {useState, useEffect} from "react"
-import { Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
+import {useState, useEffect} from "react";
+import {Grid, Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import SearchComponent from "../Searchbar/SearchComponent";
 import { useNavigate } from 'react-router-dom';
 import CustomModal from "../Scanner/CustomModal";
-
+import { format, addDays, subDays } from 'date-fns'; // Library for date manipulation
 
 const OccasionMealsComponent = () => {
     const [ingredients, setIngredients] = useState([]);
     const [occasion, setOccasion] = useState('');
     const [occasionData, setOccasionData] = useState({});
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const navigate = useNavigate();
 
     let meals;
@@ -20,65 +21,63 @@ const OccasionMealsComponent = () => {
         const occasionFromLocalStorage = localStorage.getItem('occasion');
         const inputDate = localStorage.getItem('inputDate');
         setOccasion(occasionFromLocalStorage);
+        setSelectedDate(inputDate);
 
-        let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-        if(occasionFromLocalStorage == "Frühstück"){
+        let mealOccasion = "snack";
+        if(occasionFromLocalStorage === "Frühstück"){
             mealOccasion = "breakfast";
-        } else if(occasionFromLocalStorage == "Mittagessen"){
+        } else if(occasionFromLocalStorage === "Mittagessen"){
             mealOccasion = "lunch";
-        } else if(occasionFromLocalStorage == "Abendessen"){
+        } else if(occasionFromLocalStorage === "Abendessen"){
             mealOccasion = "dinner";
-        } else if(occasionFromLocalStorage == "Sonstiges"){
+        } else if(occasionFromLocalStorage === "Sonstiges"){
             mealOccasion = "snack";
         }
-        
-        const date = inputDate;           
-        
-        const fetchData = async () => {                                             //gets all meals from current user, occasion and date
+
+        const fetchData = async () => {
             const response = await fetch(`/api/meal/user/getOccasion`, { 
                 method: 'POST',
-                body: JSON.stringify({mealsFileId: user.mealsFileId, occasion : mealOccasion, userDate: date}),
+                body: JSON.stringify({mealsFileId: user.mealsFileId, occasion : mealOccasion, userDate: inputDate}),
                 headers: {
                     'Content-Type': 'application/json'
             }});  
-   
+
             if(!response.ok) {
                 console.log(response);
             }
             if(response.ok){
-                if(response.status == 204){
+                if(response.status === 204){
                     return {};
                 } else {
-                    const json = await response.json()
+                    const json = await response.json();
                     return json;
                 }
             }
         };
 
-        setOccasionData({                                                           //sets important Values to useState
+        setOccasionData({
             mealsFileId: user.mealsFileId,
             occasion: mealOccasion,
-            userDate: date,
+            userDate: inputDate,
         });
 
         fetchData().then(data => {
             meals = data;
             if(Object.keys(meals).length !== 0){
-                setIngredients(meals); 
-            }                                         //sets all meals to list
+                setIngredients(meals);
+            }
         });
     }, []);
 
-    //deletes meal from database 
     const deleteMeal = async (id) => {
-        const response = await fetch(`/api/meal/user/occasion/${id}`, {                 //sends delete request of clicked item
+        const response = await fetch(`/api/meal/user/occasion/${id}`, {
             method: 'DELETE',
             body: JSON.stringify(occasionData),
             headers: {
                 'Content-Type': 'application/json'
-        }});  //gets value of meal from backend
+        }});
 
-        const json = await response.json()
+        const json = await response.json();
         if(!response.ok) {
             console.log(json.error);
         }
@@ -87,7 +86,6 @@ const OccasionMealsComponent = () => {
         }
     };
 
-    //triggered by clicking the bin button by an ingredient
     const handleDeleteMeal = (index) => {
         const response = deleteMeal(ingredients[index]._id);
         if(response){
@@ -96,19 +94,19 @@ const OccasionMealsComponent = () => {
         }
     };
 
-    //triggered by clicking on an ingredient
     const handleItemClick = (index) => {
-        localStorage.setItem('idToChange', ingredients[index]._id);                 //sets id of clicked object to local storage
-        console.log(ingredients[index]._id)     
-        navigate(`/meal/${ingredients[index]._id}`);                                                  //TODO Hier auf die andere Seite verweisen und die Werte anpassen
-    };                                                                              //Am besten danach auf diese Seite hier wieder zurück verweisen
+        localStorage.setItem('idToChange', ingredients[index]._id);
+        console.log(ingredients[index]._id);     
+        navigate(`/meal/${ingredients[index]._id}`);
+    };
 
     return (
         <div className="content">
             <Box className="occasionHead">
+                <Grid item xs={8} sx={{ textAlign: 'center' }}>
+                    <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'yyyy-MM-dd')}</Typography>
+                </Grid>
                 <Typography className="text">{occasion}</Typography>
-                <QrCodeScannerIcon className="qrIcon" />
-                <CustomModal />
             </Box>
             <div className="occasionSearchDiv">
                 <SearchComponent />
@@ -137,9 +135,9 @@ const OccasionMealsComponent = () => {
                     ))}
                 </List>
             </Box>
+            <CustomModal/>
         </div>
     );
 };
 
-
-export default OccasionMealsComponent
+export default OccasionMealsComponent;

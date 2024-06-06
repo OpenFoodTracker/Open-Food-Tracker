@@ -12,9 +12,6 @@ import { format, addDays, subDays } from 'date-fns'; // Library for date manipul
 const calculateDailyCalorieGoal = (currentWeight, goalWeight) => {
   const weightDifference = currentWeight - goalWeight;
   const baseCalories = currentWeight * 24; // Grobe Schätzung: 24 Kalorien pro Kilogramm Körpergewicht pro Tag
-
-  // Wenn das Zielgewicht kleiner ist als das aktuelle Gewicht, reduzieren wir die Kalorienzufuhr
-  // Wenn das Zielgewicht größer ist als das aktuelle Gewicht, erhöhen wir die Kalorienzufuhr
   const calorieAdjustment = weightDifference * 10; // Beispielsweise 10 Kalorien pro kg Unterschied
   return baseCalories - calorieAdjustment;
 };
@@ -35,7 +32,6 @@ const HomeComponent = ({ userData, token }) => {
     }
   }, [selectedDate, userData, token]);
 
-  // Berechnung des Tagesziels basierend auf Benutzergewicht und Zielgewicht
   const dailyCalorieGoal = userData && userData.weight && userData.goal
     ? calculateDailyCalorieGoal(userData.weight, userData.goal)
     : 2000; // Defaultwert, falls userData fehlt
@@ -89,7 +85,6 @@ const HomeComponent = ({ userData, token }) => {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching meals:", error);
-      // Set default empty meals if none found
       const mealIcons = {
         breakfast: <BreakfastDiningIcon fontSize="large" />,
         lunch: <LunchDiningIcon fontSize="large" />,
@@ -108,18 +103,18 @@ const HomeComponent = ({ userData, token }) => {
   };
 
   const handleCardClick = (occasion) => {
-    let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
-    if(occasion == "breakfast"){
+    let mealOccasion = "snack";
+    if(occasion === "breakfast"){
         mealOccasion = "Frühstück";
-    } else if(occasion == "lunch"){
+    } else if(occasion === "lunch"){
         mealOccasion = "Mittagessen";
-    } else if(occasion == "dinner"){
+    } else if(occasion === "dinner"){
         mealOccasion = "Abendessen";
-    } else if(occasion == "snack"){
+    } else if(occasion === "snack"){
         mealOccasion = "Sonstiges";
     }
     localStorage.setItem('occasion', mealOccasion);
-    localStorage.setItem('inputDate', selectedDate);
+    localStorage.setItem('inputDate', format(selectedDate, 'yyyy-MM-dd'));
     navigate('/occasionMeals');
   };
 
@@ -148,8 +143,6 @@ const HomeComponent = ({ userData, token }) => {
   };
 
   const totalNutrients = calculateTotalNutrients();
-
-  // Anpassung des CircularProgress-Wertes basierend auf dem Tagesziel
   const progressValue = Math.min(totalNutrients.totalCalories / dailyCalorieGoal * 100, 100);
 
   if (loading) {

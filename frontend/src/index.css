@@ -355,6 +355,12 @@ a:focus {
   color: grey !important;
 }
 
+.modaloccasion {
+  position: fixed;
+  bottom: 8vh;
+  right: 4vw;
+}
+
 /* Login */
 .App {
   display: flex;
@@ -447,3 +453,7 @@ a:focus {
   right: -150px;
 }
 
+#OccasionDatum {
+  font-size: x-large;
+  padding-top: 25px;
+}

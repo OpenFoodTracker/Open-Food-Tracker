@@ -13,7 +13,7 @@ function CustomModal() {
   };
 
   return (
-    <div>
+    <div className="modaloccasion">
       {/* Modal structure with conditional class to control visibility */}
       <div className={`modal ${active ? "is-active" : ""}`}>
         <div className="modal-background" />
