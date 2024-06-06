@@ -50,7 +50,7 @@ const HomeComponent = ({ userData, token }) => {
     try {
       const response = await axios.get(`/api/meal/user/day/${userId}/${formattedDate}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`
         }
       });
       const mealsData = response.data;

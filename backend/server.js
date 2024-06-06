@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
 const WebSocket = require('ws');
+const authenticate = require('./authenticate');
 
 // Router imports
 const userRoutes = require('./routes/userRouter');
@@ -25,6 +26,8 @@ const corsOptions = {
 // middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+
+app.use(authenticate);
 
 app.use((req, res, next) => {
     console.log(req.path, req.method);

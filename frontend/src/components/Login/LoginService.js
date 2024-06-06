@@ -15,6 +15,7 @@ export const useLogin = () => {
     console.log(userObject);
     setUser(userObject);
     localStorage.setItem('token', JSON.stringify(userObject));
+    localStorage.setItem('userToken', response.credential);
     console.log("Direkt nach speichern:", localStorage.getItem('token'));
     fetchUserData(userObject.email);
   }, []);
@@ -22,7 +23,15 @@ export const useLogin = () => {
   const fetchUserData = async (email) => {
     setLoading(true);
     try {
-      const response = await axios.post('/api/user/getUserByEmail', { email: email });
+      const response = await axios.post(
+        '/api/user/getUserByEmail', 
+        { email: email }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            }
+        }
+      );
       const userData = response.data;
       console.log("User data received:", userData);
 

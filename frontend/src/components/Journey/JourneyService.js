@@ -51,10 +51,18 @@ export const useJourney = (token) => {
 
     try {
       console.log(userData);
-      const response = await axios.post('/api/user/', userData); // relative URL
+      const response = await axios.post('/api/user/', userData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`
+        }
+      }); // relative URL
       console.log('User data posted successfully:', response.data);
 
-      const IdResponse = await axios.post('/api/user/getUserByEmail', { email: token.email });
+      const IdResponse = await axios.post('/api/user/getUserByEmail', { email: token.email }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`
+        }
+      });
       const userId = IdResponse.data._id; // Stellen Sie sicher, dass userId hier korrekt abgerufen wird
       const recipeFileId = IdResponse.data.recipeFileId;
       const mealsFileId = IdResponse.data.mealsFileId;
@@ -75,14 +83,22 @@ export const useJourney = (token) => {
       };
 
       try {
-        const userRecipesResponse = await axios.post('/api/recipe/', userRecipesData);
+        const userRecipesResponse = await axios.post('/api/recipe/', userRecipesData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`
+          }
+        });
         console.log('User recipes created successfully:', userRecipesResponse.data);
       } catch (error) {
         console.error('Error creating user recipes:', error.response ? error.response.data : error.message);
       }
 
       try {
-        const userMealsResponse = await axios.post('/api/meal/user/', userMealsData);
+        const userMealsResponse = await axios.post('/api/meal/user/', userMealsData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`
+          }
+        });
         console.log('User meals created successfully:', userMealsResponse.data);
       } catch (error) {
         console.error('Error creating user meals:', error.response ? error.response.data : error.message);

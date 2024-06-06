@@ -10,6 +10,7 @@ const getOccasionMeals = async (req, res) => {
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
     const date = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
 
+
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
 
@@ -107,13 +108,14 @@ const getMealById = async (req, res) => {
 //Creates a MealSchema for the current user date, if it does not exist
 const addMeal = async (req, res) => {
     const { mealsFileId, mealData, occasion, userDate} = req.body; 
-
+    console.log(userDate);
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
     const day = tempDate.getDate();
     const month = tempDate.getMonth(); 
     const year = tempDate.getFullYear();
 
-    date = new Date(year, month , day);
+    const date = new Date(year, month , day);
+    console.log(date);
 
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
