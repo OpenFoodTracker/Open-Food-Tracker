@@ -8,6 +8,8 @@ import CookieIcon from '@mui/icons-material/Cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { format, addDays, subDays } from 'date-fns'; // Library for date manipulation
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
 
 const calculateDailyCalorieGoal = (currentWeight, goalWeight) => {
   const weightDifference = currentWeight - goalWeight;
@@ -161,26 +163,24 @@ const HomeComponent = ({ userData, token }) => {
   }
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={2}>
-          <IconButton onClick={handlePrevDay}>
-            <ArrowBack />
-          </IconButton>
+    <div>
+      <div className="addMealHead">
+
+        <Grid item xs={8} sx={{ textAlign: 'center',  padding: 2 }}>                             
+          <Typography variant="h6">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
         </Grid>
-        <Grid item xs={8} sx={{ textAlign: 'center' }}>
-          <Typography variant="h6">{format(selectedDate, 'yyyy-MM-dd')}</Typography>
-        </Grid>
-        <Grid item xs={2} sx={{ textAlign: 'right' }}>
-          <IconButton onClick={handleNextDay}>
-            <ArrowForward />
-          </IconButton>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} sx={{ padding: 2 }}>
+
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid item xs={2} container alignItems="center"> 
+            <IconButton onClick={handlePrevDay}>
+              <ArrowBack/>
+            </IconButton>
+          </Grid>
+
+
+          {/* circular progress */}
           <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} />
+            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} sx={{ color: progressValue > 100 ? 'red' : 'primary' }} />
             <Box
               sx={{
                 top: 0,
@@ -198,12 +198,32 @@ const HomeComponent = ({ userData, token }) => {
               </Typography>
             </Box>
           </Box>
+
+          <Grid item xs={2} container justifyContent="flex-end">
+          {/*if next day in future, don't show arrow */}
+            {selectedDate >= new Date() ? null : (
+              <IconButton onClick={handleNextDay}>
+                <ArrowForward />
+            </IconButton>
+            )}
+
+          </Grid>
         </Grid>
+      </div>
+
+      <Grid container spacing={2} sx={{ padding: '4vh 3vh 0 3vh' }}>
         {meals.map((meal, index) => (
-          <Grid item xs={12} sm={6} key={index}>
+          <Grid item xs={6} sm={6} key={index}>
             <Card 
               onClick={() => handleCardClick(meal.name)}
-              sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 2 }}
+              sx={{
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                padding: 2,
+                background: `linear-gradient(to bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.gradient})`, 
+                borderRadius: 10 
+              }}
             >
               <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h6" component="div" sx={{ mb: 1 }}>
@@ -216,14 +236,14 @@ const HomeComponent = ({ userData, token }) => {
                   <Typography variant="body2">{meal.totalNutrients.carbs}g Carbs</Typography>
                 </Box>
               </CardContent>
-              <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2 }}>
+              {/* <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2 }}>
                 {meal.icon}
-              </Box>
+              </Box> */}
             </Card>
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </div>
   );
 };
 
