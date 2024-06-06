@@ -108,14 +108,13 @@ const getMealById = async (req, res) => {
 //Creates a MealSchema for the current user date, if it does not exist
 const addMeal = async (req, res) => {
     const { mealsFileId, mealData, occasion, userDate} = req.body; 
-    console.log(userDate);
+
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
     const day = tempDate.getDate();
     const month = tempDate.getMonth(); 
     const year = tempDate.getFullYear();
 
     const date = new Date(year, month , day);
-    console.log(date);
 
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   

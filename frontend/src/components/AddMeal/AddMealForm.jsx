@@ -9,6 +9,7 @@ const AddMealForm = () => {
     const [occasion] = useState(localStorage.getItem('occasion'));
     const [meal, setMeal] = useState(null);
     const [originalMeal, setOriginalMeal] = useState(null);
+    const [mealSetupRan, setMealSetupRan] = useState(false);
     const [error, setError] = useState(null)
     const navigate = useNavigate();
 
@@ -16,11 +17,10 @@ const AddMealForm = () => {
     //Closes Popup and handles value updates
     const handleClose = () => {
         document.getElementById('dialog').style.display = 'none';
-        setValues();
+        setOriginalMeal(prevMeal => ({ ...prevMeal, unit: meal.unit }));
     };
 
     useEffect(() => {
-        console.log("A");
         const ingredientId = localStorage.getItem('currentIngredientId');
         const fetchData = async () => {
             const response = await fetch(`/api/offApi/ingredient/${ingredientId}`, {
@@ -37,20 +37,20 @@ const AddMealForm = () => {
             }
         };
         fetchData().then(data => {
-            console.log("B");
             setMeal(data);
             setOriginalMeal(data); 
         });       
     }, []);
 
     useEffect(() => {
-        if (meal) {
+        if (meal && !mealSetupRan) {
             if (meal.unitUnknown) {
                 setMeal(prevMeal => ({ ...prevMeal, unit: 'g' }));
                 setOriginalMeal(prevMeal => ({ ...prevMeal, unit: 'g' }));
                 document.getElementById('dialog').style.display = 'flex';
             }
             setValues();
+            setMealSetupRan(true);
         }
     }, [originalMeal]);
 
@@ -65,7 +65,14 @@ const AddMealForm = () => {
                 fat: prevMeal.fat*10,
                 carbs: prevMeal.carbs*10
              }));
-
+             setOriginalMeal(prevMeal => ({
+                ...prevMeal,
+                amount: 1,
+                kcal: prevMeal.kcal*10,
+                protein: prevMeal.protein*10,
+                fat: prevMeal.fat*10,
+                carbs: prevMeal.carbs*10
+             }));
         }
     }
 
@@ -95,6 +102,7 @@ const AddMealForm = () => {
 
     const changeAmount = (event) => {
         const newAmount = event.target.value;
+        console.log(newAmount);
 
         let unitScale = 1;
         if((meal.unit === 'ml' && originalMeal.unit === 'l') || (meal.unit === 'ml' && originalMeal.unit === 'kg') ||
@@ -106,6 +114,7 @@ const AddMealForm = () => {
         }
 
         const amountScale = newAmount/originalMeal.amount;
+        console.log(amountScale);
         setMeal(prevMeal => ({
             ...prevMeal,
             amount: newAmount,
@@ -166,7 +175,7 @@ const AddMealForm = () => {
             <div className="addMealForm">
                 <div className="changeForm">
                     <label>Menge:</label>
-                    <input id="amountInput" type="number" value={(meal && meal.amount)||0} onChange={changeAmount}/>
+                    <input id="amountInput" type="number" value={(meal && meal.amount)||undefined} onChange={changeAmount}/>
                     <select id="dropdown" value={meal && meal.unit} onChange={changeUnit}>
                         <option value="g">g</option>
                         <option value="kg">kg</option>
