@@ -14,7 +14,7 @@ const LoginComponent = () => {
     const initializeGoogleSignIn = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          client_id: "560988237934-8vl914madk3tpf281m0fklrrc6nof6fu.apps.googleusercontent.com",
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           callback: handleCallbackResponse
         });
 
