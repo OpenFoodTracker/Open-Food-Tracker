@@ -8,7 +8,7 @@ const ChangeMealSizeComponent = () => {
     const { id } = useParams();
 
     const [unit, setUnit] = useState(0);
-    const [name, setName] = useState(0);
+    const [name, setName] = useState(0);           
     const [imageUrl, setImageUrl] = useState('');
 
     const [user] = useState(JSON.parse(localStorage.getItem('userData')));
@@ -49,7 +49,7 @@ const ChangeMealSizeComponent = () => {
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 //question: why not updatedFormData?
+                    body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 
                 });
                 if (response.ok) {
                     const json = await response.json();
@@ -82,7 +82,7 @@ const ChangeMealSizeComponent = () => {
     }, [id]);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target;       //name=Menge
         const faktor = value / origAmount;
         setFormData((prevData) => ({
             ...prevData,

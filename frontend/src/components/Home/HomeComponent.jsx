@@ -166,21 +166,22 @@ const HomeComponent = ({ userData, token }) => {
     <div>
       <div className="addMealHead">
 
-        <Grid item xs={8} sx={{ textAlign: 'center',  padding: 2 }}>                             
+    
+        <Grid item xs={8} sx={{ textAlign: 'center', padding: 2 }}>
           <Typography variant="h6">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
         </Grid>
-
+        
+      
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Grid item xs={2} container alignItems="center"> 
-            <IconButton onClick={handlePrevDay}>
-              <ArrowBack/>
-            </IconButton>
-          </Grid>
 
+        <Grid item  xs={2} container alignItems="center">
+          <IconButton onClick={handlePrevDay}>
+            <ArrowBack />
+          </IconButton>
+        </Grid>
 
-          {/* circular progress */}
           <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} sx={{ color: progressValue > 100 ? 'red' : 'primary' }} />
+            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} />
             <Box
               sx={{
                 top: 0,
@@ -191,6 +192,7 @@ const HomeComponent = ({ userData, token }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                padding: '0 0 1vh 0'
               }}
             >
               <Typography variant="h5" component="div">
@@ -200,15 +202,12 @@ const HomeComponent = ({ userData, token }) => {
           </Box>
 
           <Grid item xs={2} container justifyContent="flex-end">
-          {/*if next day in future, don't show arrow */}
-            {selectedDate >= new Date() ? null : (
-              <IconButton onClick={handleNextDay}>
-                <ArrowForward />
-            </IconButton>
-            )}
-
-          </Grid>
+          <IconButton onClick={handleNextDay}>
+            <ArrowForward />
+          </IconButton>
         </Grid>
+
+        </Grid>        
       </div>
 
       <Grid container spacing={2} sx={{ padding: '4vh 3vh 0 3vh' }}>
@@ -242,7 +241,7 @@ const HomeComponent = ({ userData, token }) => {
             </Card>
           </Grid>
         ))}
-      </Grid>
+        </Grid>
     </div>
   );
 };
