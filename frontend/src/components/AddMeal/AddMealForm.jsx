@@ -18,6 +18,7 @@ const AddMealForm = () => {
     const handleClose = () => {
         document.getElementById('dialog').style.display = 'none';
         setOriginalMeal(prevMeal => ({ ...prevMeal, unit: meal.unit }));
+        setValues();
     };
 
     useEffect(() => {
@@ -88,15 +89,10 @@ const AddMealForm = () => {
          scale = 0.001;
         }
 
-        //const amountScale = meal.amount/originalMeal.amount;
         setMeal(prevMeal => ({
             ...prevMeal,
             unit: newUnit,
             amount: meal.amount * scale,
-            //kcal: originalMeal.kcal * scale * amountScale,
-            //protein: originalMeal.protein * scale * amountScale,
-            //fat: originalMeal.fat * scale * amountScale,
-            //carbs: originalMeal.carbs * scale * amountScale
         }));
     }
 
