@@ -11,7 +11,11 @@ const SearchComponent = () => {
     try {
       const response = await fetch(
         `/api/offApi/search/${value}`
-      );
+        , {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`
+          }
+        });
       if(response.ok){
         const json = await response.json();
 

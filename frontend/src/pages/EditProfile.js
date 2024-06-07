@@ -55,7 +55,11 @@ const EditProfile = () => {
 
     try {
       const userId = userData._id;
-      await axios.patch(`/api/user/${userId}`, userData);  
+      await axios.patch(`/api/user/${userId}`, userData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`
+        }
+      });  
       //await axios.post('/api/user/getUserByEmail', { email: email });
       localStorage.setItem('userData', JSON.stringify(userData));
 
