@@ -8,7 +8,9 @@ const theme = createTheme({
     },
     secondary: {
       main: '#A5A6F6', 
-      gradient: '#a298dd'
+      mainDark:'#7879F1',
+      mainLight: '#E0E5FF',
+      gradient: '#a298dd',
     },
   },
 });

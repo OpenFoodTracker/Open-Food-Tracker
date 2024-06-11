@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Switch, FormControlLabel, Button } from '@mui/material';
+import { Container, Typography, Box, Switch, FormControlLabel, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Head from "../Head/Head"
+import Navbar from "../Navbar/Navbar"
 
 const SettingsComponent = () => {
   const navigate = useNavigate();
@@ -27,12 +29,20 @@ const SettingsComponent = () => {
     navigate('/profile'); // Navigate back to profile page
   };
 
+  const goToCredits = () => {
+    navigate('/credits');
+  };
+
+
   return (
+    <div>
+    <Head/>
     <Container>
+      
       <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
-        <Typography variant="h4" gutterBottom>
+        {/* <Typography variant="h4" gutterBottom>
           Einstellungen
-        </Typography>
+        </Typography> */}
         <Box width="100%" maxWidth={600}>
           <FormControlLabel
             control={
@@ -58,8 +68,15 @@ const SettingsComponent = () => {
             Speichern
           </Button>
         </Box>
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Link color="primary" onClick={goToCredits}>
+            Credits
+          </Link>
+        </Box>
       </Box>
+      {/* <Navbar/> */}
     </Container>
+    </div>
   );
 };
 

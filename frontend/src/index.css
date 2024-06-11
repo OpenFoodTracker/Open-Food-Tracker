@@ -483,6 +483,7 @@ a:focus {
 .profileForm {
   color: var(--primaryFont) !important;
   font-weight: bold;
+  text-align: left;
 }
 
 .profileData{
@@ -500,3 +501,21 @@ a:focus {
   border-color: var(--secondary); */
   margin-bottom: 40px;
 }
+
+
+
+/*Home*/
+.HomeIconContainer{
+  width: 14vh;
+  height: 14vh;
+  position: absolute;
+  right: -6vh; 
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+/*Journey*/

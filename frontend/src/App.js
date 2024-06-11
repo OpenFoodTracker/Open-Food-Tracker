@@ -12,6 +12,9 @@ import AddMeal from "./pages/AddMeal";
 import MealSize from "./pages/MealSize";
 import EditProfile from './pages/EditProfile';
 import SettingsComponent from './components/Settings/SettingsComponent';
+import CreditsComponent from './components/Settings/CreditsComponent';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 
 
 const App = () => {
@@ -19,7 +22,7 @@ const App = () => {
   //const isAuthenticated = localStorage.getItem('userData');
 
   return (
-
+    <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -32,8 +35,10 @@ const App = () => {
         <Route path="/meal/:id" element={<MealSize />}/>
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/settings" element={<SettingsComponent />} />
+        <Route path="/credits" element={<CreditsComponent />} />
       </Routes>
     </Router>
+    </ThemeProvider>
   )
 };
 

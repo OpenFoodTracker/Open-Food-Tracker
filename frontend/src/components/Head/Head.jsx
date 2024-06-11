@@ -7,7 +7,7 @@ const Head = () => {
   const { logo, title, homePath } = useHeadConfig(); // Verwende die Konfigurationsdaten aus dem Hook
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ width: '100%' }}>
       <Toolbar>
         <IconButton
           edge="start"

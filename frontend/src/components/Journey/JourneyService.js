@@ -120,23 +120,23 @@ export const useJourney = (token) => {
       label: 'Geschlecht',
       name: 'gender',
       type: 'radio',
-      options: ['Male', 'Female', 'Other'],
+      options: ['Männlich', 'Weiblich', 'Divers'],
     },
     {
-      label: 'Größe (cm)',
+      label: 'Größe',
       name: 'height',
       type: 'slider',
       min: 100,
       max: 220,
-      step: 1,
+      step: 0.5,
     },
     {
-      label: 'Gewicht (kg)',
+      label: 'Gewicht',
       name: 'weight',
       type: 'slider',
       min: 40,
       max: 150,
-      step: 1,
+      step: 0.5,
     },
     {
       label: 'Geburtstag',
@@ -149,7 +149,7 @@ export const useJourney = (token) => {
       type: 'slider',
       min: 40,
       max: 150,
-      step: 1,
+      step: 0.5,
     }
   ];
 

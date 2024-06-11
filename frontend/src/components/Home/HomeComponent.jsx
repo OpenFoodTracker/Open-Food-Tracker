@@ -10,6 +10,10 @@ import axios from 'axios';
 import { format, addDays, subDays } from 'date-fns'; // Library for date manipulation
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
+import breakfastIcon from './images/breakfast.png';
+import lunchIcon from './images/lunch.png';
+import dinnerIcon from './images/dinner.png';
+import snackIcon from './images/snack.png';
 
 const calculateDailyCalorieGoal = (currentWeight, goalWeight) => {
   const weightDifference = currentWeight - goalWeight;
@@ -108,6 +112,21 @@ const HomeComponent = ({ userData, token }) => {
       setLoading(false);
     }
   };
+
+  const getMealIcon = (mealName) => {
+  switch (mealName) {
+    case 'breakfast':
+      return breakfastIcon;
+    case 'lunch':
+      return lunchIcon;
+    case 'dinner':
+      return dinnerIcon;
+    case 'snack':
+      return snackIcon;
+    default:
+      return null;
+  }
+};
 
   const handleCardClick = (occasion) => {
     let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
@@ -221,10 +240,11 @@ const HomeComponent = ({ userData, token }) => {
                 alignItems: 'center',
                 padding: 2,
                 background: `linear-gradient(to bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.gradient})`, 
-                borderRadius: 10 
+                borderRadius: 10,
+                position:  'relative',
               }}
             >
-              <CardContent sx={{ flex: 1 }}>
+              <CardContent sx={{ flex: 1, zIndex: 1 }}>
                 <Typography variant="h6" component="div" sx={{ mb: 1 }}>
                   {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
                 </Typography>
@@ -238,6 +258,16 @@ const HomeComponent = ({ userData, token }) => {
               {/* <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2 }}>
                 {meal.icon}
               </Box> */}
+             
+              <div className="HomeIconContainer">
+                <Box sx={{zIndex: 0}}>
+                  <img 
+                    src={getMealIcon(meal.name)} 
+                    alt={meal.name} 
+                    style={{ width: '70%', height: 'auto' }}
+                  />
+                </Box>
+              </div>
             </Card>
           </Grid>
         ))}
