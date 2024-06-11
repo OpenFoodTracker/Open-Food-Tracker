@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import { Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
+import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import SearchComponent from "../Searchbar/SearchComponent";
@@ -39,6 +39,7 @@ const OccasionMealsComponent = () => {
                 method: 'POST',
                 body: JSON.stringify({mealsFileId: user.mealsFileId, occasion : mealOccasion, userDate: date}),
                 headers: {
+                    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
                     'Content-Type': 'application/json'
             }});  
    
@@ -75,8 +76,9 @@ const OccasionMealsComponent = () => {
             method: 'DELETE',
             body: JSON.stringify(occasionData),
             headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
                 'Content-Type': 'application/json'
-        }});  //gets value of meal from backend
+        }});  
 
         const json = await response.json()
         if(!response.ok) {

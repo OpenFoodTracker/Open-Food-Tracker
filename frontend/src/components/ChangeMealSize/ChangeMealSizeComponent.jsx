@@ -47,7 +47,8 @@ const ChangeMealSizeComponent = () => {
                 const response = await fetch("/api/meal/user/getMeal/" + id, { 
                     method: 'POST',
                     headers: {
-                      'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 
                 });
@@ -125,7 +126,8 @@ const ChangeMealSizeComponent = () => {
               const response = await fetch('/api/meal/user/' + id, { 
                 method: 'PATCH',
                 headers: {
-                  'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({mealData: formData, user: user, occasion: mealOccasion, date: tempDate}),                
               });

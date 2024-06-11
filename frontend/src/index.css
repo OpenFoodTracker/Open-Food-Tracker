@@ -151,6 +151,18 @@ a:focus {
   padding-bottom: 2vh;
 }
 
+.addMealHead>.occasionTitle {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.addMealDate {
+  color: grey !important;
+  font-size: large;
+  margin-top: 0;
+  font-weight: bold;
+}
+
 #addMealImage {
   padding-top: 3vh;
   max-height: 30vh;
@@ -192,6 +204,7 @@ a:focus {
 
 .addMealHead>div {
   color: black;
+
 }
 
 .addMealForm {
@@ -223,7 +236,7 @@ a:focus {
 }
 
 .changeForm>select {
-  height: 70%;
+  height: 100%;
 }
 
 .changeForm>button {
