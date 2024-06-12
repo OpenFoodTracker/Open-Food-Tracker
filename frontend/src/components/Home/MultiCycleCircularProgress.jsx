@@ -16,7 +16,7 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
             variant="determinate"
             value={100}
             size={140}
-            thickness={4}
+            thickness={7}
             sx={{
               position: 'absolute',
               left: 0,
@@ -28,7 +28,7 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
           variant="determinate"
           value={remainingValue}
           size={140}
-          thickness={4}
+          thickness={7}
           sx={{
             position: 'absolute',
             left: 0,
@@ -50,7 +50,7 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
         >
          <Typography variant="h5" component="div"
               sx={{ 
-                  fontSize: value > 9999? '20px' : '24px',
+                  fontSize: value > 9999? '16px' : '20px',
                 }} >
                 {value} kcal
               </Typography>

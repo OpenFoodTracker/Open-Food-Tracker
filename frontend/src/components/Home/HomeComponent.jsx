@@ -154,21 +154,10 @@ const HomeComponent = ({ userData, token }) => {
 
   const totalNutrients = calculateTotalNutrients();
 
-  // Anpassung des CircularProgress-Wertes basierend auf dem Tagesziel
-  const progressValue = Math.min(totalNutrients.totalCalories / dailyCalorieGoal * 100, 100); //das normale
-  const overProgressValue = totalNutrients.totalCalories > dailyCalorieGoal                    //Version 1: overProgress
+  const progressValue = Math.min(totalNutrients.totalCalories / dailyCalorieGoal * 100, 100);
+  const overProgressValue = totalNutrients.totalCalories > dailyCalorieGoal
     ? (totalNutrients.totalCalories - dailyCalorieGoal) / dailyCalorieGoal * 100
     : 0;
-  const fullCycles = Math.floor(totalNutrients.totalCalories / dailyCalorieGoal);             //Version 2: cycles
-  const getColorForCycle = (cycle) => {
-    console.log("cycle " +cycle);
-    if (cycle % 2 === 0) {
-      return theme.palette.primary.main;
-    } else {
-      return theme.palette.secondary.main;
-    }
-  };
-  const circleColor = getColorForCycle(fullCycles);
 
   if (loading) {
     return (
@@ -181,63 +170,29 @@ const HomeComponent = ({ userData, token }) => {
   return (
     <div>
       <div className="addMealHead">
-    
-        <Grid item xs={8} sx={{ textAlign: 'center', padding: 2 }}>
+        <Grid item xs={8} sx={{ textAlign: 'center', padding: 1 }}>
           <Typography variant="h6">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
         </Grid>
       
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
 
-        {/* Arrow < */}
-        <Grid item  xs={2} container alignItems="center">
-          <IconButton onClick={handlePrevDay}>
-            <ArrowBack />
-          </IconButton>
-        </Grid>
+          <Grid item xs={2} container alignItems="center" className="multiProgressArrowLeft">
+            <IconButton onClick={handlePrevDay}>
+              <ArrowBack />
+            </IconButton> 
+           
+          </Grid>
 
-          {/* Circular Progress */}
-          <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-            {/* <MultiCycleCircularProgress value={totalNutrients.totalCalories} dailyGoal={dailyCalorieGoal} /> */}
-            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} sx={{ color: theme.palette.primary.main }} />
-            {overProgressValue > 0 && (
-              <CircularProgress
-                variant="determinate"
-                value={Math.min(overProgressValue, 100)}
-                size={140}
-                thickness={4}
-                sx={{ position: 'absolute', color: circleColor }}
-              />
-            )}
-            <Box
-              sx={{
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0 0 1vh 0'
-              }}
-            >
-              <Typography variant="h5" component="div"
-              sx={{ 
-                  fontSize: totalNutrients.totalCalories > 9999? '20px' : '24px',
-                }} >
-                {totalNutrients.totalCalories} kcal
-              </Typography>
-            </Box>
-            
+          <Box className="multiProgressProgress" sx={{ position: 'relative', display: 'inline-flex'  }}>
+            <MultiCycleCircularProgress value={totalNutrients.totalCalories} dailyGoal={dailyCalorieGoal} /> 
+            <div></div>
           </Box>
 
-          {/* Arrow > */}
-          <Grid item xs={2} container justifyContent="flex-end">
-          <IconButton onClick={handleNextDay}>
-            <ArrowForward />
-          </IconButton>
-        </Grid>
-
+          <Grid item xs={2} container justifyContent="flex-end" className="multiProgressArrowRight">
+            <IconButton onClick={handleNextDay}>
+              <ArrowForward />
+            </IconButton>
+          </Grid>
         </Grid>        
       </div>
 
@@ -267,9 +222,6 @@ const HomeComponent = ({ userData, token }) => {
                   <Typography variant="body2">{meal.totalNutrients.carbs}g Carbs</Typography>
                 </Box>
               </CardContent>
-              {/* <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 2 }}>
-                {meal.icon}
-              </Box> */}
              
               <div className="HomeIconContainer">
                 <Box sx={{zIndex: 0}}>

@@ -517,10 +517,19 @@ a:focus {
   justify-content: flex-end;
 }
 
-.multiProgress {
-  background-color: #0066cc;
-  height:10px;
-  width:10px;
+.multiProgressArrowLeft {
+  height:140px;
+  width:140px;
+}
+
+.multiProgressProgress {
+  height:140px;
+  width:140px; 
+}
+
+.multiProgressArrowRight {
+  height:140px;
+  width:140px;
 }
 
 
