@@ -144,7 +144,7 @@ export const useJourney = (token) => {
       type: 'date',
     },
     {
-      label: 'Zielgewicht (kg)',
+      label: 'Zielgewicht',
       name: 'goalWeight',
       type: 'slider',
       min: 40,

@@ -10,8 +10,8 @@
 
 /* layout */
 :root {
-  --primary: #1aac83;
-  --primaryLight: #e8ece4;
+  --primary: #1DAA82;
+  --primaryLight: #E4EEEB;
   --secondary:#a5a6f6;
   --tertiary: #ff0101;
   --backgroundColour: #e8e4e4;
@@ -515,6 +515,12 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.multiProgress {
+  background-color: #0066cc;
+  height:10px;
+  width:10px;
 }
 
 

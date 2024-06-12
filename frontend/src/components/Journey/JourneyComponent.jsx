@@ -61,13 +61,12 @@ const JourneyComponent = ({ token }) => {
   return (
     // Starte Journey
     <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100vh - 64px)' }}>
-    <Box mt={8} textAlign="center" flex="1">
+    <Box mt={10} textAlign="center" flex="1"> {/*distance to the top*/}
       {!journeyStarted ? (
         <Grow in={!journeyStarted} timeout={1000}>
-          <Box  mt={8}>
+          <Box  mt={6}>                       {/*16 in total*/}
             <Typography variant="h3">Willkommen</Typography>
             <Typography variant="h3" mb={9}>{token.given_name} {token.family_name}</Typography>
-            {/* <Typography variant="subtitle1" mt={2}>{token.email}</Typography> */}
             <Box mt={4}>
               <Button size="large" variant="contained" color="primary" onClick={startJourney}>
                 Starte deine Journey
@@ -77,7 +76,7 @@ const JourneyComponent = ({ token }) => {
         </Grow>
       ) : (
         <>
-        {/* hier */}
+        
           <Box mt={1} flex="1"> 
             {step < questions.length ? (
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%">
@@ -109,7 +108,6 @@ const JourneyComponent = ({ token }) => {
                           >
                              <CardActionArea>
                               <CardContent>
-                                {/* Anpassen der Größe der Icons */}
                                 {React.cloneElement(genderIcons[option], {
                                   sx: {
                                     fontSize: 80,
@@ -153,7 +151,9 @@ const JourneyComponent = ({ token }) => {
                   </FormControl>
                 </Box>
               ) : (
+                
                 <div>
+                {/* Summary of all information */}
                 <Box className="profileHeader" sx={{ width: '100%', textAlign: 'center' }}>
                   <Typography variant="h4" gutterBottom>
                     Deine Angaben
@@ -183,7 +183,7 @@ const JourneyComponent = ({ token }) => {
                   <Typography className="profileForm" variant="body1">Zielgewicht:</Typography>
                 </Grid>
                 <Grid className="profileGridItem" item xs={6}>
-                  <Typography className="profileData" variant="body1">{formData.goal} kg</Typography>
+                  <Typography className="profileData" variant="body1">{formData.goalWeight} kg</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Typography className="profileForm" variant="body1">Geburtstag:</Typography>

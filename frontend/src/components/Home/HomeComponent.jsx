@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography, CircularProgress, Box, IconButton, Card, CardContent } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
-import LunchDiningIcon from '@mui/icons-material/LunchDining';
-import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
-import CookieIcon from '@mui/icons-material/Cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { format, addDays, subDays } from 'date-fns'; // Library for date manipulation
-import { ThemeProvider } from '@mui/material/styles';
+// import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
 import breakfastIcon from './images/breakfast.png';
 import lunchIcon from './images/lunch.png';
 import dinnerIcon from './images/dinner.png';
 import snackIcon from './images/snack.png';
+import MultiCycleCircularProgress from './MultiCycleCircularProgress';
 
 const calculateDailyCalorieGoal = (currentWeight, goalWeight) => {
   const weightDifference = currentWeight - goalWeight;
@@ -61,13 +58,7 @@ const HomeComponent = ({ userData, token }) => {
       });
       const mealsData = response.data;
       console.log('Fetched meals:', mealsData);
-      const mealIcons = {
-        breakfast: <BreakfastDiningIcon fontSize="large" />,
-        lunch: <LunchDiningIcon fontSize="large" />,
-        dinner: <DinnerDiningIcon fontSize="large" />,
-        snack: <CookieIcon fontSize="large" />
-      };
-
+    
       const mappedMeals = ['breakfast', 'lunch', 'dinner', 'snack'].map(occasion => {
         const items = mealsData[occasion] || [];
         const totalNutrients = items.reduce((totals, item) => {
@@ -81,7 +72,6 @@ const HomeComponent = ({ userData, token }) => {
         return {
           name: occasion,
           items,
-          icon: mealIcons[occasion],
           totalNutrients: {
             calories: Math.round(totalNutrients.calories),
             protein: Math.round(totalNutrients.protein),
@@ -95,17 +85,11 @@ const HomeComponent = ({ userData, token }) => {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching meals:", error);
-      // Set default empty meals if none found
-      const mealIcons = {
-        breakfast: <BreakfastDiningIcon fontSize="large" />,
-        lunch: <LunchDiningIcon fontSize="large" />,
-        dinner: <DinnerDiningIcon fontSize="large" />,
-        snack: <CookieIcon fontSize="large" />
-      };
+     
       const defaultMeals = ['breakfast', 'lunch', 'dinner', 'snack'].map(occasion => ({
         name: occasion,
         items: [],
-        icon: mealIcons[occasion],
+        // icon: mealIcons[occasion],
         totalNutrients: { calories: 0, protein: 0, fat: 0, carbs: 0 }
       }));
       setMeals(defaultMeals);
@@ -171,7 +155,20 @@ const HomeComponent = ({ userData, token }) => {
   const totalNutrients = calculateTotalNutrients();
 
   // Anpassung des CircularProgress-Wertes basierend auf dem Tagesziel
-  const progressValue = Math.min(totalNutrients.totalCalories / dailyCalorieGoal * 100, 100);
+  const progressValue = Math.min(totalNutrients.totalCalories / dailyCalorieGoal * 100, 100); //das normale
+  const overProgressValue = totalNutrients.totalCalories > dailyCalorieGoal                    //Version 1: overProgress
+    ? (totalNutrients.totalCalories - dailyCalorieGoal) / dailyCalorieGoal * 100
+    : 0;
+  const fullCycles = Math.floor(totalNutrients.totalCalories / dailyCalorieGoal);             //Version 2: cycles
+  const getColorForCycle = (cycle) => {
+    console.log("cycle " +cycle);
+    if (cycle % 2 === 0) {
+      return theme.palette.primary.main;
+    } else {
+      return theme.palette.secondary.main;
+    }
+  };
+  const circleColor = getColorForCycle(fullCycles);
 
   if (loading) {
     return (
@@ -184,23 +181,33 @@ const HomeComponent = ({ userData, token }) => {
   return (
     <div>
       <div className="addMealHead">
-
     
         <Grid item xs={8} sx={{ textAlign: 'center', padding: 2 }}>
           <Typography variant="h6">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
         </Grid>
-        
       
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
 
+        {/* Arrow < */}
         <Grid item  xs={2} container alignItems="center">
           <IconButton onClick={handlePrevDay}>
             <ArrowBack />
           </IconButton>
         </Grid>
 
+          {/* Circular Progress */}
           <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} />
+            {/* <MultiCycleCircularProgress value={totalNutrients.totalCalories} dailyGoal={dailyCalorieGoal} /> */}
+            <CircularProgress variant="determinate" value={progressValue} size={140} thickness={4} sx={{ color: theme.palette.primary.main }} />
+            {overProgressValue > 0 && (
+              <CircularProgress
+                variant="determinate"
+                value={Math.min(overProgressValue, 100)}
+                size={140}
+                thickness={4}
+                sx={{ position: 'absolute', color: circleColor }}
+              />
+            )}
             <Box
               sx={{
                 top: 0,
@@ -214,12 +221,17 @@ const HomeComponent = ({ userData, token }) => {
                 padding: '0 0 1vh 0'
               }}
             >
-              <Typography variant="h5" component="div">
+              <Typography variant="h5" component="div"
+              sx={{ 
+                  fontSize: totalNutrients.totalCalories > 9999? '20px' : '24px',
+                }} >
                 {totalNutrients.totalCalories} kcal
               </Typography>
             </Box>
+            
           </Box>
 
+          {/* Arrow > */}
           <Grid item xs={2} container justifyContent="flex-end">
           <IconButton onClick={handleNextDay}>
             <ArrowForward />
