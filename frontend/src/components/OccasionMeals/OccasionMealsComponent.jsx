@@ -103,7 +103,7 @@ const OccasionMealsComponent = () => {
         <div className="content">
             <Box className="occasionHead">
                 <Grid item xs={8} sx={{ textAlign: 'center' }}>
-                    <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'yyyy-MM-dd')}</Typography>
+                    <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
                 </Grid>
                 <Typography className="text" variant="h6" sx={{ margin:'0px' }}>{occasion}</Typography>
             </Box>
