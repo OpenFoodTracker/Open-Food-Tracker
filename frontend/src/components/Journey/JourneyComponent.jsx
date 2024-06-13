@@ -9,7 +9,6 @@ import {
   CardContent,
   TextField,
   MobileStepper,
-  Paper,
   Slider,
   Grow,
   FormControl,
@@ -21,9 +20,13 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import MuiInput from '@mui/material/Input';
 import { useJourney } from './JourneyService';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
+import MuiInput from '@mui/material/Input';
+
+const StyledInput = styled(MuiInput)`
+  font-size: 1.25rem;  /* match Typography h6 */
+`;
 
 
 const JourneyComponent = ({ token }) => {
@@ -36,6 +39,8 @@ const JourneyComponent = ({ token }) => {
     handleBack,
     handleChange,
     handleSliderChange,
+    handleInputChange,
+    handleBlur,
     handleConfirm,
     questions,
     isNextButtonDisabled,
@@ -58,6 +63,9 @@ const JourneyComponent = ({ token }) => {
   };
 
 
+
+
+
   return (
     // Starte Journey
     <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100vh - 64px)' }}>
@@ -76,7 +84,7 @@ const JourneyComponent = ({ token }) => {
         </Grow>
       ) : (
         <>
-        
+          {/*gender box*/}
           <Box mt={1} flex="1"> 
             {step < questions.length ? (
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%">
@@ -115,7 +123,7 @@ const JourneyComponent = ({ token }) => {
                                       height: '70px', 
                                     },
                                     //color: theme.palette.secondary.mainDark,
-                                    color: formData[questions[step].name] === option ? theme.palette.secondary.mainLight: theme.palette.secondary.mainDark,
+                                    color: formData[questions[step].name] === option ? theme.palette.secondary.mainLight: theme.palette.secondary.gradient,
                       
                                   }
                                 })}
@@ -125,19 +133,44 @@ const JourneyComponent = ({ token }) => {
                         </Grid>
                       ))}
                     </Grid>
+                      
                     ) : questions[step].type === 'slider' ? (
                       <Box px={2} mt={2} width="100%">
-                        <Slider
-                          value={formData[questions[step].name]}
-                          min={questions[step].min}
-                          max={questions[step].max}
-                          step={questions[step].step}
-                          onChange={handleSliderChange(questions[step].name)}
-                          valueLabelDisplay="auto"
-                          style={{ width: '90%', margin: '0 auto' }}
-                        />
-                        <Typography align="center" variant="h6">{formData[questions[step].name]} {questions[step].label.toLowerCase().includes('gewicht') ? 'kg' : 'cm'}</Typography>
+                      
+                          <Slider 
+                            value={formData[questions[step].name]}
+                            min={questions[step].min}
+                            max={questions[step].max}
+                            step={questions[step].step}
+                            onChange={handleSliderChange(questions[step].name)}
+                            valueLabelDisplay="auto"
+                            style={{ width: '80%', margin: '0 auto' }}
+                          />
+                          {/* <Typography align="center" variant="h6">{formData[questions[step].name]} {questions[step].label.toLowerCase().includes('gewicht') ? 'kg' : 'cm'}</Typography> */}
+                          <Box width="100%" display="flex" alignItems="center" justifyContent="center" mt={2}>
+                            <StyledInput
+                              value={formData[questions[step].name]}
+                              size="small"
+                              onChange={(e) => handleInputChange(e, questions[step].name)}
+                              onBlur={() => handleBlur(questions[step].name, questions[step].min, questions[step].max)}
+                              inputProps={{
+                                step: questions[step].step,
+                                min: questions[step].min,
+                                max: questions[step].max,
+                                type: 'number',
+                                'aria-labelledby': 'input-slider',
+                              }}
+                              style={{ marginLeft: '20px', width: '60px' }}
+                            />
+                            <Typography align="center" variant="h6" style={{ marginLeft: '10px' }}>
+                              {questions[step].label.toLowerCase().includes('gewicht') ? 'kg' : 'cm'}
+                            </Typography>
+
+                          </Box>
+                          
                       </Box>
+                     
+                      
                     ) : (
                       <TextField
                         type={questions[step].type}

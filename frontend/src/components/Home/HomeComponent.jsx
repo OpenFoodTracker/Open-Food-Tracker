@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, CircularProgress, Box, IconButton, Card, CardContent } from '@mui/material';
+import { Grid, Typography, CircularProgress, LinearProgress, Box, IconButton, Card, CardContent } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -42,6 +42,9 @@ const HomeComponent = ({ userData, token }) => {
   const dailyCalorieGoal = userData && userData.weight && userData.goal
     ? calculateDailyCalorieGoal(userData.weight, userData.goal)
     : 2000; // Defaultwert, falls userData fehlt
+    const dailyProteinGoal = 50;  //complete default values
+    const dailyFatGoal = 70;
+    const dailyCarbsGoal = 300;
 
   const fetchMeals = async (date) => {
     setLoading(true);
@@ -112,6 +115,13 @@ const HomeComponent = ({ userData, token }) => {
   }
 };
 
+const mealTranslations = {
+  breakfast: 'Frühstück',
+  lunch: 'Mittagessen',
+  dinner: 'Abendessen',
+  snack: 'Snack',
+};
+
   const handleCardClick = (occasion) => {
     let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
     if(occasion === "breakfast"){
@@ -168,7 +178,8 @@ const HomeComponent = ({ userData, token }) => {
   }
 
   return (
-    <div>
+    // <Box sx={{ height: '100vh', overflowY: 'auto'}}>
+    <Box>
       <div className="addMealHead">
         <Grid item xs={8} sx={{ textAlign: 'center', padding: 1 }}>
           <Typography variant="h6">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
@@ -176,67 +187,133 @@ const HomeComponent = ({ userData, token }) => {
       
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
 
+          {/* arrow last Day */}
           <Grid item xs={2} container alignItems="center" className="multiProgressArrowLeft">
             <IconButton onClick={handlePrevDay}>
               <ArrowBack />
-            </IconButton> 
-           
+            </IconButton>  
           </Grid>
 
+          {/*ProgressCircle */}
           <Box className="multiProgressProgress" sx={{ position: 'relative', display: 'inline-flex'  }}>
             <MultiCycleCircularProgress value={totalNutrients.totalCalories} dailyGoal={dailyCalorieGoal} /> 
-            <div></div>
+            
           </Box>
 
+          {/* arrow Next Day */}
           <Grid item xs={2} container justifyContent="flex-end" className="multiProgressArrowRight">
             <IconButton onClick={handleNextDay}>
               <ArrowForward />
             </IconButton>
           </Grid>
         </Grid>        
+      
+        {/* Linear Progress */}
+        <Box sx={{ padding: '2vh 3vh', display: 'flex', justifyContent: 'center', gap: '2vh' }}>
+        <Box sx={{ textAlign: 'left', width: '100px' }}>
+          <Typography variant="body2">Proteine</Typography>
+          <LinearProgress 
+            variant="determinate" 
+            value={totalNutrients.totalProtein <= dailyProteinGoal 
+              ? (totalNutrients.totalProtein / dailyProteinGoal) * 100 
+              : 100} 
+            sx={{
+              height: '10px',
+              borderRadius: '5px',
+              '& .MuiLinearProgress-bar': {
+                borderRadius: '5px',
+                backgroundColor: theme.palette.secondary.main,
+              },
+            }}
+          />
+          <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalProtein}g / {dailyProteinGoal}g</Typography>
+        </Box>
+
+        <Box sx={{ textAlign: 'left', width: '100px' }}>
+          <Typography variant="body2">Fett</Typography>
+          <LinearProgress 
+            variant="determinate" 
+            value={totalNutrients.totalFat <= dailyFatGoal 
+              ? (totalNutrients.totalFat / dailyFatGoal) * 100 
+              : 100} 
+            sx={{
+              height: '10px',
+              borderRadius: '5px',
+              '& .MuiLinearProgress-bar': {
+                borderRadius: '5px',
+                backgroundColor: theme.palette.secondary.main,
+              },
+            }}
+          />
+          <Typography variant="body2"  sx={{color: 'grey'}}>{totalNutrients.totalFat}g / {dailyFatGoal}g</Typography>
+        </Box>
+
+        <Box sx={{ textAlign: 'left', width: '100px' }}>
+          <Typography variant="body2">Kohlenhydrate</Typography>
+          <LinearProgress 
+            variant="determinate" 
+            value={totalNutrients.totalCarbs <= dailyCarbsGoal 
+              ? (totalNutrients.totalCarbs / dailyCarbsGoal) * 100 
+              : 100} 
+            sx={{
+              height: '10px',
+              borderRadius: '5px',
+              '& .MuiLinearProgress-bar': {
+                borderRadius: '5px',
+                backgroundColor: theme.palette.secondary.main,
+              },
+            }}
+          />
+          <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalCarbs}g / {dailyCarbsGoal}g</Typography>
+        </Box>
+      </Box>
       </div>
 
-      <Grid container spacing={2} sx={{ padding: '4vh 3vh 0 3vh' }}>
-        {meals.map((meal, index) => (
-          <Grid item xs={6} sm={6} key={index}>
-            <Card 
-              onClick={() => handleCardClick(meal.name)}
-              sx={{
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                padding: 2,
-                background: `linear-gradient(to bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.gradient})`, 
-                borderRadius: 10,
-                position:  'relative',
-              }}
-            >
-              <CardContent sx={{ flex: 1, zIndex: 1 }}>
-                <Typography variant="h6" component="div" sx={{ mb: 1 }}>
-                  {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="body2">{meal.totalNutrients.calories} kcal</Typography>
-                  <Typography variant="body2">{meal.totalNutrients.protein}g Protein</Typography>
-                  <Typography variant="body2">{meal.totalNutrients.fat}g Fat</Typography>
-                  <Typography variant="body2">{meal.totalNutrients.carbs}g Carbs</Typography>
-                </Box>
-              </CardContent>
-             
-              <div className="HomeIconContainer">
-                <Box sx={{zIndex: 0}}>
-                  <img 
-                    src={getMealIcon(meal.name)} 
-                    alt={meal.name} 
-                    style={{ width: '70%', height: 'auto' }}
-                  />
-                </Box>
-              </div>
-            </Card>
-          </Grid>
-        ))}
-        </Grid>
-    </div>
+
+      {/* cards */}
+      <Grid container spacing={2} sx={{ padding: '4vh 3vh 0 3vh', justifyContent: 'center' }}>
+  {meals.map((meal, index) => (
+    <Grid item xs={6} sm={6} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Card 
+        onClick={() => handleCardClick(meal.name)}
+        sx={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '2vh 2vh 2vh 1vh',
+          background: `linear-gradient(to bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.gradient})`, 
+          borderRadius: 10,
+          position: 'relative',
+          width: '100%', 
+          maxWidth: '300px', 
+        }}
+      >
+        <CardContent sx={{ flex: 1, zIndex: 1, minWidth: '200px' }}>
+          <Typography variant="h6" component="div" sx={{ mb: 1 }}>
+            {mealTranslations[meal.name]}
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="body2">{meal.totalNutrients.calories} kcal</Typography>
+            <Typography variant="body2">{meal.totalNutrients.protein}g Proteine</Typography>
+            <Typography variant="body2">{meal.totalNutrients.fat}g Fett</Typography>
+            <Typography variant="body2">{meal.totalNutrients.carbs}g Kohlenhydrate</Typography>
+          </Box>
+        </CardContent>
+        <div className="HomeIconContainer">
+          <Box sx={{zIndex: 0}}>
+            <img 
+              src={getMealIcon(meal.name)} 
+              alt={meal.name} 
+              style={{ width: '70%', height: 'auto' }}
+            />
+          </Box>
+        </div>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+
+    </Box>
   );
 };
 

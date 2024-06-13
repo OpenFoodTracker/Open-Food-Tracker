@@ -37,6 +37,20 @@ export const useJourney = (token) => {
     });
   };
 
+  const handleInputChange = (event, name) => {
+    setFormData({
+      ...formData,
+      [name]: event.target.value === '' ? 0 : Number(event.target.value)
+    });
+  };
+
+  const handleBlur = (name, min, max) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: Math.min(Math.max(prevData[name], min), max)
+    }));
+  };
+
   const handleConfirm = async () => {
     const userData = {
       email: token.email,
@@ -136,7 +150,7 @@ export const useJourney = (token) => {
       type: 'slider',
       min: 40,
       max: 150,
-      step: 0.5,
+      step: 0.1,
     },
     {
       label: 'Geburtstag',
@@ -171,6 +185,8 @@ export const useJourney = (token) => {
     handleBack,
     handleChange,
     handleSliderChange,
+    handleInputChange,
+    handleBlur,
     handleConfirm,
     questions,
     isNextButtonDisabled,
