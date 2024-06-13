@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 import {Grid, Container, Avatar, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import SearchComponent from "../Searchbar/SearchComponent";
 import { useNavigate } from 'react-router-dom';
 import CustomModal from "../Scanner/CustomModal";
@@ -106,12 +105,11 @@ const OccasionMealsComponent = () => {
                 <Grid item xs={8} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'yyyy-MM-dd')}</Typography>
                 </Grid>
-                <Typography className="text">{occasion}</Typography>
+                <Typography className="text" variant="h6" sx={{ margin:'0px' }}>{occasion}</Typography>
             </Box>
-            <div className="occasionSearchDiv">
-                <SearchComponent />
-            </div>     
+            <div className="occasionSearchBlock"></div>  
             <Box className="occasionMealList">
+                    <SearchComponent />
                 <List className="occasionList">
                     {ingredients.map((meal, index) => (
                         <ListItem key={index} className="occasionMealListItem" button onClick={() => handleItemClick(index)}>
@@ -134,8 +132,8 @@ const OccasionMealsComponent = () => {
                         </ListItem>
                     ))}
                 </List>
-            </Box>
             <CustomModal/>
+            </Box>
         </div>
     );
 };

@@ -4,6 +4,11 @@
   margin-left: 10px;
   align-items: center;
   margin-right: 15px;
+  position: fixed;
+  bottom: 6.8vh;
+  left: 3vw;
+  width: 70vw;
+  min-width: 200px;
 }
 
 .input {
@@ -29,6 +34,8 @@ input:focus{
   grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
   margin: auto;
   padding: 10px;
+  max-height: 65vh;
+  overflow-y: auto;
 }
 
 .search-results>div{

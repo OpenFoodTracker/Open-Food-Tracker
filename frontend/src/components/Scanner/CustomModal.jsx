@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bulma/css/bulma.css";
 import Scanner from "./Scanner";
 import Button from '@mui/material/Button';
-
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 function CustomModal() {
   // State to track whether the modal is active (visible) or not
   const [active, setActive] = useState(false);
@@ -39,9 +39,7 @@ function CustomModal() {
         </div>
       </div>
       {/* Button to open the modal */}
-      <Button color="primary" variant="contained" onClick={handleClick} className="button is-default is-info">
-        Start Scanner
-      </Button>
+      <QrCodeScannerIcon className="qrIcon" onClick={handleClick}/>
     </div>
   );
 }
