@@ -499,3 +499,26 @@ a:focus {
   border-color: var(--secondary); */
   margin-bottom: 40px;
 }
+
+
+/* CSS for statistics */
+.statisticTabsRoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabsRoot>.tab {
+  background-color: #2ca972; /* Green background color */
+  border-radius: 20px; /* Rounded corners */
+  color: white; /* White text color */
+  margin: 10px; /* Space between buttons */
+  min-width: 120px; /* Minimum width for consistency */
+  text-transform: none; /* Preserve the case of the text */
+  font-weight: bold; /* Bold text */
+}
+
+.tabsRoot>.tab.Mui-selected {
+  background-color: #1e7e4d; /* Darker green for selected state */
+  color: #fff; /* White text for selected state */
+}
