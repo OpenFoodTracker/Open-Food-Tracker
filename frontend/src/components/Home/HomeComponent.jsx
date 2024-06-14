@@ -281,7 +281,7 @@ const mealTranslations = {
           display: 'flex',
           alignItems: 'center',
           padding: '2vh 2vh 2vh 1vh',
-          background: `linear-gradient(to bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.gradient})`, 
+          background: `linear-gradient(to bottom, ${theme.palette.secondary.mainDark}, ${theme.palette.secondary.gradient})`, 
           borderRadius: 10,
           position: 'relative',
           width: '100%', 

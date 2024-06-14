@@ -7,8 +7,8 @@ const theme = createTheme({
       mainLight:'#E4EEEB'
     },
     secondary: {
-      main: '#D8BCFA', 
-      mainDark:'#A373DE',
+      main: 'A5A6F6', //'#D8BCFA',    //A5A6F6
+      mainDark: 'D8BCFA' ,//'#A373DE', //D8BCFA
       mainLight: '#EDDEFF',
       gradient: '#B0B7F2',
     },
