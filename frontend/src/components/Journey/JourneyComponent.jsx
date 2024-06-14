@@ -123,7 +123,7 @@ const JourneyComponent = ({ token }) => {
                                       height: '70px', 
                                     },
                                     //color: theme.palette.secondary.mainDark,
-                                    color: formData[questions[step].name] === option ? theme.palette.secondary.mainLight: theme.palette.secondary.gradient,
+                                    color: formData[questions[step].name] === option ? theme.palette.secondary.mainLight: theme.palette.secondary.mainDark,
                       
                                   }
                                 })}

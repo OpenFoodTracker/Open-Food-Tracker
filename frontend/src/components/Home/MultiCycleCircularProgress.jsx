@@ -10,6 +10,18 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
   return (
     <ThemeProvider theme={theme}>
       {/* <Box sx={{ position: 'relative', display: 'inline-flex' }}> */}
+      <CircularProgress
+          variant="determinate"
+          value={100}
+          size={140}
+          thickness={7}
+          sx={{
+            position: 'absolute',
+            left: 0,
+            color: 'white',
+          }}
+        />
+      
         {Array.from({ length: fullCycles }).map((_, index) => (
           <CircularProgress
             key={index}
@@ -20,7 +32,8 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
             sx={{
               position: 'absolute',
               left: 0,
-              color: index % 2 === 0 ? theme.palette.primary.main : theme.palette.secondary.main,
+              color: index % 2 === 0 ? theme.palette.primary.main : theme.palette.secondary.gradient1,
+              //backgroundColor: 'white'
             }}
           />
         ))}
@@ -32,7 +45,7 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
           sx={{
             position: 'absolute',
             left: 0,
-            color: fullCycles % 2 === 0 ? theme.palette.primary.main : theme.palette.secondary.main,
+            color: fullCycles % 2 === 0 ? theme.palette.primary.main : theme.palette.secondary.gradient1,
           }}
         />
         <Box
@@ -56,6 +69,7 @@ const MultiCycleCircularProgress = ({ value, dailyGoal }) => {
               </Typography>
         </Box>
       {/* </Box> */}
+
     </ThemeProvider>
   );
 };

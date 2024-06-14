@@ -7,10 +7,11 @@ const theme = createTheme({
       mainLight:'#E4EEEB'
     },
     secondary: {
-      main: 'A5A6F6', //'#D8BCFA',    //A5A6F6
-      mainDark: 'D8BCFA' ,//'#A373DE', //D8BCFA
+      main: '#A5A6F6', //'#D8BCFA',    
+      mainDark: '#7879F1',
       mainLight: '#EDDEFF',
-      gradient: '#B0B7F2',
+      gradient1: '#D8BCFA' ,//'#A373DE', 
+      gradient2: '#B0B7F2',
     },
   },
 });

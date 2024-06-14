@@ -195,7 +195,7 @@ const mealTranslations = {
           </Grid>
 
           {/*ProgressCircle */}
-          <Box className="multiProgressProgress" sx={{ position: 'relative', display: 'inline-flex'  }}>
+          <Box className="multiProgressProgress" sx={{ position: 'relative', display: 'inline-flex'}}>
             <MultiCycleCircularProgress value={totalNutrients.totalCalories} dailyGoal={dailyCalorieGoal} /> 
             
           </Box>
@@ -210,63 +210,66 @@ const mealTranslations = {
       
         {/* Linear Progress */}
         <Box sx={{ padding: '2vh 3vh', display: 'flex', justifyContent: 'center', gap: '2vh' }}>
-        <Box sx={{ textAlign: 'left', width: '100px' }}>
-          <Typography variant="body2">Proteine</Typography>
-          <LinearProgress 
-            variant="determinate" 
-            value={totalNutrients.totalProtein <= dailyProteinGoal 
-              ? (totalNutrients.totalProtein / dailyProteinGoal) * 100 
-              : 100} 
-            sx={{
-              height: '10px',
-              borderRadius: '5px',
-              '& .MuiLinearProgress-bar': {
+          <Box sx={{ textAlign: 'left', width: '100px' }}>
+            <Typography variant="body2">Proteine</Typography>
+            <LinearProgress 
+              variant="determinate" 
+              value={totalNutrients.totalProtein <= dailyProteinGoal 
+                ? (totalNutrients.totalProtein / dailyProteinGoal) * 100 
+                : 100} 
+              sx={{
+                height: '10px',
                 borderRadius: '5px',
-                backgroundColor: theme.palette.secondary.main,
-              },
-            }}
-          />
-          <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalProtein}g / {dailyProteinGoal}g</Typography>
-        </Box>
+                backgroundColor: 'white',
+                '& .MuiLinearProgress-bar': {
+                  borderRadius: '5px',
+                  backgroundColor: theme.palette.primary.main,
+                },
+              }}
+            />
+            <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalProtein}g / {dailyProteinGoal}g</Typography>
+          </Box>
 
-        <Box sx={{ textAlign: 'left', width: '100px' }}>
-          <Typography variant="body2">Fett</Typography>
-          <LinearProgress 
-            variant="determinate" 
-            value={totalNutrients.totalFat <= dailyFatGoal 
-              ? (totalNutrients.totalFat / dailyFatGoal) * 100 
-              : 100} 
-            sx={{
-              height: '10px',
-              borderRadius: '5px',
-              '& .MuiLinearProgress-bar': {
+          <Box sx={{ textAlign: 'left', width: '100px' }}>
+            <Typography variant="body2">Fett</Typography>
+            <LinearProgress 
+              variant="determinate" 
+              value={totalNutrients.totalFat <= dailyFatGoal 
+                ? (totalNutrients.totalFat / dailyFatGoal) * 100 
+                : 100} 
+              sx={{
+                height: '10px',
                 borderRadius: '5px',
-                backgroundColor: theme.palette.secondary.main,
-              },
-            }}
-          />
-          <Typography variant="body2"  sx={{color: 'grey'}}>{totalNutrients.totalFat}g / {dailyFatGoal}g</Typography>
-        </Box>
+                backgroundColor: 'white',
+                '& .MuiLinearProgress-bar': {
+                  borderRadius: '5px',
+                  backgroundColor: theme.palette.primary.main,
+                },
+              }}
+            />
+            <Typography variant="body2"  sx={{color: 'grey'}}>{totalNutrients.totalFat}g / {dailyFatGoal}g</Typography>
+          </Box>
 
-        <Box sx={{ textAlign: 'left', width: '100px' }}>
-          <Typography variant="body2">Kohlenhydrate</Typography>
-          <LinearProgress 
-            variant="determinate" 
-            value={totalNutrients.totalCarbs <= dailyCarbsGoal 
-              ? (totalNutrients.totalCarbs / dailyCarbsGoal) * 100 
-              : 100} 
-            sx={{
-              height: '10px',
-              borderRadius: '5px',
-              '& .MuiLinearProgress-bar': {
+          <Box sx={{ textAlign: 'left', width: '100px' }}>
+            <Typography variant="body2">Kohlenhydrate</Typography>
+            <LinearProgress 
+              variant="determinate" 
+              value={totalNutrients.totalCarbs <= dailyCarbsGoal 
+                ? (totalNutrients.totalCarbs / dailyCarbsGoal) * 100 
+                : 100} 
+              sx={{
+                height: '10px',
                 borderRadius: '5px',
-                backgroundColor: theme.palette.secondary.main,
-              },
-            }}
-          />
-          <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalCarbs}g / {dailyCarbsGoal}g</Typography>
+                backgroundColor: 'white',
+                '& .MuiLinearProgress-bar': {
+                  borderRadius: '5px',
+                  backgroundColor: theme.palette.primary.main,
+                },
+              }}
+            />
+            <Typography variant="body2" sx={{color: 'grey'}}>{totalNutrients.totalCarbs}g / {dailyCarbsGoal}g</Typography>
+          </Box>
         </Box>
-      </Box>
       </div>
 
 
@@ -281,7 +284,7 @@ const mealTranslations = {
           display: 'flex',
           alignItems: 'center',
           padding: '2vh 2vh 2vh 1vh',
-          background: `linear-gradient(to bottom, ${theme.palette.secondary.mainDark}, ${theme.palette.secondary.gradient})`, 
+          background: `linear-gradient(to bottom, ${theme.palette.secondary.gradient1}, ${theme.palette.secondary.gradient2})`, 
           borderRadius: 10,
           position: 'relative',
           width: '100%', 
