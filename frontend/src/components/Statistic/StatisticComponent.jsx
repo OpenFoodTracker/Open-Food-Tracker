@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, ToggleButtonGroup, ToggleButton, Tabs, Tab } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 
 const conversionTable = {Calories: {show: 'Kalorien', unit: 'kcal'}, Fat: {show: 'Fett', unit: 'g'},
@@ -65,7 +65,7 @@ const StatisticComponent = ( { userData, token } ) => {
   };
 
   const getWeekday = (inputDate) => {
-    const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+    const daysOfWeek = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     return daysOfWeek[inputDate.getDay()];
   }
 
@@ -93,6 +93,22 @@ const StatisticComponent = ( { userData, token } ) => {
         });
         tempDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate()-1);
       }
+    } else if (timeframe === 'month') {
+      for (let day = 0; day < 30; day++) {
+        let currentValue = 0;
+        
+
+        if (data.hasOwnProperty(tempDate)) {
+          currentValue += data[tempDate][`total${tabValue}`];
+        }
+        
+        updatedTotalValue += currentValue;
+        updatedGraphData.unshift({
+          name: tempDate.getDate(),
+          uv: currentValue
+        });
+        tempDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate()-1);
+      }
     } else if (timeframe === 'year') {
       for (let month = 0; month < 12; month++) {
         let currentValue = 0;
@@ -106,7 +122,7 @@ const StatisticComponent = ( { userData, token } ) => {
     
         updatedTotalValue += currentValue;
         updatedGraphData.unshift({
-          name: tempDate.toLocaleString('default', { month: 'short' }).charAt(0),
+          name: tempDate.toLocaleString('de-DE', { month: 'short' }).substring(0, 2),
           uv: currentValue
         });
         tempDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate()-1);
@@ -127,22 +143,21 @@ const StatisticComponent = ( { userData, token } ) => {
 
   return (
     <div class="statistic">
-      <Card sx={{ minWidth: 275, maxWidth: 350, margin: 'auto' }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {conversionTable[tabValue].show}
+      <div className="statisticHead">
+          <Typography className="statisticTitle" gutterBottom>
+            { conversionTable[tabValue].show}
           </Typography>
-          <Typography variant="h5" component="div">
-            {totalValue.toFixed(0)} {conversionTable[tabValue].unit}
+          <Typography className="statisticDescription" variant="h5" component="div">
+            { totalValue.toFixed(0)} {conversionTable[tabValue].unit}
           </Typography>
-          <Box sx={{ width: '100%', height: 300 }}>
+          <Box sx={{ width: '100%', height: '40vh' }}>
             <ResponsiveContainer>
-              <BarChart data={graphData}>
-                <Bar dataKey="uv" fill="#8884d8" />
+              <LineChart data={graphData} className="statisticChart">
+                <Line type="monotone" dataKey="uv" stroke="#ac8ef7" strokeWidth={2}/>
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-              </BarChart>
+              </LineChart>
             </ResponsiveContainer>
           </Box>
           <ToggleButtonGroup
@@ -151,19 +166,22 @@ const StatisticComponent = ( { userData, token } ) => {
             exclusive
             onChange={handleTimeframeChange}
             fullWidth
+            className="statisticTimeButton"
           >
-            <ToggleButton value="week">1 Woche</ToggleButton>
-            <ToggleButton value="year">1 Jahr</ToggleButton>
+            <ToggleButton className="left" value="week">1 Woche</ToggleButton>
+            <ToggleButton value="month">1 Monat</ToggleButton>
+            <ToggleButton className="right" value="year">1 Jahr</ToggleButton>
           </ToggleButtonGroup>
-        </CardContent>
-
-      </Card>
-      <Tabs value={tabValue} onChange={handleTabChange} centered className="statisticTabsRoot">
-            <Tab label="Kalorien" value="Calories" className="tab"/>
+      </div>
+      <Tabs value={tabValue} onChange={handleTabChange} centered className="statisticTabsRoot"
+        TabIndicatorProps={{
+          style: { display: 'none' }
+        }}>
+            <Tab label="Kalorien" value="Calories" className="tab" />
             <Tab label="Kohlenhydrate" value="Carbs" className="tab"/>
             <Tab label="Fett" value="Fat" className="tab"/>
             <Tab label="Protein" value="Protein" className="tab"/>
-          </Tabs>
+      </Tabs>
     </div>
   );
 };

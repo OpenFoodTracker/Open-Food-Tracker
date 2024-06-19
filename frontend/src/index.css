@@ -136,7 +136,7 @@ a:focus {
 
 
 /* AddMeal Page (and MealSize)*/
-.addMealHead {
+.addMealHead{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -502,23 +502,65 @@ a:focus {
 
 
 /* CSS for statistics */
-.statisticTabsRoot {
+.statisticHead {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  background-color: var(--primaryLight);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: xx-large;
 }
 
-.tabsRoot>.tab {
-  background-color: #2ca972; /* Green background color */
-  border-radius: 20px; /* Rounded corners */
-  color: white; /* White text color */
-  margin: 10px; /* Space between buttons */
-  min-width: 120px; /* Minimum width for consistency */
-  text-transform: none; /* Preserve the case of the text */
-  font-weight: bold; /* Bold text */
+.statisticTitle {
+  margin-top: 2vh !important;
+  font-weight: bold !important;
+  font-size: large !important;
 }
 
-.tabsRoot>.tab.Mui-selected {
-  background-color: #1e7e4d; /* Darker green for selected state */
-  color: #fff; /* White text for selected state */
+.statisticDescription {
+  margin-bottom: 2vh !important;
+}
+
+.statisticChart {
+  margin-left: -4vw;
+  font-size: small;
+}
+
+.statisticTabsRoot>div>div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 6vh;
+  margin-left: 6%;
+  margin-right: 6%;
+}
+
+.tab {
+  flex: 1 1 38%;
+  background-color: var(--primary) !important;
+  border-radius: 20px !important;
+  color: black !important;
+  border-bottom: none !important;
+  margin-left: 3% !important;
+  margin-right: 3% !important;
+  margin-bottom: 1vh !important;
+}
+
+.tab.Mui-selected {
+  background-color: var(--primaryLight) !important;
+}
+
+.statisticTimeButton {
+  margin-top: 3vh;
+}
+
+.statisticTimeButton>.left {
+  border-bottom-left-radius: 70px;
+}
+
+.statisticTimeButton>.right {
+  border-bottom-right-radius: 70px;
 }
