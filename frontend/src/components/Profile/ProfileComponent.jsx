@@ -3,8 +3,6 @@ import { Button, Container, Typography, Avatar, Box, CircularProgress, Grid, Pap
 import { useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-//Jetzt versuche ich es
-
 const ProfileComponent = ({ userData, token }) => {
   const navigate = useNavigate();
 
@@ -32,102 +30,91 @@ const ProfileComponent = ({ userData, token }) => {
   };
 
   return (
-    <Container className="profileContainer">
-    <div className="settingsContainer">
-      <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
-        <Typography variant="h4" gutterBottom className="profileTitle">
-          Hallo, {token.given_name} {token.family_name} 
-          {/* Hallo, {userData.name} */}
-        </Typography>
+      <Container className="profileContainer">
+        <div className="settingsButtonContainer">
+          <div className="trying">
+          <IconButton className="settingsButton" onClick={handleSettingsClick}>
+            <SettingsIcon />
+          </IconButton>
+          </div>
+          
+        </div>
         
-        <IconButton className="settingsButton" onClick={handleSettingsClick}>
-          <SettingsIcon />
-        </IconButton>
-       
-        {token.picture && (
-          <Avatar
-            alt="Profile"
-            src={token.picture}
-            sx={{ width: 120, height: 120, mt: 2, mb: 4 }}
-            onError={(e) => e.target.style.display = 'none'}  // Hide Avatar if image fails to load
-          />
-        )}
-        <Paper className="profilePaper" elevation={3} sx={{ p: 3, width: '100%', maxWidth: 600 }}>
-        
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Email:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.email}</Typography>
-            </Grid>
-            
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Geschlecht:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.gender}</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Größe:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.height} cm</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Gewicht:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.weight} kg</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Zielgewicht:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.goal} kg</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Geburtstag:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">
-                {new Date(userData.birthday).toLocaleDateString()}
-              </Typography>
-            </Grid>
-             {/*
-            <Grid item xs={6}>
-           
-              <Typography variant="body1"><strong>Dark Mode:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.darkMode ? 'Aktiviert' : 'Deaktiviert'}</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1"><strong>Benachrichtigungen:</strong></Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1">{userData.notifications ? 'Aktiviert' : 'Deaktiviert'}</Typography>
-            </Grid> */}
-          </Grid>
-          <Box display="flex" justifyContent="center" mt={4}>
-            <Button variant="contained" color="primary" onClick={handleEditClick}>
-              Profil bearbeiten
-            </Button>
+        <Box display="flex" alignItems="center" flexDirection="column" mt={5}>
+          <Box className="profileHeader" sx={{ width: '100%', textAlign: 'center' }}>
+            <Typography variant="h4" gutterBottom>
+              Hallo, {userData.email.substring(0, userData.email.indexOf('@'))}
+            </Typography>
           </Box>
           
-        </Paper>
-      </Box>
+          {token.picture && (
+            <Avatar
+              alt="Profile"
+              src={token.picture}
+              sx={{ width: 120, height: 120, mt: 2, mb: 4 }}
+              onError={(e) => e.target.style.display = 'none'}  // Hide Avatar if image fails to load
+            />
+          )}
 
-      <Box display="flex" justifyContent="center" mt={4}>
-        <Button variant="outlined" color="secondary" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Box>
-      <Box display="flex" justifyContent="center" mt={4}>
-        <p>{"\n\n"}</p>
-      </Box>
-      </div>
-    </Container>
+
+
+
+            <Box className="profileDataContainer" elevation={3} sx={{ p: 3, width: '100%', maxWidth: 600 }}>
+            
+              <Grid container spacing={2}>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileForm" variant="body1">Email:</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileData" variant="body1">{userData.email}</Typography>
+                </Grid>
+                <Grid className="profileGridItem"item xs={6}>
+                  <Typography className="profileForm"variant="body1">Geschlecht:</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileData" variant="body1">{userData.gender}</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileForm" variant="body1">Größe:</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileData" variant="body1">{userData.height} cm</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileForm" variant="body1">Gewicht:</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileData" variant="body1">{userData.weight} kg</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileForm" variant="body1">Zielgewicht:</Typography>
+                </Grid>
+                <Grid className="profileGridItem" item xs={6}>
+                  <Typography className="profileData" variant="body1">{userData.goal} kg</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography className="profileForm" variant="body1">Geburtstag:</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography className="profileData" variant="body1">
+                    {new Date(userData.birthday).toLocaleDateString()}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Box className="editButton" display="flex" justifyContent="center" mt={4}>
+                <Button variant="contained" className="editButton" color="primary" onClick={handleEditClick}>
+                  Profil bearbeiten
+                </Button>
+              </Box>
+            </Box>
+            <Box className="logOutButton" display="flex" justifyContent="center" mt={4}>
+              <Button variant="outlined" className="logOutButton" color="error" onClick={handleLogout}>
+                Logout
+              </Button>
+            </Box>
+        </Box>          
+      </Container>
+
   );
 };
 

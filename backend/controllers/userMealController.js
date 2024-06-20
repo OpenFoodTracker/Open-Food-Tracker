@@ -10,6 +10,7 @@ const getOccasionMeals = async (req, res) => {
     const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
     const date = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate());
 
+
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
 
@@ -113,7 +114,7 @@ const addMeal = async (req, res) => {
     const month = tempDate.getMonth(); 
     const year = tempDate.getFullYear();
 
-    date = new Date(year, month , day);
+    const date = new Date(year, month , day);
 
     try {
         const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
@@ -174,6 +175,7 @@ const createMeal = async (req, res) => {
   
 // update a meal
 const updateMeal = async (req, res) => {
+
     const { id } = req.params;
     const {mealData, user, occasion, date} = req.body;
 
@@ -196,17 +198,17 @@ const updateMeal = async (req, res) => {
             },
             {
                 $set: {
-                    [`meals.$[mealElement].${occasion}.$[snackElement].kcal`]: mealData.Kalorien,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].amount`]: mealData.Menge,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].fat`]: mealData.Fett,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].carbs`]: mealData.Kohlenhydrate,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].protein`]: mealData.Proteine
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].kcal`]: mealData.Kalorien,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].amount`]: mealData.Menge,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].fat`]: mealData.Fett,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].carbs`]: mealData.Kohlenhydrate,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].protein`]: mealData.Proteine
                 }
             },
             {
                 arrayFilters: [
-                    { "mealElement.date": cleanedDate },
-                    { "snackElement._id": id }
+                    { "dateFilter.date": cleanedDate },
+                    { "mealFilter._id": id }
                 ],
                 new: true
             }

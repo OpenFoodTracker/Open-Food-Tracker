@@ -1,14 +1,18 @@
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
-const ChangeMealSizeComponent = () => {
+
+const MealSize = () => {
+    let ingredientJson;
+    let ingredientJsonCopy;
+
     const navigate = useNavigate();
     const { id } = useParams();
 
     const [unit, setUnit] = useState(0);
-    const [name, setName] = useState(0);           
+    const [name, setName] = useState(0);
     const [imageUrl, setImageUrl] = useState('');
 
     const [user] = useState(JSON.parse(localStorage.getItem('userData')));
@@ -44,13 +48,13 @@ const ChangeMealSizeComponent = () => {
             }
 
             try {
-                const response = await fetch("/api/meal/user/getMeal/" + id, { 
+                const response = await fetch("/api/meals/getMeal/" + id, { 
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 
+                    body: JSON.stringify({user: user, occasion: mealOccasion, date: tempDate}),                 //question: why not updatedFormData?
                 });
                 if (response.ok) {
                     const json = await response.json();
@@ -83,7 +87,7 @@ const ChangeMealSizeComponent = () => {
     }, [id]);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;       //name=Menge
+        const { name, value } = e.target;
         const faktor = value / origAmount;
         setFormData((prevData) => ({
             ...prevData,
@@ -123,7 +127,7 @@ const ChangeMealSizeComponent = () => {
             console.log("frontend Date " + tempDate);
             console.log("frontend User: " + user);
             try {
-              const response = await fetch('/api/meal/user/' + id, { 
+              const response = await fetch('/api/meals/' + id, { 
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -215,5 +219,4 @@ const ChangeMealSizeComponent = () => {
     )
 };
 
-
-export default ChangeMealSizeComponent;
+export default MealSize;

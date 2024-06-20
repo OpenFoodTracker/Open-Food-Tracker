@@ -10,7 +10,13 @@ const SearchComponent = () => {
 
   const fetchData = async (value) => {
     try {
-      const response = await fetch(`/api/offApi/search/${value}`);
+      const response = await fetch(
+        `/api/offApi/search/${value}`
+        , {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`
+          }
+        });
       if(response.ok){
         const json = await response.json();
         if (json.products.length === 0) {
@@ -28,7 +34,7 @@ const SearchComponent = () => {
 
   const handleChange = (value, e) => {
     setInput(value); // Update the input state
-    if (value && e.key === 'Enter') {
+    if (value && e.key ==== 'Enter') {
       fetchData(value); // Fetch data if input is not empty
     } else if (!value) {
       setNoResults(false);
