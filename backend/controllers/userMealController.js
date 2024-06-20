@@ -266,6 +266,36 @@ const getMealsByDate = async (req, res) => {
 };
 
 
+
+const getFullYearMeals = async (req, res) => {
+    const { mealsFileId, userDate } = req.body;
+
+    const tempDate = new Date(userDate);                                                 //Sets up user Date and removes minutes, seconds, etc.
+    const date = new Date(tempDate.getFullYear(), tempDate.getMonth() , tempDate.getDate()+1);
+    const dateLastYear = new Date(tempDate.getFullYear()-1, tempDate.getMonth() , tempDate.getDate());
+
+    try {
+        const mealsFileObject = mongoose.Types.ObjectId(mealsFileId);                   
+
+        const meals = await UserMeals.aggregate([
+            { $match: { mealsFileId: mealsFileObject } },
+            { $unwind: "$meals" },
+            { $match: { "meals.date": { $gte: dateLastYear, $lt: date } } },
+            { $group: { _id: "$_id", meals: { $push: "$meals" } } }
+        ]);
+
+        if(meals){
+            return res.status(200).json(meals);                             
+        } else {
+            return res.status(204).json({});
+        }
+
+    } catch (error) {
+      console.error('Fehler beim Holen von Mahlzeiten des letzten Jahres:', error);
+      res.status(500).json({ error: 'Interner Serverfehler' });
+    }
+};
+
 module.exports = {
     getMealsByDate,
     getMealById,
@@ -274,4 +304,5 @@ module.exports = {
     addMeal,
     getOccasionMeals,
     deleteOccasionMeal,
+    getFullYearMeals,
 };
