@@ -18,25 +18,24 @@ const SearchResultList = ({ results }) => {
       {/* Display search results */}
       {results.map((result) => (
         <div key={result.code} className="result-item" onClick={() => SelectMeal(result)}>
-          {/* Check if the nested structure exists and then display the small image */}
-          {/* {result.selected_images && result.selected_images.front && result.selected_images.front.small && result.selected_images.front.small.en ? ( */}
-          {result.image_front_url ? (
-            <div className="search-image-container">
-              <img
-                // src={result.selected_images.front.small.en}
-                src={result.image_front_url}
-                alt={<ImageNotSupportedIcon/>}
-              />
-            </div>
-          ) : (
-            <p><ImageNotSupportedIcon/></p>
-          )}
-          <p className="searchText">{result.product_name || "No product name"}</p>
-          <p className="searchText">
-            Menge: {result.product_quantity || "No quantity"}{" "}
-            {result.product_quantity_unit || ""}
-          </p>
-        </div>
+
+        
+            {result.image_front_url ? (
+              <div className="s-image-container">
+                <img
+                  src={result.image_front_url}
+                  alt={<ImageNotSupportedIcon/>}
+                />
+              </div>
+            ) : (
+              <p><ImageNotSupportedIcon/></p>
+            )}
+            <p className="searchText">{result.product_name || "Kein Produktname"}</p>
+            <p className="searchText">
+              Menge: {result.product_quantity || "Keine Angabe"}{" "}
+              {result.product_quantity_unit || ""}
+            </p>
+          </div>
       ))}
     </div>
   );

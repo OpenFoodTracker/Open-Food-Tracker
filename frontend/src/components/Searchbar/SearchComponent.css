@@ -1,7 +1,7 @@
 /* /src/components/SearchComponent.css */
 .input-wrapper {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 0.85vh;
   margin-left: 10px;
   align-items: center;
   justify-content: center;
@@ -23,6 +23,7 @@
   margin-left: 10px;
   flex: 1;
   color: black !important;
+  align-self: center;
 }
 
 input:focus {
@@ -70,11 +71,7 @@ input:focus {
   background-color: white;
 }
 
-.search-image-container {
-  width: 70%;
-  height: 100%;
-  position: relative;
-}
+
 
 .search-image-container > img {
   max-width: 100%;

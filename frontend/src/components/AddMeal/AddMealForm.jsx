@@ -168,9 +168,6 @@ const AddMealForm = () => {
     return (
         <div className="content">
             <div className="addMealHead">
-            {/* <Grid item xs={8} sx={{ textAlign: 'center' }}> */}
-                    {/* <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'dd.MM.yyyy')}</Typography> */}
-                {/* </Grid> */}
                 <div className="title" id="occasionTitle">None</div>
                 <div className="ingredientName"></div>
                 <div className="title" id="occasionTitle">{occasion}</div>
