@@ -543,18 +543,23 @@ a:focus {
   background-color: var(--primary) !important;
   border-radius: 20px !important;
   color: black !important;
-  border-bottom: none !important;
   margin-left: 3% !important;
   margin-right: 3% !important;
   margin-bottom: 1vh !important;
+  font-weight: bold !important;
 }
 
 .tab.Mui-selected {
   background-color: var(--primaryLight) !important;
+  border: 1px solid var(--primary) !important;
 }
 
 .statisticTimeButton {
   margin-top: 3vh;
+}
+
+.statisticTimeButton>button {
+  font-weight: bold !important;
 }
 
 .statisticTimeButton>.left {

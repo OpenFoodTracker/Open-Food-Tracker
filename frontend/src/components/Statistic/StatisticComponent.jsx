@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Box, ToggleButtonGroup, ToggleButton, Tabs, Tab } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Typography, Box, ToggleButtonGroup, ToggleButton, Tabs, Tab } from '@mui/material';
+import { ReferenceLine, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 
 const conversionTable = {Calories: {show: 'Kalorien', unit: 'kcal'}, Fat: {show: 'Fett', unit: 'g'},
@@ -13,6 +13,7 @@ const StatisticComponent = ( { userData, token } ) => {
   const [data, setData] = useState(null);
   const [graphData, setGraphData] = useState({});
   const [totalValue, setTotalValue] = useState(0);
+  const [lineValue, setLineValue] = useState(0);
 
   useEffect(() => {
     const getMeals = async () => {
@@ -69,6 +70,7 @@ const StatisticComponent = ( { userData, token } ) => {
     return daysOfWeek[inputDate.getDay()];
   }
 
+  //updates the Graph on data change
   useEffect(() => {
     if(data != null){
       updateGraph();
@@ -133,6 +135,33 @@ const StatisticComponent = ( { userData, token } ) => {
     setGraphData(updatedGraphData);
   };
 
+  const calculateDailyCalorieGoal = (currentWeight, goalWeight) => {
+    const weightDifference = currentWeight - goalWeight;
+    const baseCalories = currentWeight * 24; 
+
+    const calorieAdjustment = weightDifference * 10;
+    return baseCalories - calorieAdjustment;
+  };
+
+  //Updates the red line
+  useEffect(() => {
+    let newLineValue = 0;
+    if(tabValue === "Calories"){
+      newLineValue = userData && userData.weight && userData.goal ? calculateDailyCalorieGoal(userData.weight, userData.goal) : 2000;
+    } else if(tabValue === "Carbs") {
+      newLineValue = 300;
+    } else if(tabValue === "Fat") {
+      newLineValue = 70;
+    } else if(tabValue === "Protein"){
+      newLineValue = 50;
+    }
+
+    if(timeframe === "year"){
+      newLineValue = newLineValue*30;
+    }
+    setLineValue(newLineValue);
+  }, [tabValue, timeframe]);
+
   const handleTimeframeChange = (event, newTimeframe) => {
     setTimeframe(newTimeframe);
   };
@@ -153,10 +182,11 @@ const StatisticComponent = ( { userData, token } ) => {
           <Box sx={{ width: '100%', height: '40vh' }}>
             <ResponsiveContainer>
               <LineChart data={graphData} className="statisticChart">
-                <Line type="monotone" dataKey="uv" stroke="#ac8ef7" strokeWidth={2}/>
+                <Line type="monotone" dataKey="uv" stroke="#7879F1" strokeWidth={2}/>
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
+                <ReferenceLine y={lineValue} stroke="red" strokeDasharray="3 3" />
               </LineChart>
             </ResponsiveContainer>
           </Box>
