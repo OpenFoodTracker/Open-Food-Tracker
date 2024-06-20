@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "./search.png"
 import "./SearchComponent.css";
 import SearchResultList from "./SearchResultList";
 
@@ -44,15 +45,17 @@ const SearchComponent = () => {
   };
 
   return (
-    <div>
-      <div className="input-wrapper">
-        <SearchIcon id="search-icon" />
+    <div> 
+      <div className="input-wrapper"> 
+        {/* <SearchIcon id="search-icon" /> */}
+        <img src={SearchIcon} alt="Search" height="20" width="30"/>
         <input
           className="input is-primary"
           placeholder="Mahlzeit eingeben"
           value={input}
           onChange={(e) => handleChange(e.target.value, e)}
           onKeyDown={(e) => handleChange(input, e)}
+          color="black"
         />
       </div>
       {noResults ? (

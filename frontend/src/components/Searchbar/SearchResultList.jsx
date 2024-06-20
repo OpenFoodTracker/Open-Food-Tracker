@@ -23,14 +23,15 @@ const SearchResultList = ({ results }) => {
             <div className="search-image-container">
               <img
                 src={result.selected_images.front.small.en}
+                // src={result.image_url}
                 alt={<ImageNotSupportedIcon/>}
               />
             </div>
           ) : (
             <p><ImageNotSupportedIcon/></p>
           )}
-          <p>{result.product_name || "No product name"}</p>
-          <p>
+          <p className="searchText">{result.product_name || "No product name"}</p>
+          <p className="searchText">
             Menge: {result.product_quantity || "No quantity"}{" "}
             {result.product_quantity_unit || ""}
           </p>
