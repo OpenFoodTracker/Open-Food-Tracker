@@ -198,17 +198,17 @@ const updateMeal = async (req, res) => {
             },
             {
                 $set: {
-                    [`meals.$[mealElement].${occasion}.$[snackElement].kcal`]: mealData.Kalorien,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].amount`]: mealData.Menge,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].fat`]: mealData.Fett,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].carbs`]: mealData.Kohlenhydrate,
-                    [`meals.$[mealElement].${occasion}.$[snackElement].protein`]: mealData.Proteine
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].kcal`]: mealData.Kalorien,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].amount`]: mealData.Menge,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].fat`]: mealData.Fett,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].carbs`]: mealData.Kohlenhydrate,
+                    [`meals.$[dateFilter].${occasion}.$[mealFilter].protein`]: mealData.Proteine
                 }
             },
             {
                 arrayFilters: [
-                    { "mealElement.date": cleanedDate },
-                    { "snackElement._id": id }
+                    { "dateFilter.date": cleanedDate },
+                    { "mealFilter._id": id }
                 ],
                 new: true
             }

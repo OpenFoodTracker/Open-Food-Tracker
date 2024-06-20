@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "bulma/css/bulma.css";
 import Scanner from "./Scanner";
 import Button from '@mui/material/Button';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import barcodeImage from './barcode.png';
 
 function CustomModal() {
   // State to track whether the modal is active (visible) or not
@@ -13,7 +15,7 @@ function CustomModal() {
   };
 
   return (
-    <div>
+    <div className="modaloccasion" style={{zIndex: 2}}>
       {/* Modal structure with conditional class to control visibility */}
       <div className={`modal ${active ? "is-active" : ""}`}>
         <div className="modal-background" />
@@ -39,9 +41,8 @@ function CustomModal() {
         </div>
       </div>
       {/* Button to open the modal */}
-      <Button color="primary" variant="contained" onClick={handleClick} className="button is-default is-info">
-        Start Scanner
-      </Button>
+      {/* <QrCodeScannerIcon className="qrIcon" onClick={handleClick}/> */}
+      <img src={barcodeImage} alt="Barcode" height="30" width="50" onClick={handleClick}/>
     </div>
   );
 }

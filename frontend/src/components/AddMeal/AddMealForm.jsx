@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react"
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+//import {Typography, Grid } from '@mui/material';
+//import { format, addDays, subDays } from 'date-fns';
 import { format } from 'date-fns';
 
 const AddMealForm = () => {
@@ -11,6 +13,7 @@ const AddMealForm = () => {
     const [originalMeal, setOriginalMeal] = useState(null);
     const [mealSetupRan, setMealSetupRan] = useState(false);
     const [error, setError] = useState(null)
+    //const [selectedDate, setSelectedDate] = useState(new Date());
     const navigate = useNavigate();
 
 
@@ -21,8 +24,11 @@ const AddMealForm = () => {
         setValues();
     };
 
+
+    //const inputDate = localStorage.getItem('inputDate');
     useEffect(() => {
         const ingredientId = localStorage.getItem('currentIngredientId');
+        //setSelectedDate(inputDate);
         const fetchData = async () => {
             const response = await fetch(`/api/offApi/ingredient/${ingredientId}`, {
                 headers: {
@@ -126,7 +132,6 @@ const AddMealForm = () => {
         e.preventDefault()
                                         
         const mealsFileId = user.mealsFileId;
-
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
         if(occasion === "Frühstück"){
             mealOccasion = "breakfast";
@@ -163,6 +168,8 @@ const AddMealForm = () => {
     return (
         <div className="content">
             <div className="addMealHead">
+                <div className="title" id="occasionTitle">None</div>
+                <div className="ingredientName"></div>
                 <div className="title" id="occasionTitle">{occasion}</div>
                 <div className="addMealDate">{format(date, 'yyyy-MM-dd')}</div>
                 <div className="ingredientName">{meal && meal.name}</div>

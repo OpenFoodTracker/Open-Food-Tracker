@@ -37,6 +37,20 @@ export const useJourney = (token) => {
     });
   };
 
+  const handleInputChange = (event, name) => {
+    setFormData({
+      ...formData,
+      [name]: event.target.value === '' ? 0 : Number(event.target.value)
+    });
+  };
+
+  const handleBlur = (name, min, max) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: Math.min(Math.max(prevData[name], min), max)
+    }));
+  };
+
   const handleConfirm = async () => {
     const userData = {
       email: token.email,
@@ -120,23 +134,23 @@ export const useJourney = (token) => {
       label: 'Geschlecht',
       name: 'gender',
       type: 'radio',
-      options: ['Male', 'Female', 'Other'],
+      options: ['Männlich', 'Weiblich', 'Divers'],
     },
     {
-      label: 'Größe (cm)',
+      label: 'Größe',
       name: 'height',
       type: 'slider',
       min: 100,
       max: 220,
-      step: 1,
+      step: 0.5,
     },
     {
-      label: 'Gewicht (kg)',
+      label: 'Gewicht',
       name: 'weight',
       type: 'slider',
       min: 40,
       max: 150,
-      step: 1,
+      step: 0.1,
     },
     {
       label: 'Geburtstag',
@@ -144,12 +158,12 @@ export const useJourney = (token) => {
       type: 'date',
     },
     {
-      label: 'Zielgewicht (kg)',
+      label: 'Zielgewicht',
       name: 'goalWeight',
       type: 'slider',
       min: 40,
       max: 150,
-      step: 1,
+      step: 0.5,
     }
   ];
 
@@ -171,6 +185,8 @@ export const useJourney = (token) => {
     handleBack,
     handleChange,
     handleSliderChange,
+    handleInputChange,
+    handleBlur,
     handleConfirm,
     questions,
     isNextButtonDisabled,
