@@ -1,6 +1,7 @@
 import React from "react";
 import "./SearchComponent.css";
 import { useNavigate } from "react-router-dom";
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 const SearchResultList = ({ results }) => {
   const navigate = useNavigate();
@@ -22,11 +23,11 @@ const SearchResultList = ({ results }) => {
             <div className="search-image-container">
               <img
                 src={result.selected_images.front.small.en}
-                alt={result.product_name}
+                alt={<ImageNotSupportedIcon/>}
               />
             </div>
           ) : (
-            <p>No image available</p>
+            <p><ImageNotSupportedIcon/></p>
           )}
           <p>{result.product_name || "No product name"}</p>
           <p>

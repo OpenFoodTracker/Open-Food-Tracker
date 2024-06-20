@@ -77,3 +77,10 @@ input:focus{
 .result-item p {
   margin: 1px 0;
 }
+
+.no-results {
+  margin-top: 20px;
+  font-size: 16px;
+  color: red;
+  text-align: center;
+}

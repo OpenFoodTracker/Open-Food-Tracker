@@ -1,10 +1,12 @@
 import {useState, useEffect} from "react"
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-
+//import {Typography, Grid } from '@mui/material';
+//import { format, addDays, subDays } from 'date-fns';
 
 const AddMealForm = () => {
     const [error, setError] = useState(null)
+    //const [selectedDate, setSelectedDate] = useState(new Date());
     const navigate = useNavigate();
 
     let ingredientJson;
@@ -22,11 +24,13 @@ const AddMealForm = () => {
 
     let user;
     let occasion;
+    //const inputDate = localStorage.getItem('inputDate');
     useEffect(() => {
         //gets data from local storage
         user = JSON.parse(localStorage.getItem('userData'));
         occasion = localStorage.getItem('occasion');
         const ingredientId = localStorage.getItem('currentIngredientId');
+        //setSelectedDate(inputDate);
         const fetchData = async () => {
             console.log(ingredientId)
             const response = await fetch(`/api/offApi/ingredient/${ingredientId}`);  //gets value of meal from backend
@@ -132,7 +136,6 @@ const AddMealForm = () => {
         const mealData = ingredientJson;
         const userDate = localStorage.getItem('inputDate');                                              
         const mealsFileId = user.mealsFileId;
-
         let mealOccasion = "snack";                                                 //gets the correct occasion string for the api
         if(occasion == "Frühstück"){
             mealOccasion = "breakfast";
@@ -168,6 +171,9 @@ const AddMealForm = () => {
     return (
         <div className="content">
             <div className="addMealHead">
+            {/* <Grid item xs={8} sx={{ textAlign: 'center' }}> */}
+                    {/* <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'dd.MM.yyyy')}</Typography> */}
+                {/* </Grid> */}
                 <div className="title" id="occasionTitle">None</div>
                 <div className="ingredientName"></div>
             </div>

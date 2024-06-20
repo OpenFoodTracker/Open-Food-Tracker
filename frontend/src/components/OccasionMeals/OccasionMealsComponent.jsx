@@ -105,7 +105,7 @@ const OccasionMealsComponent = () => {
                 <Grid item xs={8} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" id="OccasionDatum">{format(selectedDate, 'dd.MM.yyyy')}</Typography>
                 </Grid>
-                <Typography className="text" variant="h6" sx={{ margin:'0px' }}>{occasion}</Typography>
+                <Typography className="text" id="occasionTitle" variant="h6" sx={{ margin:'0px' }}>{occasion}</Typography>
             </Box>
             <div className="occasionSearchBlock"></div>  
             <Box className="occasionMealList">
