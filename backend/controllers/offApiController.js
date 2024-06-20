@@ -80,7 +80,7 @@ const searchIngredients = async (req, res) => {
 
     try {
       const response = await fetch(
-        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${name}&fields=code,product_name,product_quantity,product_quantity_unit,selected_images&json=1`
+        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${name}&fields=code,product_name,product_quantity,product_quantity_unit,selected_images,image_front_url&json=1`
       );
       const json = await response.json();
       if(!response.ok){
