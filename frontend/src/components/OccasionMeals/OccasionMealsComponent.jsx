@@ -26,12 +26,9 @@ const OccasionMealsComponent = () => {
         if(occasionFromLocalStorage === "Frühstück"){
             mealOccasion = "breakfast";
         } else if(occasionFromLocalStorage === "Mittagessen"){
-        } else if(occasionFromLocalStorage === "Mittagessen"){
             mealOccasion = "lunch";
         } else if(occasionFromLocalStorage === "Abendessen"){
-        } else if(occasionFromLocalStorage === "Abendessen"){
             mealOccasion = "dinner";
-        } else if(occasionFromLocalStorage === "Sonstiges"){
         } else if(occasionFromLocalStorage === "Sonstiges"){
             mealOccasion = "snack";
         }
@@ -49,7 +46,6 @@ const OccasionMealsComponent = () => {
                 console.log(response);
             }
             if(response.ok){
-                if(response.status === 204){
                 if(response.status === 204){
                     return {};
                 } else {
@@ -80,7 +76,7 @@ const OccasionMealsComponent = () => {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
                 'Content-Type': 'application/json'
-        }});
+        }});  //gets value of meal from backend
 
         const json = await response.json();
         if(!response.ok) {

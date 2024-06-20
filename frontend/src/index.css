@@ -305,6 +305,7 @@ a:focus {
   margin-top: 5px;
   font-size: xx-large;
   margin-bottom: 0px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 .occasionHead>.scanButton {
@@ -316,7 +317,7 @@ a:focus {
   bottom:6vh;
   width:100vw;
   height:10vh;
-  background-color:var(--tertiary); ;
+  background-color:#fff;
 }
 
 .qrIcon {
@@ -549,4 +550,5 @@ a:focus {
 #OccasionDatum {
   font-size: x-large;
   margin: 0px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }

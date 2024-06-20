@@ -34,7 +34,7 @@ const SearchComponent = () => {
 
   const handleChange = (value, e) => {
     setInput(value); // Update the input state
-    if (value && e.key ==== 'Enter') {
+    if (value && e.key == 'Enter') {
       fetchData(value); // Fetch data if input is not empty
     } else if (!value) {
       setNoResults(false);

@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react"
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+//import {Typography, Grid } from '@mui/material';
+//import { format, addDays, subDays } from 'date-fns';
 import { format } from 'date-fns';
 
 const AddMealForm = () => {
@@ -22,8 +24,7 @@ const AddMealForm = () => {
         setValues();
     };
 
-    let user;
-    let occasion;
+
     //const inputDate = localStorage.getItem('inputDate');
     useEffect(() => {
         const ingredientId = localStorage.getItem('currentIngredientId');
@@ -172,6 +173,9 @@ const AddMealForm = () => {
                 {/* </Grid> */}
                 <div className="title" id="occasionTitle">None</div>
                 <div className="ingredientName"></div>
+                <div className="title" id="occasionTitle">{occasion}</div>
+                <div className="addMealDate">{format(date, 'yyyy-MM-dd')}</div>
+                <div className="ingredientName">{meal && meal.name}</div>
             </div>
             <img id="addMealImage" src={meal && meal.imageUrl} alt="Ingredient"></img>
             <div className="addMealForm">
