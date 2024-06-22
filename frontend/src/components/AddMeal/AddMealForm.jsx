@@ -168,10 +168,8 @@ const AddMealForm = () => {
     return (
         <div className="content">
             <div className="addMealHead">
-                <div className="title" id="occasionTitle">None</div>
-                <div className="ingredientName"></div>
+                <div className="addMealDate">{format(date, 'dd.MM.yyyy')}</div>
                 <div className="title" id="occasionTitle">{occasion}</div>
-                <div className="addMealDate">{format(date, 'yyyy-MM-dd')}</div>
                 <div className="ingredientName">{meal && meal.name}</div>
             </div>
             <img id="addMealImage" src={meal && meal.imageUrl} alt="Ingredient"></img>
