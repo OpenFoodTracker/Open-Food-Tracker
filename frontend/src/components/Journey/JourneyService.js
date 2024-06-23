@@ -122,7 +122,7 @@ export const useJourney = (token) => {
       localStorage.setItem('userData', JSON.stringify(userData));
 
       // Navigate to the home page after successful operations
-      navigate('/home');
+      navigate('/');
 
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
