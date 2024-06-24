@@ -1,3 +1,17 @@
+/**
+ * Projektname: Open-Food-Tracker
+ * 
+ * Mitwirkende:
+ * - Charlotte Brückner
+ * - Martin Derek
+ * - Lukas Tränkle
+ * - Leandros Tsolakidis
+ * 
+ * Lizenz: MIT License
+ * 
+ * Weitere Informationen finden Sie in der LICENSE-Datei im Hauptverzeichnis dieses Projekts.
+ */
+
 import "./App.css";
 // pages & components
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
