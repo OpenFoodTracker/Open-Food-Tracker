@@ -6,7 +6,7 @@ import axios from 'axios';
 const conversionTable = {Calories: {show: 'Kalorien', unit: 'kcal'}, Fat: {show: 'Fett', unit: 'g'},
                          Protein: {show: 'Protein', unit: 'g'}, Carbs: {show: 'Kohlenhydrate', unit: 'g'}};
 
-const StatisticComponent = ( { userData, token } ) => {
+const StatisticComponent = (  ) => {
   const [timeframe, setTimeframe] = useState('week');
   const [tabValue, setTabValue] = useState('Calories');
   const [user] = useState(JSON.parse(localStorage.getItem('userData')));
@@ -14,6 +14,7 @@ const StatisticComponent = ( { userData, token } ) => {
   const [graphData, setGraphData] = useState({});
   const [totalValue, setTotalValue] = useState(0);
   const [lineValue, setLineValue] = useState(0);
+
 
   useEffect(() => {
     const getMeals = async () => {
@@ -151,7 +152,7 @@ const StatisticComponent = ( { userData, token } ) => {
   useEffect(() => {
     let newLineValue = 0;
     if(tabValue === "Calories"){
-      newLineValue = userData && userData.weight && userData.goal ? calculateDailyCalorieGoal(userData.weight, userData.goal) : 2000;
+      newLineValue = user && user.weight && user.goal ? calculateDailyCalorieGoal(user.weight, user.goal) : 2000;
     } else if(tabValue === "Carbs") {
       newLineValue = 300;
     } else if(tabValue === "Fat") {
