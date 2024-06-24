@@ -41,6 +41,10 @@ const StatisticComponent = ( { userData, token } ) => {
 
   const mapCaloriesToDate = (mealData) => {
     const valuesByDate = {};
+
+    if(mealData.length === 0){
+      return;
+    }
   
     mealData[0].meals.forEach(mealDay => {
       const tempDate = new Date(mealDay.date);

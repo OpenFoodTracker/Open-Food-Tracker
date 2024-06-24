@@ -37,7 +37,7 @@ const getIngredient = async (req, res) => {
                 ingredientData.protein = product.nutriments.proteins_100g || 0;
                 ingredientData.fat = product.nutriments.fat_100g || 0;
                 ingredientData.carbs = product.nutriments.carbohydrates_100g || 0;
-                ingredientData.imageUrl = product.image_front_url  || "https://world.o+penfoodfacts.org/images/icons/dist/packaging.svg";
+                ingredientData.imageUrl = product.image_front_url  || "https://de.openfoodfacts.org/images/icons/dist/packaging.svg";
                 ingredientData.unit = product.product_quantity_unit;
                 ingredientData.amount = 100; 
     
