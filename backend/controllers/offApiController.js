@@ -22,7 +22,6 @@ const getIngredient = async (req, res) => {
 
     const error = await fetch(`https://world.openfoodfacts.org/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
         .then(response => {
-            console.log(response);
             if (!response.ok) {
                 return {};
             }
@@ -68,7 +67,6 @@ const getIngredient = async (req, res) => {
         if(error){
             throw error;
         }
-        console.log(ingredientData)
         return res.status(200).json(ingredientData);
     } catch (error) {
         console.log(error);
