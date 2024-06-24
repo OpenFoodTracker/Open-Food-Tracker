@@ -26,7 +26,12 @@ const SearchComponent = () => {
           setResults(json.products); // Update the state with fetched results
           setNoResults(false);
         }
-        document.getElementsByClassName('search-results')[0].style.display = 'grid';
+        const searchResults = document.getElementsByClassName('search-results');
+        if(searchResults.length > 0){
+          searchResults[0].style.display = 'grid';
+        }
+        
+
       }
     } catch (error) {
       console.error("Error fetching data:", error); // Handle any errors that occur during the fetch
@@ -39,7 +44,10 @@ const SearchComponent = () => {
       fetchData(value); // Fetch data if input is not empty
     } else if (!value) {
       setNoResults(false);
-      document.getElementsByClassName('search-results')[0].style.display = 'none';
+      const searchResults = document.getElementsByClassName('search-results');
+      if(searchResults.length > 0){
+        searchResults[0].style.display = 'grid';
+      }
       setResults([]); // Clear results if input is empty
     }
   };

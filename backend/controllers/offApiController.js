@@ -22,6 +22,7 @@ const getIngredient = async (req, res) => {
 
     const error = await fetch(`https://world.openfoodfacts.org/api/v2/product/${id}?fields=product_name,nutriments,product_quantity_unit,quantity,image_front_url`)
         .then(response => {
+            console.log(response);
             if (!response.ok) {
                 return {};
             }
@@ -37,7 +38,7 @@ const getIngredient = async (req, res) => {
                 ingredientData.protein = product.nutriments.proteins_100g || 0;
                 ingredientData.fat = product.nutriments.fat_100g || 0;
                 ingredientData.carbs = product.nutriments.carbohydrates_100g || 0;
-                ingredientData.imageUrl = product.image_front_url  || "https://world.o+penfoodfacts.org/images/icons/dist/packaging.svg";
+                ingredientData.imageUrl = product.image_front_url  || "https://de.openfoodfacts.org/images/icons/dist/packaging.svg";
                 ingredientData.unit = product.product_quantity_unit;
                 ingredientData.amount = 100; 
     
@@ -67,6 +68,7 @@ const getIngredient = async (req, res) => {
         if(error){
             throw error;
         }
+        console.log(ingredientData)
         return res.status(200).json(ingredientData);
     } catch (error) {
         console.log(error);

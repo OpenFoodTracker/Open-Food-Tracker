@@ -37,7 +37,8 @@ const AddMealForm = () => {
               });  //gets value of meal from backend
             const json = await response.json()
             if(!response.ok) {
-                setError(json.error)
+                navigate("/occasionMeals");
+                setError(null);
             }
             if(response.ok){
                 return json;
